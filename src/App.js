@@ -14,8 +14,8 @@ import {
 } from "@aws-amplify/ui-react";
 import { listTodos } from "./graphql/queries";
 import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
+  createTodo as createNoteMutation,
+  deleteTodo as deleteNoteMutation,
 } from "./graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
 
