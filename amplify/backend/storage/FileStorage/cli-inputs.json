@@ -1,0 +1,14 @@
+{
+  "resourceName": "FileStorage",
+  "policyUUID": "6ed51753",
+  "bucketName": "privateeyeappdbc21af5d763451e87791c4bd7ec2d76",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
