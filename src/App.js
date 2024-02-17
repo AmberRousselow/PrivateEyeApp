@@ -14,23 +14,30 @@ import {
   withAuthenticator,
 } from "@aws-amplify/ui-react";
 import { listTodos, 
+  listAppCases, getAppCase,
+  listSuspects, getSuspects,
   listEvidences, getEvidence, 
-  listSuspects, getSuspects} from "./graphql/queries";
+  listCaseNotes, getCaseNote,
+} from "./graphql/queries";
 import {
   createTodo as createNoteMutation,
   deleteTodo as deleteNoteMutation,
+  createAppCase, 
+  updateAppCase, 
+  deleteAppCase, 
   createSuspect, 
   updateSuspect, 
   deleteSuspect, 
   createEvidence, 
   updateEvidence, 
   deleteEvidence, 
-
+  createCaseNote, 
+  updateCaseNote, 
+  deleteCaseNote
 } from "./graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
 
 const client = generateClient();
-
 
 
 const App = ({ signOut }) => {
