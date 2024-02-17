@@ -1,10 +1,69 @@
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
-type Todo @model  @auth(rules: [ { allow: public } ] ){
-  id: ID!
-  name: String!
-  description: String
-  image: String
+enum Gender {
+  FEMALE
+  MALE
+  UNKNOWN
 }
+
+type Suspect @model @auth(rules: [{allow: public}]) {
+  id: ID! 
+  suspectName: String
+  dateOfBirth: AWSDate
+  Gender: Gender
+  nationality: String
+  address: String
+  occupation: String
+  employer: String
+  education: String
+  phone: AWSPhone
+  email: AWSEmail
+  facebook: AWSURL
+  twitter: AWSURL
+  instagram: AWSURL
+  linkedIn: AWSURL
+  ticktock: AWSURL
+  heightinches: Int
+  eyecolor: String
+  tattoos: String
+  scars: String
+  criminalrecord: String
+  legalstatus: String
+  knownassociates: String
+  backgroundinformation: String
+  createdDateTime: AWSTimestamp
+  IsDeleted: Boolean
+  suspectcaseID: ID! 
+  AppCases: [AppCase]
+}
+
+type Evidence @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  type: String
+  Decription: String
+  url: String
+  createdDateTime: AWSDateTime
+  IsDeleted: Boolean
+  appcaseID: ID!
+  AppCase: AppCase 
+}
+
+type AppCase @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String
+  description: String
+  createdDateTime: AWSDateTime
+  isDeleted: Boolean
+  suspectcaseID: ID! 
+  Evidences: [Evidence]
+  suspects: [Suspect] 
+  CaseNote: CaseNote @hasOne
+}
+
+type CaseNote @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  tite: String!
+  content: String
+  image: String
+  createDateTime: AWSDateTime
+  AppCase: AppCase
+}
+ 
