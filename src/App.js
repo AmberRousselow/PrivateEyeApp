@@ -13,15 +13,14 @@ import {
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { listTodos, 
-  listAppCases, getAppCase,
+import { listAppCases, getAppCase,
   listSuspects, getSuspects,
   listEvidences, getEvidence, 
   listCaseNotes, getCaseNote,
 } from "./graphql/queries";
 import {
-  createTodo as createNoteMutation,
-  deleteTodo as deleteNoteMutation,
+ /* createTodo as createNoteMutation,
+  deleteTodo as deleteNoteMutation,*/
   createAppCase, 
   updateAppCase, 
   deleteAppCase, 
@@ -44,9 +43,9 @@ const App = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    fetchNotes();
+    /*fetchNotes();*/
   }, []);
-
+/*
   async function fetchNotes() {
     const apiData = await client.graphql({ query: listTodos });
     const notesFromAPI = apiData.data.listTodos.items;
@@ -352,7 +351,7 @@ const oneSuspect = await client.graphql({
   return (
     <View className="App">
       <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
+      <View as="form" margin="3rem 0" /*onSubmit={createNote}*/>
         <Flex direction="row" justifyContent="center">
           <TextField
             name="name"
@@ -401,7 +400,7 @@ const oneSuspect = await client.graphql({
             style={{ width: 400 }}
             />
             )}
-            <Button variation="link" onClick={() => deleteNote(note)}>
+            <Button variation="link" /*onClick={() => deleteNote(note)}*/>
               Delete note
             </Button>
           </Flex>
