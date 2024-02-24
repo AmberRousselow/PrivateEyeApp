@@ -1,3 +1,31 @@
+type CaseSuspects @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  appcaseID: ID! @index(name: "byAppCase")
+  suspectID: ID! @index(name: "bySuspect")
+}
+
+enum OffenseCategory {
+  PERSON
+  PROPERTY
+  FINANCIAL
+  STATUTORY
+  OTHER
+}
+
+enum CaseOffense {
+  FELONY
+  MISDEMEANOR
+}
+
+enum EvidenceType {
+  DOCUMENT
+  PHOTO
+  PHYSICAL
+  VIDEO
+  WEBSITE
+  OTHER
+}
+
 enum Gender {
   FEMALE
   MALE
@@ -5,65 +33,60 @@ enum Gender {
 }
 
 type Suspect @model @auth(rules: [{allow: public}]) {
-  id: ID! 
-  suspectName: String
-  dateOfBirth: AWSDate
-  Gender: Gender
-  nationality: String
-  address: String
-  occupation: String
-  employer: String
-  education: String
-  phone: AWSPhone
-  email: AWSEmail
-  facebook: AWSURL
-  twitter: AWSURL
-  instagram: AWSURL
-  linkedIn: AWSURL
-  ticktock: AWSURL
-  heightinches: Int
-  eyecolor: String
-  tattoos: String
-  scars: String
-  criminalrecord: String
-  legalstatus: String
-  knownassociates: String
-  backgroundinformation: String
-  createdDateTime: AWSTimestamp
-  IsDeleted: Boolean
-  suspectcaseID: ID! 
-  AppCases: [AppCase]
+  id: ID!
+  suspect_name: String
+  suspect_date_of_birth: AWSDate
+  suspect_gender: Gender
+  suspect_nationality: String
+  suspect_address: String
+  suspect_occupation: String
+  suspect_employer: String
+  suspect_education: String
+  suspect_phone: AWSPhone
+  suspect_email: AWSEmail
+  suspect_facebook: AWSURL
+  suspect_twitter: AWSURL
+  suspect_instagram: AWSURL
+  suspect_linkedIn: AWSURL
+  suspect_ticktock: AWSURL
+  suspect_height_inches: Int
+  suspect_eyecolor: String
+  suspect_tattoos: String
+  suspect_scars: String
+  suspect_criminal_record: String
+  suspect_legal_status: String
+  suspect_known_associates: String
+  suspect_background_information: String
+  suspect_created_date: AWSDate
+  CaseSuspects: [CaseSuspects] @hasMany(indexName: "bySuspect", fields: ["id"])
 }
 
 type Evidence @model @auth(rules: [{allow: public}]) {
   id: ID!
-  type: String
-  Decription: String
-  url: String
-  createdDateTime: AWSDateTime
-  IsDeleted: Boolean
-  appcaseID: ID!
-  AppCase: AppCase 
+  evidence_type: EvidenceType!
+  evidence_description: String
+  evidence_url: String
+  evidence_created_date: AWSDate
+  appcaseID: ID! @index(name: "byAppCase")
 }
 
 type AppCase @model @auth(rules: [{allow: public}]) {
   id: ID!
-  title: String
-  description: String
-  createdDateTime: AWSDateTime
-  isDeleted: Boolean
-  suspectcaseID: ID! 
-  Evidences: [Evidence]
-  suspects: [Suspect] 
-  CaseNote: CaseNote @hasOne
+  case_title: String
+  case_description: String
+  case_created_date: AWSDate
+  case_offense: CaseOffense
+  case_offense_category: OffenseCategory
+  Evidences: [Evidence] @hasMany(indexName: "byAppCase", fields: ["id"])
+  CaseNotes: [CaseNote] @hasMany(indexName: "byAppCase", fields: ["id"])
+  CaseSuspects: [CaseSuspects] @hasMany(indexName: "byAppCase", fields: ["id"])
 }
 
 type CaseNote @model @auth(rules: [{allow: public}]) {
   id: ID!
-  tite: String!
-  content: String
-  image: String
-  createDateTime: AWSDateTime
-  AppCase: AppCase
+  note_title: String!
+  note_content: String
+  note_create_date: AWSDate
+  appcaseID: ID! @index(name: "byAppCase")
 }
  

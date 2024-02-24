@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,27 +22,27 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AppCaseUpdateFormInputValues = {
-    title?: string;
-    description?: string;
-    createdDateTime?: string;
-    isDeleted?: boolean;
-    suspectcaseID?: string;
+    case_title?: string;
+    case_description?: string;
+    case_created_date?: string;
+    case_offense?: string;
+    case_offense_category?: string;
 };
 export declare type AppCaseUpdateFormValidationValues = {
-    title?: ValidationFunction<string>;
-    description?: ValidationFunction<string>;
-    createdDateTime?: ValidationFunction<string>;
-    isDeleted?: ValidationFunction<boolean>;
-    suspectcaseID?: ValidationFunction<string>;
+    case_title?: ValidationFunction<string>;
+    case_description?: ValidationFunction<string>;
+    case_created_date?: ValidationFunction<string>;
+    case_offense?: ValidationFunction<string>;
+    case_offense_category?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AppCaseUpdateFormOverridesProps = {
     AppCaseUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    title?: PrimitiveOverrideProps<TextFieldProps>;
-    description?: PrimitiveOverrideProps<TextFieldProps>;
-    createdDateTime?: PrimitiveOverrideProps<TextFieldProps>;
-    isDeleted?: PrimitiveOverrideProps<SwitchFieldProps>;
-    suspectcaseID?: PrimitiveOverrideProps<TextFieldProps>;
+    case_title?: PrimitiveOverrideProps<TextFieldProps>;
+    case_description?: PrimitiveOverrideProps<TextFieldProps>;
+    case_created_date?: PrimitiveOverrideProps<TextFieldProps>;
+    case_offense?: PrimitiveOverrideProps<SelectFieldProps>;
+    case_offense_category?: PrimitiveOverrideProps<SelectFieldProps>;
 } & EscapeHatchProps;
 export declare type AppCaseUpdateFormProps = React.PropsWithChildren<{
     overrides?: AppCaseUpdateFormOverridesProps | undefined | null;

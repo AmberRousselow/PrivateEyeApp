@@ -10,7 +10,7 @@ import {
   Button,
   Flex,
   Grid,
-  SwitchField,
+  SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
@@ -29,38 +29,40 @@ export default function AppCaseCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    title: "",
-    description: "",
-    createdDateTime: "",
-    isDeleted: false,
-    suspectcaseID: "",
+    case_title: "",
+    case_description: "",
+    case_created_date: "",
+    case_offense: "",
+    case_offense_category: "",
   };
-  const [title, setTitle] = React.useState(initialValues.title);
-  const [description, setDescription] = React.useState(
-    initialValues.description
+  const [case_title, setCase_title] = React.useState(initialValues.case_title);
+  const [case_description, setCase_description] = React.useState(
+    initialValues.case_description
   );
-  const [createdDateTime, setCreatedDateTime] = React.useState(
-    initialValues.createdDateTime
+  const [case_created_date, setCase_created_date] = React.useState(
+    initialValues.case_created_date
   );
-  const [isDeleted, setIsDeleted] = React.useState(initialValues.isDeleted);
-  const [suspectcaseID, setSuspectcaseID] = React.useState(
-    initialValues.suspectcaseID
+  const [case_offense, setCase_offense] = React.useState(
+    initialValues.case_offense
+  );
+  const [case_offense_category, setCase_offense_category] = React.useState(
+    initialValues.case_offense_category
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setTitle(initialValues.title);
-    setDescription(initialValues.description);
-    setCreatedDateTime(initialValues.createdDateTime);
-    setIsDeleted(initialValues.isDeleted);
-    setSuspectcaseID(initialValues.suspectcaseID);
+    setCase_title(initialValues.case_title);
+    setCase_description(initialValues.case_description);
+    setCase_created_date(initialValues.case_created_date);
+    setCase_offense(initialValues.case_offense);
+    setCase_offense_category(initialValues.case_offense_category);
     setErrors({});
   };
   const validations = {
-    title: [],
-    description: [],
-    createdDateTime: [],
-    isDeleted: [],
-    suspectcaseID: [{ type: "Required" }],
+    case_title: [],
+    case_description: [],
+    case_created_date: [],
+    case_offense: [],
+    case_offense_category: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -79,23 +81,6 @@ export default function AppCaseCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -105,11 +90,11 @@ export default function AppCaseCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          title,
-          description,
-          createdDateTime,
-          isDeleted,
-          suspectcaseID,
+          case_title,
+          case_description,
+          case_created_date,
+          case_offense,
+          case_offense_category,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -164,147 +149,187 @@ export default function AppCaseCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Title"
+        label="Case title"
         isRequired={false}
         isReadOnly={false}
-        value={title}
+        value={case_title}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              title: value,
-              description,
-              createdDateTime,
-              isDeleted,
-              suspectcaseID,
+              case_title: value,
+              case_description,
+              case_created_date,
+              case_offense,
+              case_offense_category,
             };
             const result = onChange(modelFields);
-            value = result?.title ?? value;
+            value = result?.case_title ?? value;
           }
-          if (errors.title?.hasError) {
-            runValidationTasks("title", value);
+          if (errors.case_title?.hasError) {
+            runValidationTasks("case_title", value);
           }
-          setTitle(value);
+          setCase_title(value);
         }}
-        onBlur={() => runValidationTasks("title", title)}
-        errorMessage={errors.title?.errorMessage}
-        hasError={errors.title?.hasError}
-        {...getOverrideProps(overrides, "title")}
+        onBlur={() => runValidationTasks("case_title", case_title)}
+        errorMessage={errors.case_title?.errorMessage}
+        hasError={errors.case_title?.hasError}
+        {...getOverrideProps(overrides, "case_title")}
       ></TextField>
       <TextField
-        label="Description"
+        label="Case description"
         isRequired={false}
         isReadOnly={false}
-        value={description}
+        value={case_description}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              title,
-              description: value,
-              createdDateTime,
-              isDeleted,
-              suspectcaseID,
+              case_title,
+              case_description: value,
+              case_created_date,
+              case_offense,
+              case_offense_category,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.case_description ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.case_description?.hasError) {
+            runValidationTasks("case_description", value);
           }
-          setDescription(value);
+          setCase_description(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("case_description", case_description)}
+        errorMessage={errors.case_description?.errorMessage}
+        hasError={errors.case_description?.hasError}
+        {...getOverrideProps(overrides, "case_description")}
       ></TextField>
       <TextField
-        label="Created date time"
+        label="Case created date"
         isRequired={false}
         isReadOnly={false}
-        type="datetime-local"
-        value={createdDateTime && convertToLocal(new Date(createdDateTime))}
+        type="date"
+        value={case_created_date}
         onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              title,
-              description,
-              createdDateTime: value,
-              isDeleted,
-              suspectcaseID,
+              case_title,
+              case_description,
+              case_created_date: value,
+              case_offense,
+              case_offense_category,
             };
             const result = onChange(modelFields);
-            value = result?.createdDateTime ?? value;
+            value = result?.case_created_date ?? value;
           }
-          if (errors.createdDateTime?.hasError) {
-            runValidationTasks("createdDateTime", value);
+          if (errors.case_created_date?.hasError) {
+            runValidationTasks("case_created_date", value);
           }
-          setCreatedDateTime(value);
+          setCase_created_date(value);
         }}
-        onBlur={() => runValidationTasks("createdDateTime", createdDateTime)}
-        errorMessage={errors.createdDateTime?.errorMessage}
-        hasError={errors.createdDateTime?.hasError}
-        {...getOverrideProps(overrides, "createdDateTime")}
+        onBlur={() =>
+          runValidationTasks("case_created_date", case_created_date)
+        }
+        errorMessage={errors.case_created_date?.errorMessage}
+        hasError={errors.case_created_date?.hasError}
+        {...getOverrideProps(overrides, "case_created_date")}
       ></TextField>
-      <SwitchField
-        label="Is deleted"
-        defaultChecked={false}
+      <SelectField
+        label="Case offense"
+        placeholder="Please select an option"
         isDisabled={false}
-        isChecked={isDeleted}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              title,
-              description,
-              createdDateTime,
-              isDeleted: value,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.isDeleted ?? value;
-          }
-          if (errors.isDeleted?.hasError) {
-            runValidationTasks("isDeleted", value);
-          }
-          setIsDeleted(value);
-        }}
-        onBlur={() => runValidationTasks("isDeleted", isDeleted)}
-        errorMessage={errors.isDeleted?.errorMessage}
-        hasError={errors.isDeleted?.hasError}
-        {...getOverrideProps(overrides, "isDeleted")}
-      ></SwitchField>
-      <TextField
-        label="Suspectcase id"
-        isRequired={true}
-        isReadOnly={false}
-        value={suspectcaseID}
+        value={case_offense}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              title,
-              description,
-              createdDateTime,
-              isDeleted,
-              suspectcaseID: value,
+              case_title,
+              case_description,
+              case_created_date,
+              case_offense: value,
+              case_offense_category,
             };
             const result = onChange(modelFields);
-            value = result?.suspectcaseID ?? value;
+            value = result?.case_offense ?? value;
           }
-          if (errors.suspectcaseID?.hasError) {
-            runValidationTasks("suspectcaseID", value);
+          if (errors.case_offense?.hasError) {
+            runValidationTasks("case_offense", value);
           }
-          setSuspectcaseID(value);
+          setCase_offense(value);
         }}
-        onBlur={() => runValidationTasks("suspectcaseID", suspectcaseID)}
-        errorMessage={errors.suspectcaseID?.errorMessage}
-        hasError={errors.suspectcaseID?.hasError}
-        {...getOverrideProps(overrides, "suspectcaseID")}
-      ></TextField>
+        onBlur={() => runValidationTasks("case_offense", case_offense)}
+        errorMessage={errors.case_offense?.errorMessage}
+        hasError={errors.case_offense?.hasError}
+        {...getOverrideProps(overrides, "case_offense")}
+      >
+        <option
+          children="Felony"
+          value="FELONY"
+          {...getOverrideProps(overrides, "case_offenseoption0")}
+        ></option>
+        <option
+          children="Misdemeanor"
+          value="MISDEMEANOR"
+          {...getOverrideProps(overrides, "case_offenseoption1")}
+        ></option>
+      </SelectField>
+      <SelectField
+        label="Case offense category"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={case_offense_category}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              case_title,
+              case_description,
+              case_created_date,
+              case_offense,
+              case_offense_category: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.case_offense_category ?? value;
+          }
+          if (errors.case_offense_category?.hasError) {
+            runValidationTasks("case_offense_category", value);
+          }
+          setCase_offense_category(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("case_offense_category", case_offense_category)
+        }
+        errorMessage={errors.case_offense_category?.errorMessage}
+        hasError={errors.case_offense_category?.hasError}
+        {...getOverrideProps(overrides, "case_offense_category")}
+      >
+        <option
+          children="Person"
+          value="PERSON"
+          {...getOverrideProps(overrides, "case_offense_categoryoption0")}
+        ></option>
+        <option
+          children="Property"
+          value="PROPERTY"
+          {...getOverrideProps(overrides, "case_offense_categoryoption1")}
+        ></option>
+        <option
+          children="Financial"
+          value="FINANCIAL"
+          {...getOverrideProps(overrides, "case_offense_categoryoption2")}
+        ></option>
+        <option
+          children="Statutory"
+          value="STATUTORY"
+          {...getOverrideProps(overrides, "case_offense_categoryoption3")}
+        ></option>
+        <option
+          children="Other"
+          value="OTHER"
+          {...getOverrideProps(overrides, "case_offense_categoryoption4")}
+        ></option>
+      </SelectField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

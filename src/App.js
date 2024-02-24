@@ -16,7 +16,8 @@ import {
 import { listAppCases, getAppCase,
   listSuspects, getSuspects,
   listEvidences, getEvidence, 
-  listCaseNotes, getCaseNote,
+  listCaseNotes, getCaseNote,  
+  listCaseSuspects, getCaseSuspects,
 } from "./graphql/queries";
 import {
  /* createTodo as createNoteMutation,
@@ -32,7 +33,10 @@ import {
   deleteEvidence, 
   createCaseNote, 
   updateCaseNote, 
-  deleteCaseNote
+  deleteCaseNote,
+  createCaseSuspects, 
+  updateCaseSuspects, 
+  deleteCaseSuspects
 } from "./graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
 
@@ -89,31 +93,31 @@ const App = ({ signOut }) => {
     });
   }
  /*
+
+
 ***CaseNote CREATE, DELETE and UPDATE - WIP***
 const newCaseNote = await client.graphql({
     query: createCaseNote,
     variables: {
         input: {
-		"tite": "Lorem ipsum dolor sit amet",
-		"content": "Lorem ipsum dolor sit amet",
-		"image": "Lorem ipsum dolor sit amet",
-		"createDateTime": "1970-01-01T12:30:23.999Z",
-		"AppCase": /* Provide a AppCase instance here 
+		"note_title": "Lorem ipsum dolor sit amet",
+		"note_content": "Lorem ipsum dolor sit amet",
+		"note_create_date": "1970-01-01Z",
+		"appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
 	}
-}
+    }
 });
 
 const updatedCaseNote = await client.graphql({
     query: updateCaseNote,
     variables: {
         input: {
-		"tite": "Lorem ipsum dolor sit amet",
-		"content": "Lorem ipsum dolor sit amet",
-		"image": "Lorem ipsum dolor sit amet",
-		"createDateTime": "1970-01-01T12:30:23.999Z",
-		"AppCase": /* Provide a AppCase instance here 
+		"note_title": "Lorem ipsum dolor sit amet",
+		"note_content": "Lorem ipsum dolor sit amet",
+		"note_create_date": "1970-01-01Z",
+		"appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
 	}
-}
+    }
 });
 
 const deletedCaseNote = await client.graphql({
@@ -145,32 +149,32 @@ const newAppCase = await client.graphql({
     query: createAppCase,
     variables: {
         input: {
-		"title": "Lorem ipsum dolor sit amet",
-		"description": "Lorem ipsum dolor sit amet",
-		"createdDateTime": "1970-01-01T12:30:23.999Z",
-		"isDeleted": true,
-		"suspectcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
+		"case_title": "Lorem ipsum dolor sit amet",
+		"case_description": "Lorem ipsum dolor sit amet",
+		"case_created_date": "1970-01-01Z",
+		"case_offense": CaseOffense.FELONY,
+		"case_offense_category": OffenseCategory.PERSON,
 		"Evidences": [],
-		"suspects": [],
-		"CaseNote": /* Provide a CaseNote instance here 
+		"CaseNotes": [],
+		"CaseSuspects": []
 	}
-}
+    }
 });
 
 const updatedAppCase = await client.graphql({
     query: updateAppCase,
     variables: {
         input: {
-		"title": "Lorem ipsum dolor sit amet",
-		"description": "Lorem ipsum dolor sit amet",
-		"createdDateTime": "1970-01-01T12:30:23.999Z",
-		"isDeleted": true,
-		"suspectcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
+		"case_title": "Lorem ipsum dolor sit amet",
+		"case_description": "Lorem ipsum dolor sit amet",
+		"case_created_date": "1970-01-01Z",
+		"case_offense": CaseOffense.FELONY,
+		"case_offense_category": OffenseCategory.PERSON,
 		"Evidences": [],
-		"suspects": [],
-		"CaseNote": /* Provide a CaseNote instance here
+		"CaseNotes": [],
+		"CaseSuspects": []
 	}
-}
+    }
 });
 
 const deletedAppCase = await client.graphql({
@@ -202,30 +206,26 @@ const newEvidence = await client.graphql({
     query: createEvidence,
     variables: {
         input: {
-		"type": "Lorem ipsum dolor sit amet",
-		"Decription": "Lorem ipsum dolor sit amet",
-		"url": "Lorem ipsum dolor sit amet",
-		"createdDateTime": "1970-01-01T12:30:23.999Z",
-		"IsDeleted": true,
-		"appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
-		"AppCase": Provide a AppCase instance here
+		"evidence_type": EvidenceType.DOCUMENT,
+		"evidence_description": "Lorem ipsum dolor sit amet",
+		"evidence_url": "Lorem ipsum dolor sit amet",
+		"evidence_created_date": "1970-01-01Z",
+		"appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
 	}
-}
+    }
 });
 
 const updatedEvidence = await client.graphql({
     query: updateEvidence,
     variables: {
         input: {
-		"type": "Lorem ipsum dolor sit amet",
-		"Decription": "Lorem ipsum dolor sit amet",
-		"url": "Lorem ipsum dolor sit amet",
-		"createdDateTime": "1970-01-01T12:30:23.999Z",
-		"IsDeleted": true,
-		"appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
-		"AppCase": /* Provide a AppCase instance here 
+		"evidence_type": EvidenceType.DOCUMENT,
+		"evidence_description": "Lorem ipsum dolor sit amet",
+		"evidence_url": "Lorem ipsum dolor sit amet",
+		"evidence_created_date": "1970-01-01Z",
+		"appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
 	}
-}
+    }
 });
 
 const deletedEvidence = await client.graphql({
@@ -253,7 +253,7 @@ const oneEvidence = await client.graphql({
   /*
 ***SUSPECT CREATE, DELETE and UPDATE - WIP***
 
-  const newSuspect = await client.graphql({
+ const newSuspect = await client.graphql({
     query: createSuspect,
     variables: {
         input: {
@@ -267,11 +267,11 @@ const oneEvidence = await client.graphql({
 		"education": "Lorem ipsum dolor sit amet",
 		"phone": "(555) 123-6789",
 		"email": "test12346789@testemailtestemail.com",
-		/*"facebook": Provide init commands,
+		"facebook":  Provide init commands ,
 		"twitter":  Provide init commands ,
-		"instagram":  Provide init commands,
-		"linkedIn":  Provide init commands ,
-		"ticktock":  Provide init commands ,
+		"instagram":   Provide init commands ,
+		"linkedIn":   Provide init commands ,
+		"ticktock":   Provide init commands ,
 		"heightinches": 1020,
 		"eyecolor": "Lorem ipsum dolor sit amet",
 		"tattoos": "Lorem ipsum dolor sit amet",
@@ -292,33 +292,31 @@ const updatedSuspect = await client.graphql({
     query: updateSuspect,
     variables: {
         input: {
-		"suspectName": "Lorem ipsum dolor sit amet",
-		"dateOfBirth": "1970-01-01Z",
-		"Gender": Gender.FEMALE,
-		"nationality": "Lorem ipsum dolor sit amet",
-		"address": "Lorem ipsum dolor sit amet",
-		"occupation": "Lorem ipsum dolor sit amet",
-		"employer": "Lorem ipsum dolor sit amet",
-		"education": "Lorem ipsum dolor sit amet",
-		"phone": "(555) 123-6789",
-		"email": "test12346789@testemailtestemail.com",
-		"facebook":  /* Provide init commands,
-		"twitter":  /* Provide init commands ,
-		"instagram":  /* Provide init commands,
-		"linkedIn":  /* Provide init commands ,
-		"ticktock":  /* Provide init commands ,
-		"heightinches": 1020,
-		"eyecolor": "Lorem ipsum dolor sit amet",
-		"tattoos": "Lorem ipsum dolor sit amet",
-		"scars": "Lorem ipsum dolor sit amet",
-		"criminalrecord": "Lorem ipsum dolor sit amet",
-		"legalstatus": "Lorem ipsum dolor sit amet",
-		"knownassociates": "Lorem ipsum dolor sit amet",
-		"backgroundinformation": "Lorem ipsum dolor sit amet",
-		"createdDateTime": 1023123,
-		"IsDeleted": true,
-		"suspectcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
-		"AppCases": []
+		"suspect_name": "Lorem ipsum dolor sit amet",
+		"suspect_date_of_birth": "1970-01-01Z",
+		"suspect_gender": Gender.FEMALE,
+		"suspect_nationality": "Lorem ipsum dolor sit amet",
+		"suspect_address": "Lorem ipsum dolor sit amet",
+		"suspect_occupation": "Lorem ipsum dolor sit amet",
+		"suspect_employer": "Lorem ipsum dolor sit amet",
+		"suspect_education": "Lorem ipsum dolor sit amet",
+		"suspect_phone": "(555) 123-6789",
+		"suspect_email": "test12346789@testemailtestemail.com",
+		"suspect_facebook":  /* Provide init commands ,
+		"suspect_twitter":  /* Provide init commands ,
+		"suspect_instagram":  /* Provide init commands ,
+		"suspect_linkedIn":  /* Provide init commands ,
+		"suspect_ticktock":  /* Provide init commands ,
+		"suspect_height_inches": 1020,
+		"suspect_eyecolor": "Lorem ipsum dolor sit amet",
+		"suspect_tattoos": "Lorem ipsum dolor sit amet",
+		"suspect_scars": "Lorem ipsum dolor sit amet",
+		"suspect_criminal_record": "Lorem ipsum dolor sit amet",
+		"suspect_legal_status": "Lorem ipsum dolor sit amet",
+		"suspect_known_associates": "Lorem ipsum dolor sit amet",
+		"suspect_background_information": "Lorem ipsum dolor sit amet",
+		"suspect_created_date": "1970-01-01Z",
+		"CaseSuspects": []
 	}
     }
 });
@@ -347,6 +345,47 @@ const oneSuspect = await client.graphql({
 
 */
 
+/* CASE SUSPECTS WIP
+const newCaseSuspects = await client.graphql({
+  query: createCaseSuspects,
+  variables: {
+      input: {
+  "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
+  "suspectID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
+}
+  }
+});
+
+const updatedCaseSuspects = await client.graphql({
+  query: updateCaseSuspects,
+  variables: {
+      input: {
+  "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
+  "suspectID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
+}
+  }
+});
+
+const deletedCaseSuspects = await client.graphql({
+  query: deleteCaseSuspects,
+  variables: {
+      input: {
+          id: "YOUR_RECORD_ID"
+      }
+  }
+});
+
+// List all items
+const allCaseSuspectss = await client.graphql({
+  query: listCaseSuspectss
+});
+console.log(allCaseSuspects);
+
+// Get a specific item
+const oneCaseSuspects = await client.graphql({
+  query: getCaseSuspects,
+  variables: { id: 'YOUR_RECORD_ID' }
+});*/
 
   return (
     <View className="App">

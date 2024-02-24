@@ -11,7 +11,6 @@ import {
   Flex,
   Grid,
   SelectField,
-  SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
@@ -30,136 +29,156 @@ export default function SuspectCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    suspectName: "",
-    dateOfBirth: "",
-    Gender: "",
-    nationality: "",
-    address: "",
-    occupation: "",
-    employer: "",
-    education: "",
-    phone: "",
-    email: "",
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    linkedIn: "",
-    ticktock: "",
-    heightinches: "",
-    eyecolor: "",
-    tattoos: "",
-    scars: "",
-    criminalrecord: "",
-    legalstatus: "",
-    knownassociates: "",
-    backgroundinformation: "",
-    createdDateTime: "",
-    IsDeleted: false,
-    suspectcaseID: "",
+    suspect_name: "",
+    suspect_date_of_birth: "",
+    suspect_gender: "",
+    suspect_nationality: "",
+    suspect_address: "",
+    suspect_occupation: "",
+    suspect_employer: "",
+    suspect_education: "",
+    suspect_phone: "",
+    suspect_email: "",
+    suspect_facebook: "",
+    suspect_twitter: "",
+    suspect_instagram: "",
+    suspect_linkedIn: "",
+    suspect_ticktock: "",
+    suspect_height_inches: "",
+    suspect_eyecolor: "",
+    suspect_tattoos: "",
+    suspect_scars: "",
+    suspect_criminal_record: "",
+    suspect_legal_status: "",
+    suspect_known_associates: "",
+    suspect_background_information: "",
+    suspect_created_date: "",
   };
-  const [suspectName, setSuspectName] = React.useState(
-    initialValues.suspectName
+  const [suspect_name, setSuspect_name] = React.useState(
+    initialValues.suspect_name
   );
-  const [dateOfBirth, setDateOfBirth] = React.useState(
-    initialValues.dateOfBirth
+  const [suspect_date_of_birth, setSuspect_date_of_birth] = React.useState(
+    initialValues.suspect_date_of_birth
   );
-  const [Gender, setGender] = React.useState(initialValues.Gender);
-  const [nationality, setNationality] = React.useState(
-    initialValues.nationality
+  const [suspect_gender, setSuspect_gender] = React.useState(
+    initialValues.suspect_gender
   );
-  const [address, setAddress] = React.useState(initialValues.address);
-  const [occupation, setOccupation] = React.useState(initialValues.occupation);
-  const [employer, setEmployer] = React.useState(initialValues.employer);
-  const [education, setEducation] = React.useState(initialValues.education);
-  const [phone, setPhone] = React.useState(initialValues.phone);
-  const [email, setEmail] = React.useState(initialValues.email);
-  const [facebook, setFacebook] = React.useState(initialValues.facebook);
-  const [twitter, setTwitter] = React.useState(initialValues.twitter);
-  const [instagram, setInstagram] = React.useState(initialValues.instagram);
-  const [linkedIn, setLinkedIn] = React.useState(initialValues.linkedIn);
-  const [ticktock, setTicktock] = React.useState(initialValues.ticktock);
-  const [heightinches, setHeightinches] = React.useState(
-    initialValues.heightinches
+  const [suspect_nationality, setSuspect_nationality] = React.useState(
+    initialValues.suspect_nationality
   );
-  const [eyecolor, setEyecolor] = React.useState(initialValues.eyecolor);
-  const [tattoos, setTattoos] = React.useState(initialValues.tattoos);
-  const [scars, setScars] = React.useState(initialValues.scars);
-  const [criminalrecord, setCriminalrecord] = React.useState(
-    initialValues.criminalrecord
+  const [suspect_address, setSuspect_address] = React.useState(
+    initialValues.suspect_address
   );
-  const [legalstatus, setLegalstatus] = React.useState(
-    initialValues.legalstatus
+  const [suspect_occupation, setSuspect_occupation] = React.useState(
+    initialValues.suspect_occupation
   );
-  const [knownassociates, setKnownassociates] = React.useState(
-    initialValues.knownassociates
+  const [suspect_employer, setSuspect_employer] = React.useState(
+    initialValues.suspect_employer
   );
-  const [backgroundinformation, setBackgroundinformation] = React.useState(
-    initialValues.backgroundinformation
+  const [suspect_education, setSuspect_education] = React.useState(
+    initialValues.suspect_education
   );
-  const [createdDateTime, setCreatedDateTime] = React.useState(
-    initialValues.createdDateTime
+  const [suspect_phone, setSuspect_phone] = React.useState(
+    initialValues.suspect_phone
   );
-  const [IsDeleted, setIsDeleted] = React.useState(initialValues.IsDeleted);
-  const [suspectcaseID, setSuspectcaseID] = React.useState(
-    initialValues.suspectcaseID
+  const [suspect_email, setSuspect_email] = React.useState(
+    initialValues.suspect_email
+  );
+  const [suspect_facebook, setSuspect_facebook] = React.useState(
+    initialValues.suspect_facebook
+  );
+  const [suspect_twitter, setSuspect_twitter] = React.useState(
+    initialValues.suspect_twitter
+  );
+  const [suspect_instagram, setSuspect_instagram] = React.useState(
+    initialValues.suspect_instagram
+  );
+  const [suspect_linkedIn, setSuspect_linkedIn] = React.useState(
+    initialValues.suspect_linkedIn
+  );
+  const [suspect_ticktock, setSuspect_ticktock] = React.useState(
+    initialValues.suspect_ticktock
+  );
+  const [suspect_height_inches, setSuspect_height_inches] = React.useState(
+    initialValues.suspect_height_inches
+  );
+  const [suspect_eyecolor, setSuspect_eyecolor] = React.useState(
+    initialValues.suspect_eyecolor
+  );
+  const [suspect_tattoos, setSuspect_tattoos] = React.useState(
+    initialValues.suspect_tattoos
+  );
+  const [suspect_scars, setSuspect_scars] = React.useState(
+    initialValues.suspect_scars
+  );
+  const [suspect_criminal_record, setSuspect_criminal_record] = React.useState(
+    initialValues.suspect_criminal_record
+  );
+  const [suspect_legal_status, setSuspect_legal_status] = React.useState(
+    initialValues.suspect_legal_status
+  );
+  const [suspect_known_associates, setSuspect_known_associates] =
+    React.useState(initialValues.suspect_known_associates);
+  const [suspect_background_information, setSuspect_background_information] =
+    React.useState(initialValues.suspect_background_information);
+  const [suspect_created_date, setSuspect_created_date] = React.useState(
+    initialValues.suspect_created_date
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setSuspectName(initialValues.suspectName);
-    setDateOfBirth(initialValues.dateOfBirth);
-    setGender(initialValues.Gender);
-    setNationality(initialValues.nationality);
-    setAddress(initialValues.address);
-    setOccupation(initialValues.occupation);
-    setEmployer(initialValues.employer);
-    setEducation(initialValues.education);
-    setPhone(initialValues.phone);
-    setEmail(initialValues.email);
-    setFacebook(initialValues.facebook);
-    setTwitter(initialValues.twitter);
-    setInstagram(initialValues.instagram);
-    setLinkedIn(initialValues.linkedIn);
-    setTicktock(initialValues.ticktock);
-    setHeightinches(initialValues.heightinches);
-    setEyecolor(initialValues.eyecolor);
-    setTattoos(initialValues.tattoos);
-    setScars(initialValues.scars);
-    setCriminalrecord(initialValues.criminalrecord);
-    setLegalstatus(initialValues.legalstatus);
-    setKnownassociates(initialValues.knownassociates);
-    setBackgroundinformation(initialValues.backgroundinformation);
-    setCreatedDateTime(initialValues.createdDateTime);
-    setIsDeleted(initialValues.IsDeleted);
-    setSuspectcaseID(initialValues.suspectcaseID);
+    setSuspect_name(initialValues.suspect_name);
+    setSuspect_date_of_birth(initialValues.suspect_date_of_birth);
+    setSuspect_gender(initialValues.suspect_gender);
+    setSuspect_nationality(initialValues.suspect_nationality);
+    setSuspect_address(initialValues.suspect_address);
+    setSuspect_occupation(initialValues.suspect_occupation);
+    setSuspect_employer(initialValues.suspect_employer);
+    setSuspect_education(initialValues.suspect_education);
+    setSuspect_phone(initialValues.suspect_phone);
+    setSuspect_email(initialValues.suspect_email);
+    setSuspect_facebook(initialValues.suspect_facebook);
+    setSuspect_twitter(initialValues.suspect_twitter);
+    setSuspect_instagram(initialValues.suspect_instagram);
+    setSuspect_linkedIn(initialValues.suspect_linkedIn);
+    setSuspect_ticktock(initialValues.suspect_ticktock);
+    setSuspect_height_inches(initialValues.suspect_height_inches);
+    setSuspect_eyecolor(initialValues.suspect_eyecolor);
+    setSuspect_tattoos(initialValues.suspect_tattoos);
+    setSuspect_scars(initialValues.suspect_scars);
+    setSuspect_criminal_record(initialValues.suspect_criminal_record);
+    setSuspect_legal_status(initialValues.suspect_legal_status);
+    setSuspect_known_associates(initialValues.suspect_known_associates);
+    setSuspect_background_information(
+      initialValues.suspect_background_information
+    );
+    setSuspect_created_date(initialValues.suspect_created_date);
     setErrors({});
   };
   const validations = {
-    suspectName: [],
-    dateOfBirth: [],
-    Gender: [],
-    nationality: [],
-    address: [],
-    occupation: [],
-    employer: [],
-    education: [],
-    phone: [{ type: "Phone" }],
-    email: [{ type: "Email" }],
-    facebook: [{ type: "URL" }],
-    twitter: [{ type: "URL" }],
-    instagram: [{ type: "URL" }],
-    linkedIn: [{ type: "URL" }],
-    ticktock: [{ type: "URL" }],
-    heightinches: [],
-    eyecolor: [],
-    tattoos: [],
-    scars: [],
-    criminalrecord: [],
-    legalstatus: [],
-    knownassociates: [],
-    backgroundinformation: [],
-    createdDateTime: [],
-    IsDeleted: [],
-    suspectcaseID: [{ type: "Required" }],
+    suspect_name: [],
+    suspect_date_of_birth: [],
+    suspect_gender: [],
+    suspect_nationality: [],
+    suspect_address: [],
+    suspect_occupation: [],
+    suspect_employer: [],
+    suspect_education: [],
+    suspect_phone: [{ type: "Phone" }],
+    suspect_email: [{ type: "Email" }],
+    suspect_facebook: [{ type: "URL" }],
+    suspect_twitter: [{ type: "URL" }],
+    suspect_instagram: [{ type: "URL" }],
+    suspect_linkedIn: [{ type: "URL" }],
+    suspect_ticktock: [{ type: "URL" }],
+    suspect_height_inches: [],
+    suspect_eyecolor: [],
+    suspect_tattoos: [],
+    suspect_scars: [],
+    suspect_criminal_record: [],
+    suspect_legal_status: [],
+    suspect_known_associates: [],
+    suspect_background_information: [],
+    suspect_created_date: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -178,29 +197,6 @@ export default function SuspectCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertTimeStampToDate = (ts) => {
-    if (Math.abs(Date.now() - ts) < Math.abs(Date.now() - ts * 1000)) {
-      return new Date(ts);
-    }
-    return new Date(ts * 1000);
-  };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -210,32 +206,30 @@ export default function SuspectCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          suspectName,
-          dateOfBirth,
-          Gender,
-          nationality,
-          address,
-          occupation,
-          employer,
-          education,
-          phone,
-          email,
-          facebook,
-          twitter,
-          instagram,
-          linkedIn,
-          ticktock,
-          heightinches,
-          eyecolor,
-          tattoos,
-          scars,
-          criminalrecord,
-          legalstatus,
-          knownassociates,
-          backgroundinformation,
-          createdDateTime,
-          IsDeleted,
-          suspectcaseID,
+          suspect_name,
+          suspect_date_of_birth,
+          suspect_gender,
+          suspect_nationality,
+          suspect_address,
+          suspect_occupation,
+          suspect_employer,
+          suspect_education,
+          suspect_phone,
+          suspect_email,
+          suspect_facebook,
+          suspect_twitter,
+          suspect_instagram,
+          suspect_linkedIn,
+          suspect_ticktock,
+          suspect_height_inches,
+          suspect_eyecolor,
+          suspect_tattoos,
+          suspect_scars,
+          suspect_criminal_record,
+          suspect_legal_status,
+          suspect_known_associates,
+          suspect_background_information,
+          suspect_created_date,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -293,1304 +287,1180 @@ export default function SuspectCreateForm(props) {
         label="Suspect name"
         isRequired={false}
         isReadOnly={false}
-        value={suspectName}
+        value={suspect_name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName: value,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name: value,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.suspectName ?? value;
+            value = result?.suspect_name ?? value;
           }
-          if (errors.suspectName?.hasError) {
-            runValidationTasks("suspectName", value);
+          if (errors.suspect_name?.hasError) {
+            runValidationTasks("suspect_name", value);
           }
-          setSuspectName(value);
+          setSuspect_name(value);
         }}
-        onBlur={() => runValidationTasks("suspectName", suspectName)}
-        errorMessage={errors.suspectName?.errorMessage}
-        hasError={errors.suspectName?.hasError}
-        {...getOverrideProps(overrides, "suspectName")}
+        onBlur={() => runValidationTasks("suspect_name", suspect_name)}
+        errorMessage={errors.suspect_name?.errorMessage}
+        hasError={errors.suspect_name?.hasError}
+        {...getOverrideProps(overrides, "suspect_name")}
       ></TextField>
       <TextField
-        label="Date of birth"
+        label="Suspect date of birth"
         isRequired={false}
         isReadOnly={false}
         type="date"
-        value={dateOfBirth}
+        value={suspect_date_of_birth}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth: value,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth: value,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.dateOfBirth ?? value;
+            value = result?.suspect_date_of_birth ?? value;
           }
-          if (errors.dateOfBirth?.hasError) {
-            runValidationTasks("dateOfBirth", value);
+          if (errors.suspect_date_of_birth?.hasError) {
+            runValidationTasks("suspect_date_of_birth", value);
           }
-          setDateOfBirth(value);
+          setSuspect_date_of_birth(value);
         }}
-        onBlur={() => runValidationTasks("dateOfBirth", dateOfBirth)}
-        errorMessage={errors.dateOfBirth?.errorMessage}
-        hasError={errors.dateOfBirth?.hasError}
-        {...getOverrideProps(overrides, "dateOfBirth")}
+        onBlur={() =>
+          runValidationTasks("suspect_date_of_birth", suspect_date_of_birth)
+        }
+        errorMessage={errors.suspect_date_of_birth?.errorMessage}
+        hasError={errors.suspect_date_of_birth?.hasError}
+        {...getOverrideProps(overrides, "suspect_date_of_birth")}
       ></TextField>
       <SelectField
-        label="Gender"
+        label="Suspect gender"
         placeholder="Please select an option"
         isDisabled={false}
-        value={Gender}
+        value={suspect_gender}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender: value,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender: value,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.Gender ?? value;
+            value = result?.suspect_gender ?? value;
           }
-          if (errors.Gender?.hasError) {
-            runValidationTasks("Gender", value);
+          if (errors.suspect_gender?.hasError) {
+            runValidationTasks("suspect_gender", value);
           }
-          setGender(value);
+          setSuspect_gender(value);
         }}
-        onBlur={() => runValidationTasks("Gender", Gender)}
-        errorMessage={errors.Gender?.errorMessage}
-        hasError={errors.Gender?.hasError}
-        {...getOverrideProps(overrides, "Gender")}
+        onBlur={() => runValidationTasks("suspect_gender", suspect_gender)}
+        errorMessage={errors.suspect_gender?.errorMessage}
+        hasError={errors.suspect_gender?.hasError}
+        {...getOverrideProps(overrides, "suspect_gender")}
       >
         <option
           children="Female"
           value="FEMALE"
-          {...getOverrideProps(overrides, "Genderoption0")}
+          {...getOverrideProps(overrides, "suspect_genderoption0")}
         ></option>
         <option
           children="Male"
           value="MALE"
-          {...getOverrideProps(overrides, "Genderoption1")}
+          {...getOverrideProps(overrides, "suspect_genderoption1")}
         ></option>
         <option
           children="Unknown"
           value="UNKNOWN"
-          {...getOverrideProps(overrides, "Genderoption2")}
+          {...getOverrideProps(overrides, "suspect_genderoption2")}
         ></option>
       </SelectField>
       <TextField
-        label="Nationality"
+        label="Suspect nationality"
         isRequired={false}
         isReadOnly={false}
-        value={nationality}
+        value={suspect_nationality}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality: value,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality: value,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.nationality ?? value;
+            value = result?.suspect_nationality ?? value;
           }
-          if (errors.nationality?.hasError) {
-            runValidationTasks("nationality", value);
+          if (errors.suspect_nationality?.hasError) {
+            runValidationTasks("suspect_nationality", value);
           }
-          setNationality(value);
+          setSuspect_nationality(value);
         }}
-        onBlur={() => runValidationTasks("nationality", nationality)}
-        errorMessage={errors.nationality?.errorMessage}
-        hasError={errors.nationality?.hasError}
-        {...getOverrideProps(overrides, "nationality")}
+        onBlur={() =>
+          runValidationTasks("suspect_nationality", suspect_nationality)
+        }
+        errorMessage={errors.suspect_nationality?.errorMessage}
+        hasError={errors.suspect_nationality?.hasError}
+        {...getOverrideProps(overrides, "suspect_nationality")}
       ></TextField>
       <TextField
-        label="Address"
+        label="Suspect address"
         isRequired={false}
         isReadOnly={false}
-        value={address}
+        value={suspect_address}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address: value,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address: value,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.address ?? value;
+            value = result?.suspect_address ?? value;
           }
-          if (errors.address?.hasError) {
-            runValidationTasks("address", value);
+          if (errors.suspect_address?.hasError) {
+            runValidationTasks("suspect_address", value);
           }
-          setAddress(value);
+          setSuspect_address(value);
         }}
-        onBlur={() => runValidationTasks("address", address)}
-        errorMessage={errors.address?.errorMessage}
-        hasError={errors.address?.hasError}
-        {...getOverrideProps(overrides, "address")}
+        onBlur={() => runValidationTasks("suspect_address", suspect_address)}
+        errorMessage={errors.suspect_address?.errorMessage}
+        hasError={errors.suspect_address?.hasError}
+        {...getOverrideProps(overrides, "suspect_address")}
       ></TextField>
       <TextField
-        label="Occupation"
+        label="Suspect occupation"
         isRequired={false}
         isReadOnly={false}
-        value={occupation}
+        value={suspect_occupation}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation: value,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation: value,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.occupation ?? value;
+            value = result?.suspect_occupation ?? value;
           }
-          if (errors.occupation?.hasError) {
-            runValidationTasks("occupation", value);
+          if (errors.suspect_occupation?.hasError) {
+            runValidationTasks("suspect_occupation", value);
           }
-          setOccupation(value);
+          setSuspect_occupation(value);
         }}
-        onBlur={() => runValidationTasks("occupation", occupation)}
-        errorMessage={errors.occupation?.errorMessage}
-        hasError={errors.occupation?.hasError}
-        {...getOverrideProps(overrides, "occupation")}
+        onBlur={() =>
+          runValidationTasks("suspect_occupation", suspect_occupation)
+        }
+        errorMessage={errors.suspect_occupation?.errorMessage}
+        hasError={errors.suspect_occupation?.hasError}
+        {...getOverrideProps(overrides, "suspect_occupation")}
       ></TextField>
       <TextField
-        label="Employer"
+        label="Suspect employer"
         isRequired={false}
         isReadOnly={false}
-        value={employer}
+        value={suspect_employer}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer: value,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer: value,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.employer ?? value;
+            value = result?.suspect_employer ?? value;
           }
-          if (errors.employer?.hasError) {
-            runValidationTasks("employer", value);
+          if (errors.suspect_employer?.hasError) {
+            runValidationTasks("suspect_employer", value);
           }
-          setEmployer(value);
+          setSuspect_employer(value);
         }}
-        onBlur={() => runValidationTasks("employer", employer)}
-        errorMessage={errors.employer?.errorMessage}
-        hasError={errors.employer?.hasError}
-        {...getOverrideProps(overrides, "employer")}
+        onBlur={() => runValidationTasks("suspect_employer", suspect_employer)}
+        errorMessage={errors.suspect_employer?.errorMessage}
+        hasError={errors.suspect_employer?.hasError}
+        {...getOverrideProps(overrides, "suspect_employer")}
       ></TextField>
       <TextField
-        label="Education"
+        label="Suspect education"
         isRequired={false}
         isReadOnly={false}
-        value={education}
+        value={suspect_education}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education: value,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education: value,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.education ?? value;
+            value = result?.suspect_education ?? value;
           }
-          if (errors.education?.hasError) {
-            runValidationTasks("education", value);
+          if (errors.suspect_education?.hasError) {
+            runValidationTasks("suspect_education", value);
           }
-          setEducation(value);
+          setSuspect_education(value);
         }}
-        onBlur={() => runValidationTasks("education", education)}
-        errorMessage={errors.education?.errorMessage}
-        hasError={errors.education?.hasError}
-        {...getOverrideProps(overrides, "education")}
+        onBlur={() =>
+          runValidationTasks("suspect_education", suspect_education)
+        }
+        errorMessage={errors.suspect_education?.errorMessage}
+        hasError={errors.suspect_education?.hasError}
+        {...getOverrideProps(overrides, "suspect_education")}
       ></TextField>
       <TextField
-        label="Phone"
+        label="Suspect phone"
         isRequired={false}
         isReadOnly={false}
         type="tel"
-        value={phone}
+        value={suspect_phone}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone: value,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone: value,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.phone ?? value;
+            value = result?.suspect_phone ?? value;
           }
-          if (errors.phone?.hasError) {
-            runValidationTasks("phone", value);
+          if (errors.suspect_phone?.hasError) {
+            runValidationTasks("suspect_phone", value);
           }
-          setPhone(value);
+          setSuspect_phone(value);
         }}
-        onBlur={() => runValidationTasks("phone", phone)}
-        errorMessage={errors.phone?.errorMessage}
-        hasError={errors.phone?.hasError}
-        {...getOverrideProps(overrides, "phone")}
+        onBlur={() => runValidationTasks("suspect_phone", suspect_phone)}
+        errorMessage={errors.suspect_phone?.errorMessage}
+        hasError={errors.suspect_phone?.hasError}
+        {...getOverrideProps(overrides, "suspect_phone")}
       ></TextField>
       <TextField
-        label="Email"
+        label="Suspect email"
         isRequired={false}
         isReadOnly={false}
-        value={email}
+        value={suspect_email}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email: value,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email: value,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.email ?? value;
+            value = result?.suspect_email ?? value;
           }
-          if (errors.email?.hasError) {
-            runValidationTasks("email", value);
+          if (errors.suspect_email?.hasError) {
+            runValidationTasks("suspect_email", value);
           }
-          setEmail(value);
+          setSuspect_email(value);
         }}
-        onBlur={() => runValidationTasks("email", email)}
-        errorMessage={errors.email?.errorMessage}
-        hasError={errors.email?.hasError}
-        {...getOverrideProps(overrides, "email")}
+        onBlur={() => runValidationTasks("suspect_email", suspect_email)}
+        errorMessage={errors.suspect_email?.errorMessage}
+        hasError={errors.suspect_email?.hasError}
+        {...getOverrideProps(overrides, "suspect_email")}
       ></TextField>
       <TextField
-        label="Facebook"
+        label="Suspect facebook"
         isRequired={false}
         isReadOnly={false}
-        value={facebook}
+        value={suspect_facebook}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook: value,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook: value,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.facebook ?? value;
+            value = result?.suspect_facebook ?? value;
           }
-          if (errors.facebook?.hasError) {
-            runValidationTasks("facebook", value);
+          if (errors.suspect_facebook?.hasError) {
+            runValidationTasks("suspect_facebook", value);
           }
-          setFacebook(value);
+          setSuspect_facebook(value);
         }}
-        onBlur={() => runValidationTasks("facebook", facebook)}
-        errorMessage={errors.facebook?.errorMessage}
-        hasError={errors.facebook?.hasError}
-        {...getOverrideProps(overrides, "facebook")}
+        onBlur={() => runValidationTasks("suspect_facebook", suspect_facebook)}
+        errorMessage={errors.suspect_facebook?.errorMessage}
+        hasError={errors.suspect_facebook?.hasError}
+        {...getOverrideProps(overrides, "suspect_facebook")}
       ></TextField>
       <TextField
-        label="Twitter"
+        label="Suspect twitter"
         isRequired={false}
         isReadOnly={false}
-        value={twitter}
+        value={suspect_twitter}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter: value,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter: value,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.twitter ?? value;
+            value = result?.suspect_twitter ?? value;
           }
-          if (errors.twitter?.hasError) {
-            runValidationTasks("twitter", value);
+          if (errors.suspect_twitter?.hasError) {
+            runValidationTasks("suspect_twitter", value);
           }
-          setTwitter(value);
+          setSuspect_twitter(value);
         }}
-        onBlur={() => runValidationTasks("twitter", twitter)}
-        errorMessage={errors.twitter?.errorMessage}
-        hasError={errors.twitter?.hasError}
-        {...getOverrideProps(overrides, "twitter")}
+        onBlur={() => runValidationTasks("suspect_twitter", suspect_twitter)}
+        errorMessage={errors.suspect_twitter?.errorMessage}
+        hasError={errors.suspect_twitter?.hasError}
+        {...getOverrideProps(overrides, "suspect_twitter")}
       ></TextField>
       <TextField
-        label="Instagram"
+        label="Suspect instagram"
         isRequired={false}
         isReadOnly={false}
-        value={instagram}
+        value={suspect_instagram}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram: value,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram: value,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.instagram ?? value;
+            value = result?.suspect_instagram ?? value;
           }
-          if (errors.instagram?.hasError) {
-            runValidationTasks("instagram", value);
+          if (errors.suspect_instagram?.hasError) {
+            runValidationTasks("suspect_instagram", value);
           }
-          setInstagram(value);
+          setSuspect_instagram(value);
         }}
-        onBlur={() => runValidationTasks("instagram", instagram)}
-        errorMessage={errors.instagram?.errorMessage}
-        hasError={errors.instagram?.hasError}
-        {...getOverrideProps(overrides, "instagram")}
+        onBlur={() =>
+          runValidationTasks("suspect_instagram", suspect_instagram)
+        }
+        errorMessage={errors.suspect_instagram?.errorMessage}
+        hasError={errors.suspect_instagram?.hasError}
+        {...getOverrideProps(overrides, "suspect_instagram")}
       ></TextField>
       <TextField
-        label="Linked in"
+        label="Suspect linked in"
         isRequired={false}
         isReadOnly={false}
-        value={linkedIn}
+        value={suspect_linkedIn}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn: value,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn: value,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.linkedIn ?? value;
+            value = result?.suspect_linkedIn ?? value;
           }
-          if (errors.linkedIn?.hasError) {
-            runValidationTasks("linkedIn", value);
+          if (errors.suspect_linkedIn?.hasError) {
+            runValidationTasks("suspect_linkedIn", value);
           }
-          setLinkedIn(value);
+          setSuspect_linkedIn(value);
         }}
-        onBlur={() => runValidationTasks("linkedIn", linkedIn)}
-        errorMessage={errors.linkedIn?.errorMessage}
-        hasError={errors.linkedIn?.hasError}
-        {...getOverrideProps(overrides, "linkedIn")}
+        onBlur={() => runValidationTasks("suspect_linkedIn", suspect_linkedIn)}
+        errorMessage={errors.suspect_linkedIn?.errorMessage}
+        hasError={errors.suspect_linkedIn?.hasError}
+        {...getOverrideProps(overrides, "suspect_linkedIn")}
       ></TextField>
       <TextField
-        label="Ticktock"
+        label="Suspect ticktock"
         isRequired={false}
         isReadOnly={false}
-        value={ticktock}
+        value={suspect_ticktock}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock: value,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock: value,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.ticktock ?? value;
+            value = result?.suspect_ticktock ?? value;
           }
-          if (errors.ticktock?.hasError) {
-            runValidationTasks("ticktock", value);
+          if (errors.suspect_ticktock?.hasError) {
+            runValidationTasks("suspect_ticktock", value);
           }
-          setTicktock(value);
+          setSuspect_ticktock(value);
         }}
-        onBlur={() => runValidationTasks("ticktock", ticktock)}
-        errorMessage={errors.ticktock?.errorMessage}
-        hasError={errors.ticktock?.hasError}
-        {...getOverrideProps(overrides, "ticktock")}
+        onBlur={() => runValidationTasks("suspect_ticktock", suspect_ticktock)}
+        errorMessage={errors.suspect_ticktock?.errorMessage}
+        hasError={errors.suspect_ticktock?.hasError}
+        {...getOverrideProps(overrides, "suspect_ticktock")}
       ></TextField>
       <TextField
-        label="Heightinches"
+        label="Suspect height inches"
         isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
-        value={heightinches}
+        value={suspect_height_inches}
         onChange={(e) => {
           let value = isNaN(parseInt(e.target.value))
             ? e.target.value
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches: value,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches: value,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.heightinches ?? value;
+            value = result?.suspect_height_inches ?? value;
           }
-          if (errors.heightinches?.hasError) {
-            runValidationTasks("heightinches", value);
+          if (errors.suspect_height_inches?.hasError) {
+            runValidationTasks("suspect_height_inches", value);
           }
-          setHeightinches(value);
-        }}
-        onBlur={() => runValidationTasks("heightinches", heightinches)}
-        errorMessage={errors.heightinches?.errorMessage}
-        hasError={errors.heightinches?.hasError}
-        {...getOverrideProps(overrides, "heightinches")}
-      ></TextField>
-      <TextField
-        label="Eyecolor"
-        isRequired={false}
-        isReadOnly={false}
-        value={eyecolor}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor: value,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.eyecolor ?? value;
-          }
-          if (errors.eyecolor?.hasError) {
-            runValidationTasks("eyecolor", value);
-          }
-          setEyecolor(value);
-        }}
-        onBlur={() => runValidationTasks("eyecolor", eyecolor)}
-        errorMessage={errors.eyecolor?.errorMessage}
-        hasError={errors.eyecolor?.hasError}
-        {...getOverrideProps(overrides, "eyecolor")}
-      ></TextField>
-      <TextField
-        label="Tattoos"
-        isRequired={false}
-        isReadOnly={false}
-        value={tattoos}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos: value,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.tattoos ?? value;
-          }
-          if (errors.tattoos?.hasError) {
-            runValidationTasks("tattoos", value);
-          }
-          setTattoos(value);
-        }}
-        onBlur={() => runValidationTasks("tattoos", tattoos)}
-        errorMessage={errors.tattoos?.errorMessage}
-        hasError={errors.tattoos?.hasError}
-        {...getOverrideProps(overrides, "tattoos")}
-      ></TextField>
-      <TextField
-        label="Scars"
-        isRequired={false}
-        isReadOnly={false}
-        value={scars}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars: value,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.scars ?? value;
-          }
-          if (errors.scars?.hasError) {
-            runValidationTasks("scars", value);
-          }
-          setScars(value);
-        }}
-        onBlur={() => runValidationTasks("scars", scars)}
-        errorMessage={errors.scars?.errorMessage}
-        hasError={errors.scars?.hasError}
-        {...getOverrideProps(overrides, "scars")}
-      ></TextField>
-      <TextField
-        label="Criminalrecord"
-        isRequired={false}
-        isReadOnly={false}
-        value={criminalrecord}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord: value,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.criminalrecord ?? value;
-          }
-          if (errors.criminalrecord?.hasError) {
-            runValidationTasks("criminalrecord", value);
-          }
-          setCriminalrecord(value);
-        }}
-        onBlur={() => runValidationTasks("criminalrecord", criminalrecord)}
-        errorMessage={errors.criminalrecord?.errorMessage}
-        hasError={errors.criminalrecord?.hasError}
-        {...getOverrideProps(overrides, "criminalrecord")}
-      ></TextField>
-      <TextField
-        label="Legalstatus"
-        isRequired={false}
-        isReadOnly={false}
-        value={legalstatus}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus: value,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.legalstatus ?? value;
-          }
-          if (errors.legalstatus?.hasError) {
-            runValidationTasks("legalstatus", value);
-          }
-          setLegalstatus(value);
-        }}
-        onBlur={() => runValidationTasks("legalstatus", legalstatus)}
-        errorMessage={errors.legalstatus?.errorMessage}
-        hasError={errors.legalstatus?.hasError}
-        {...getOverrideProps(overrides, "legalstatus")}
-      ></TextField>
-      <TextField
-        label="Knownassociates"
-        isRequired={false}
-        isReadOnly={false}
-        value={knownassociates}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates: value,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.knownassociates ?? value;
-          }
-          if (errors.knownassociates?.hasError) {
-            runValidationTasks("knownassociates", value);
-          }
-          setKnownassociates(value);
-        }}
-        onBlur={() => runValidationTasks("knownassociates", knownassociates)}
-        errorMessage={errors.knownassociates?.errorMessage}
-        hasError={errors.knownassociates?.hasError}
-        {...getOverrideProps(overrides, "knownassociates")}
-      ></TextField>
-      <TextField
-        label="Backgroundinformation"
-        isRequired={false}
-        isReadOnly={false}
-        value={backgroundinformation}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation: value,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.backgroundinformation ?? value;
-          }
-          if (errors.backgroundinformation?.hasError) {
-            runValidationTasks("backgroundinformation", value);
-          }
-          setBackgroundinformation(value);
+          setSuspect_height_inches(value);
         }}
         onBlur={() =>
-          runValidationTasks("backgroundinformation", backgroundinformation)
+          runValidationTasks("suspect_height_inches", suspect_height_inches)
         }
-        errorMessage={errors.backgroundinformation?.errorMessage}
-        hasError={errors.backgroundinformation?.hasError}
-        {...getOverrideProps(overrides, "backgroundinformation")}
+        errorMessage={errors.suspect_height_inches?.errorMessage}
+        hasError={errors.suspect_height_inches?.hasError}
+        {...getOverrideProps(overrides, "suspect_height_inches")}
       ></TextField>
       <TextField
-        label="Created date time"
+        label="Suspect eyecolor"
         isRequired={false}
         isReadOnly={false}
-        type="datetime-local"
-        value={
-          createdDateTime &&
-          convertToLocal(convertTimeStampToDate(createdDateTime))
-        }
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : Number(new Date(e.target.value));
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime: value,
-              IsDeleted,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.createdDateTime ?? value;
-          }
-          if (errors.createdDateTime?.hasError) {
-            runValidationTasks("createdDateTime", value);
-          }
-          setCreatedDateTime(value);
-        }}
-        onBlur={() => runValidationTasks("createdDateTime", createdDateTime)}
-        errorMessage={errors.createdDateTime?.errorMessage}
-        hasError={errors.createdDateTime?.hasError}
-        {...getOverrideProps(overrides, "createdDateTime")}
-      ></TextField>
-      <SwitchField
-        label="Is deleted"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={IsDeleted}
-        onChange={(e) => {
-          let value = e.target.checked;
-          if (onChange) {
-            const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted: value,
-              suspectcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.IsDeleted ?? value;
-          }
-          if (errors.IsDeleted?.hasError) {
-            runValidationTasks("IsDeleted", value);
-          }
-          setIsDeleted(value);
-        }}
-        onBlur={() => runValidationTasks("IsDeleted", IsDeleted)}
-        errorMessage={errors.IsDeleted?.errorMessage}
-        hasError={errors.IsDeleted?.hasError}
-        {...getOverrideProps(overrides, "IsDeleted")}
-      ></SwitchField>
-      <TextField
-        label="Suspectcase id"
-        isRequired={true}
-        isReadOnly={false}
-        value={suspectcaseID}
+        value={suspect_eyecolor}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              suspectName,
-              dateOfBirth,
-              Gender,
-              nationality,
-              address,
-              occupation,
-              employer,
-              education,
-              phone,
-              email,
-              facebook,
-              twitter,
-              instagram,
-              linkedIn,
-              ticktock,
-              heightinches,
-              eyecolor,
-              tattoos,
-              scars,
-              criminalrecord,
-              legalstatus,
-              knownassociates,
-              backgroundinformation,
-              createdDateTime,
-              IsDeleted,
-              suspectcaseID: value,
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor: value,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
             };
             const result = onChange(modelFields);
-            value = result?.suspectcaseID ?? value;
+            value = result?.suspect_eyecolor ?? value;
           }
-          if (errors.suspectcaseID?.hasError) {
-            runValidationTasks("suspectcaseID", value);
+          if (errors.suspect_eyecolor?.hasError) {
+            runValidationTasks("suspect_eyecolor", value);
           }
-          setSuspectcaseID(value);
+          setSuspect_eyecolor(value);
         }}
-        onBlur={() => runValidationTasks("suspectcaseID", suspectcaseID)}
-        errorMessage={errors.suspectcaseID?.errorMessage}
-        hasError={errors.suspectcaseID?.hasError}
-        {...getOverrideProps(overrides, "suspectcaseID")}
+        onBlur={() => runValidationTasks("suspect_eyecolor", suspect_eyecolor)}
+        errorMessage={errors.suspect_eyecolor?.errorMessage}
+        hasError={errors.suspect_eyecolor?.hasError}
+        {...getOverrideProps(overrides, "suspect_eyecolor")}
+      ></TextField>
+      <TextField
+        label="Suspect tattoos"
+        isRequired={false}
+        isReadOnly={false}
+        value={suspect_tattoos}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos: value,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_tattoos ?? value;
+          }
+          if (errors.suspect_tattoos?.hasError) {
+            runValidationTasks("suspect_tattoos", value);
+          }
+          setSuspect_tattoos(value);
+        }}
+        onBlur={() => runValidationTasks("suspect_tattoos", suspect_tattoos)}
+        errorMessage={errors.suspect_tattoos?.errorMessage}
+        hasError={errors.suspect_tattoos?.hasError}
+        {...getOverrideProps(overrides, "suspect_tattoos")}
+      ></TextField>
+      <TextField
+        label="Suspect scars"
+        isRequired={false}
+        isReadOnly={false}
+        value={suspect_scars}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars: value,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_scars ?? value;
+          }
+          if (errors.suspect_scars?.hasError) {
+            runValidationTasks("suspect_scars", value);
+          }
+          setSuspect_scars(value);
+        }}
+        onBlur={() => runValidationTasks("suspect_scars", suspect_scars)}
+        errorMessage={errors.suspect_scars?.errorMessage}
+        hasError={errors.suspect_scars?.hasError}
+        {...getOverrideProps(overrides, "suspect_scars")}
+      ></TextField>
+      <TextField
+        label="Suspect criminal record"
+        isRequired={false}
+        isReadOnly={false}
+        value={suspect_criminal_record}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record: value,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_criminal_record ?? value;
+          }
+          if (errors.suspect_criminal_record?.hasError) {
+            runValidationTasks("suspect_criminal_record", value);
+          }
+          setSuspect_criminal_record(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("suspect_criminal_record", suspect_criminal_record)
+        }
+        errorMessage={errors.suspect_criminal_record?.errorMessage}
+        hasError={errors.suspect_criminal_record?.hasError}
+        {...getOverrideProps(overrides, "suspect_criminal_record")}
+      ></TextField>
+      <TextField
+        label="Suspect legal status"
+        isRequired={false}
+        isReadOnly={false}
+        value={suspect_legal_status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status: value,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_legal_status ?? value;
+          }
+          if (errors.suspect_legal_status?.hasError) {
+            runValidationTasks("suspect_legal_status", value);
+          }
+          setSuspect_legal_status(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("suspect_legal_status", suspect_legal_status)
+        }
+        errorMessage={errors.suspect_legal_status?.errorMessage}
+        hasError={errors.suspect_legal_status?.hasError}
+        {...getOverrideProps(overrides, "suspect_legal_status")}
+      ></TextField>
+      <TextField
+        label="Suspect known associates"
+        isRequired={false}
+        isReadOnly={false}
+        value={suspect_known_associates}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates: value,
+              suspect_background_information,
+              suspect_created_date,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_known_associates ?? value;
+          }
+          if (errors.suspect_known_associates?.hasError) {
+            runValidationTasks("suspect_known_associates", value);
+          }
+          setSuspect_known_associates(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "suspect_known_associates",
+            suspect_known_associates
+          )
+        }
+        errorMessage={errors.suspect_known_associates?.errorMessage}
+        hasError={errors.suspect_known_associates?.hasError}
+        {...getOverrideProps(overrides, "suspect_known_associates")}
+      ></TextField>
+      <TextField
+        label="Suspect background information"
+        isRequired={false}
+        isReadOnly={false}
+        value={suspect_background_information}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information: value,
+              suspect_created_date,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_background_information ?? value;
+          }
+          if (errors.suspect_background_information?.hasError) {
+            runValidationTasks("suspect_background_information", value);
+          }
+          setSuspect_background_information(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "suspect_background_information",
+            suspect_background_information
+          )
+        }
+        errorMessage={errors.suspect_background_information?.errorMessage}
+        hasError={errors.suspect_background_information?.hasError}
+        {...getOverrideProps(overrides, "suspect_background_information")}
+      ></TextField>
+      <TextField
+        label="Suspect created date"
+        isRequired={false}
+        isReadOnly={false}
+        type="date"
+        value={suspect_created_date}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspect_created_date ?? value;
+          }
+          if (errors.suspect_created_date?.hasError) {
+            runValidationTasks("suspect_created_date", value);
+          }
+          setSuspect_created_date(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("suspect_created_date", suspect_created_date)
+        }
+        errorMessage={errors.suspect_created_date?.errorMessage}
+        hasError={errors.suspect_created_date?.hasError}
+        {...getOverrideProps(overrides, "suspect_created_date")}
       ></TextField>
       <Flex
         justifyContent="space-between"
