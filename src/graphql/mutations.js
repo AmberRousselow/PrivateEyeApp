@@ -1,6 +1,51 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createCaseSuspects = /* GraphQL */ `
+  mutation CreateCaseSuspects(
+    $input: CreateCaseSuspectsInput!
+    $condition: ModelCaseSuspectsConditionInput
+  ) {
+    createCaseSuspects(input: $input, condition: $condition) {
+      id
+      appcaseID
+      suspectID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateCaseSuspects = /* GraphQL */ `
+  mutation UpdateCaseSuspects(
+    $input: UpdateCaseSuspectsInput!
+    $condition: ModelCaseSuspectsConditionInput
+  ) {
+    updateCaseSuspects(input: $input, condition: $condition) {
+      id
+      appcaseID
+      suspectID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteCaseSuspects = /* GraphQL */ `
+  mutation DeleteCaseSuspects(
+    $input: DeleteCaseSuspectsInput!
+    $condition: ModelCaseSuspectsConditionInput
+  ) {
+    deleteCaseSuspects(input: $input, condition: $condition) {
+      id
+      appcaseID
+      suspectID
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createSuspect = /* GraphQL */ `
   mutation CreateSuspect(
     $input: CreateSuspectInput!
@@ -8,42 +53,32 @@ export const createSuspect = /* GraphQL */ `
   ) {
     createSuspect(input: $input, condition: $condition) {
       id
-      suspectName
-      dateOfBirth
-      Gender
-      nationality
-      address
-      occupation
-      employer
-      education
-      phone
-      email
-      facebook
-      twitter
-      instagram
-      linkedIn
-      ticktock
-      heightinches
-      eyecolor
-      tattoos
-      scars
-      criminalrecord
-      legalstatus
-      knownassociates
-      backgroundinformation
-      createdDateTime
-      IsDeleted
-      suspectcaseID
-      AppCases {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
+      suspect_name
+      suspect_date_of_birth
+      suspect_gender
+      suspect_nationality
+      suspect_address
+      suspect_occupation
+      suspect_employer
+      suspect_education
+      suspect_phone
+      suspect_email
+      suspect_facebook
+      suspect_twitter
+      suspect_instagram
+      suspect_linkedIn
+      suspect_ticktock
+      suspect_height_inches
+      suspect_eyecolor
+      suspect_tattoos
+      suspect_scars
+      suspect_criminal_record
+      suspect_legal_status
+      suspect_known_associates
+      suspect_background_information
+      suspect_created_date
+      CaseSuspects {
+        nextToken
         __typename
       }
       createdAt
@@ -59,42 +94,32 @@ export const updateSuspect = /* GraphQL */ `
   ) {
     updateSuspect(input: $input, condition: $condition) {
       id
-      suspectName
-      dateOfBirth
-      Gender
-      nationality
-      address
-      occupation
-      employer
-      education
-      phone
-      email
-      facebook
-      twitter
-      instagram
-      linkedIn
-      ticktock
-      heightinches
-      eyecolor
-      tattoos
-      scars
-      criminalrecord
-      legalstatus
-      knownassociates
-      backgroundinformation
-      createdDateTime
-      IsDeleted
-      suspectcaseID
-      AppCases {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
+      suspect_name
+      suspect_date_of_birth
+      suspect_gender
+      suspect_nationality
+      suspect_address
+      suspect_occupation
+      suspect_employer
+      suspect_education
+      suspect_phone
+      suspect_email
+      suspect_facebook
+      suspect_twitter
+      suspect_instagram
+      suspect_linkedIn
+      suspect_ticktock
+      suspect_height_inches
+      suspect_eyecolor
+      suspect_tattoos
+      suspect_scars
+      suspect_criminal_record
+      suspect_legal_status
+      suspect_known_associates
+      suspect_background_information
+      suspect_created_date
+      CaseSuspects {
+        nextToken
         __typename
       }
       createdAt
@@ -110,42 +135,32 @@ export const deleteSuspect = /* GraphQL */ `
   ) {
     deleteSuspect(input: $input, condition: $condition) {
       id
-      suspectName
-      dateOfBirth
-      Gender
-      nationality
-      address
-      occupation
-      employer
-      education
-      phone
-      email
-      facebook
-      twitter
-      instagram
-      linkedIn
-      ticktock
-      heightinches
-      eyecolor
-      tattoos
-      scars
-      criminalrecord
-      legalstatus
-      knownassociates
-      backgroundinformation
-      createdDateTime
-      IsDeleted
-      suspectcaseID
-      AppCases {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
+      suspect_name
+      suspect_date_of_birth
+      suspect_gender
+      suspect_nationality
+      suspect_address
+      suspect_occupation
+      suspect_employer
+      suspect_education
+      suspect_phone
+      suspect_email
+      suspect_facebook
+      suspect_twitter
+      suspect_instagram
+      suspect_linkedIn
+      suspect_ticktock
+      suspect_height_inches
+      suspect_eyecolor
+      suspect_tattoos
+      suspect_scars
+      suspect_criminal_record
+      suspect_legal_status
+      suspect_known_associates
+      suspect_background_information
+      suspect_created_date
+      CaseSuspects {
+        nextToken
         __typename
       }
       createdAt
@@ -161,24 +176,11 @@ export const createEvidence = /* GraphQL */ `
   ) {
     createEvidence(input: $input, condition: $condition) {
       id
-      type
-      Decription
-      url
-      createdDateTime
-      IsDeleted
+      evidence_type
+      evidence_description
+      evidence_url
+      evidence_created_date
       appcaseID
-      AppCase {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -192,24 +194,11 @@ export const updateEvidence = /* GraphQL */ `
   ) {
     updateEvidence(input: $input, condition: $condition) {
       id
-      type
-      Decription
-      url
-      createdDateTime
-      IsDeleted
+      evidence_type
+      evidence_description
+      evidence_url
+      evidence_created_date
       appcaseID
-      AppCase {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -223,24 +212,11 @@ export const deleteEvidence = /* GraphQL */ `
   ) {
     deleteEvidence(input: $input, condition: $condition) {
       id
-      type
-      Decription
-      url
-      createdDateTime
-      IsDeleted
+      evidence_type
+      evidence_description
+      evidence_url
+      evidence_created_date
       appcaseID
-      AppCase {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -254,68 +230,25 @@ export const createAppCase = /* GraphQL */ `
   ) {
     createAppCase(input: $input, condition: $condition) {
       id
-      title
-      description
-      createdDateTime
-      isDeleted
-      suspectcaseID
+      case_title
+      case_description
+      case_created_date
+      case_offense
+      case_offense_category
       Evidences {
-        id
-        type
-        Decription
-        url
-        createdDateTime
-        IsDeleted
-        appcaseID
-        createdAt
-        updatedAt
+        nextToken
         __typename
       }
-      suspects {
-        id
-        suspectName
-        dateOfBirth
-        Gender
-        nationality
-        address
-        occupation
-        employer
-        education
-        phone
-        email
-        facebook
-        twitter
-        instagram
-        linkedIn
-        ticktock
-        heightinches
-        eyecolor
-        tattoos
-        scars
-        criminalrecord
-        legalstatus
-        knownassociates
-        backgroundinformation
-        createdDateTime
-        IsDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
+      CaseNotes {
+        nextToken
         __typename
       }
-      CaseNote {
-        id
-        tite
-        content
-        image
-        createDateTime
-        createdAt
-        updatedAt
+      CaseSuspects {
+        nextToken
         __typename
       }
       createdAt
       updatedAt
-      appCaseCaseNoteId
       __typename
     }
   }
@@ -327,68 +260,25 @@ export const updateAppCase = /* GraphQL */ `
   ) {
     updateAppCase(input: $input, condition: $condition) {
       id
-      title
-      description
-      createdDateTime
-      isDeleted
-      suspectcaseID
+      case_title
+      case_description
+      case_created_date
+      case_offense
+      case_offense_category
       Evidences {
-        id
-        type
-        Decription
-        url
-        createdDateTime
-        IsDeleted
-        appcaseID
-        createdAt
-        updatedAt
+        nextToken
         __typename
       }
-      suspects {
-        id
-        suspectName
-        dateOfBirth
-        Gender
-        nationality
-        address
-        occupation
-        employer
-        education
-        phone
-        email
-        facebook
-        twitter
-        instagram
-        linkedIn
-        ticktock
-        heightinches
-        eyecolor
-        tattoos
-        scars
-        criminalrecord
-        legalstatus
-        knownassociates
-        backgroundinformation
-        createdDateTime
-        IsDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
+      CaseNotes {
+        nextToken
         __typename
       }
-      CaseNote {
-        id
-        tite
-        content
-        image
-        createDateTime
-        createdAt
-        updatedAt
+      CaseSuspects {
+        nextToken
         __typename
       }
       createdAt
       updatedAt
-      appCaseCaseNoteId
       __typename
     }
   }
@@ -400,68 +290,25 @@ export const deleteAppCase = /* GraphQL */ `
   ) {
     deleteAppCase(input: $input, condition: $condition) {
       id
-      title
-      description
-      createdDateTime
-      isDeleted
-      suspectcaseID
+      case_title
+      case_description
+      case_created_date
+      case_offense
+      case_offense_category
       Evidences {
-        id
-        type
-        Decription
-        url
-        createdDateTime
-        IsDeleted
-        appcaseID
-        createdAt
-        updatedAt
+        nextToken
         __typename
       }
-      suspects {
-        id
-        suspectName
-        dateOfBirth
-        Gender
-        nationality
-        address
-        occupation
-        employer
-        education
-        phone
-        email
-        facebook
-        twitter
-        instagram
-        linkedIn
-        ticktock
-        heightinches
-        eyecolor
-        tattoos
-        scars
-        criminalrecord
-        legalstatus
-        knownassociates
-        backgroundinformation
-        createdDateTime
-        IsDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
+      CaseNotes {
+        nextToken
         __typename
       }
-      CaseNote {
-        id
-        tite
-        content
-        image
-        createDateTime
-        createdAt
-        updatedAt
+      CaseSuspects {
+        nextToken
         __typename
       }
       createdAt
       updatedAt
-      appCaseCaseNoteId
       __typename
     }
   }
@@ -473,22 +320,10 @@ export const createCaseNote = /* GraphQL */ `
   ) {
     createCaseNote(input: $input, condition: $condition) {
       id
-      tite
-      content
-      image
-      createDateTime
-      AppCase {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
-        __typename
-      }
+      note_title
+      note_content
+      note_create_date
+      appcaseID
       createdAt
       updatedAt
       __typename
@@ -502,22 +337,10 @@ export const updateCaseNote = /* GraphQL */ `
   ) {
     updateCaseNote(input: $input, condition: $condition) {
       id
-      tite
-      content
-      image
-      createDateTime
-      AppCase {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
-        __typename
-      }
+      note_title
+      note_content
+      note_create_date
+      appcaseID
       createdAt
       updatedAt
       __typename
@@ -531,22 +354,10 @@ export const deleteCaseNote = /* GraphQL */ `
   ) {
     deleteCaseNote(input: $input, condition: $condition) {
       id
-      tite
-      content
-      image
-      createDateTime
-      AppCase {
-        id
-        title
-        description
-        createdDateTime
-        isDeleted
-        suspectcaseID
-        createdAt
-        updatedAt
-        appCaseCaseNoteId
-        __typename
-      }
+      note_title
+      note_content
+      note_create_date
+      appcaseID
       createdAt
       updatedAt
       __typename
