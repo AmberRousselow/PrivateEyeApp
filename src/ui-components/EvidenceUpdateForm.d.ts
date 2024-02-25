@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,30 +22,27 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type EvidenceUpdateFormInputValues = {
-    type?: string;
-    Decription?: string;
-    url?: string;
-    createdDateTime?: string;
-    IsDeleted?: boolean;
+    evidence_type?: string;
+    evidence_description?: string;
+    evidence_url?: string;
+    evidence_created_date?: string;
     appcaseID?: string;
 };
 export declare type EvidenceUpdateFormValidationValues = {
-    type?: ValidationFunction<string>;
-    Decription?: ValidationFunction<string>;
-    url?: ValidationFunction<string>;
-    createdDateTime?: ValidationFunction<string>;
-    IsDeleted?: ValidationFunction<boolean>;
+    evidence_type?: ValidationFunction<string>;
+    evidence_description?: ValidationFunction<string>;
+    evidence_url?: ValidationFunction<string>;
+    evidence_created_date?: ValidationFunction<string>;
     appcaseID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EvidenceUpdateFormOverridesProps = {
     EvidenceUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    type?: PrimitiveOverrideProps<TextFieldProps>;
-    Decription?: PrimitiveOverrideProps<TextFieldProps>;
-    url?: PrimitiveOverrideProps<TextFieldProps>;
-    createdDateTime?: PrimitiveOverrideProps<TextFieldProps>;
-    IsDeleted?: PrimitiveOverrideProps<SwitchFieldProps>;
-    appcaseID?: PrimitiveOverrideProps<TextFieldProps>;
+    evidence_type?: PrimitiveOverrideProps<SelectFieldProps>;
+    evidence_description?: PrimitiveOverrideProps<TextFieldProps>;
+    evidence_url?: PrimitiveOverrideProps<TextFieldProps>;
+    evidence_created_date?: PrimitiveOverrideProps<TextFieldProps>;
+    appcaseID?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type EvidenceUpdateFormProps = React.PropsWithChildren<{
     overrides?: EvidenceUpdateFormOverridesProps | undefined | null;

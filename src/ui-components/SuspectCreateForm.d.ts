@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -46,6 +46,7 @@ export declare type SuspectCreateFormInputValues = {
     suspect_known_associates?: string;
     suspect_background_information?: string;
     suspect_created_date?: string;
+    CaseSuspects?: any[];
 };
 export declare type SuspectCreateFormValidationValues = {
     suspect_name?: ValidationFunction<string>;
@@ -72,6 +73,7 @@ export declare type SuspectCreateFormValidationValues = {
     suspect_known_associates?: ValidationFunction<string>;
     suspect_background_information?: ValidationFunction<string>;
     suspect_created_date?: ValidationFunction<string>;
+    CaseSuspects?: ValidationFunction<any>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type SuspectCreateFormOverridesProps = {
@@ -100,6 +102,7 @@ export declare type SuspectCreateFormOverridesProps = {
     suspect_known_associates?: PrimitiveOverrideProps<TextFieldProps>;
     suspect_background_information?: PrimitiveOverrideProps<TextFieldProps>;
     suspect_created_date?: PrimitiveOverrideProps<TextFieldProps>;
+    CaseSuspects?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type SuspectCreateFormProps = React.PropsWithChildren<{
     overrides?: SuspectCreateFormOverridesProps | undefined | null;

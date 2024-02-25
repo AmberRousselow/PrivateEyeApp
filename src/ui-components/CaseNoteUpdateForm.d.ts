@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,24 +22,24 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type CaseNoteUpdateFormInputValues = {
-    tite?: string;
-    content?: string;
-    image?: string;
-    createDateTime?: string;
+    note_title?: string;
+    note_content?: string;
+    note_create_date?: string;
+    appcaseID?: string;
 };
 export declare type CaseNoteUpdateFormValidationValues = {
-    tite?: ValidationFunction<string>;
-    content?: ValidationFunction<string>;
-    image?: ValidationFunction<string>;
-    createDateTime?: ValidationFunction<string>;
+    note_title?: ValidationFunction<string>;
+    note_content?: ValidationFunction<string>;
+    note_create_date?: ValidationFunction<string>;
+    appcaseID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type CaseNoteUpdateFormOverridesProps = {
     CaseNoteUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    tite?: PrimitiveOverrideProps<TextFieldProps>;
-    content?: PrimitiveOverrideProps<TextFieldProps>;
-    image?: PrimitiveOverrideProps<TextFieldProps>;
-    createDateTime?: PrimitiveOverrideProps<TextFieldProps>;
+    note_title?: PrimitiveOverrideProps<TextFieldProps>;
+    note_content?: PrimitiveOverrideProps<TextFieldProps>;
+    note_create_date?: PrimitiveOverrideProps<TextFieldProps>;
+    appcaseID?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type CaseNoteUpdateFormProps = React.PropsWithChildren<{
     overrides?: CaseNoteUpdateFormOverridesProps | undefined | null;

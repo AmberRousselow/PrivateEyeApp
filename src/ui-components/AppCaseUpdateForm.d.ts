@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { AutocompleteProps, GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -27,6 +27,9 @@ export declare type AppCaseUpdateFormInputValues = {
     case_created_date?: string;
     case_offense?: string;
     case_offense_category?: string;
+    Evidences?: any[];
+    CaseNotes?: any[];
+    CaseSuspects?: any[];
 };
 export declare type AppCaseUpdateFormValidationValues = {
     case_title?: ValidationFunction<string>;
@@ -34,6 +37,9 @@ export declare type AppCaseUpdateFormValidationValues = {
     case_created_date?: ValidationFunction<string>;
     case_offense?: ValidationFunction<string>;
     case_offense_category?: ValidationFunction<string>;
+    Evidences?: ValidationFunction<any>;
+    CaseNotes?: ValidationFunction<any>;
+    CaseSuspects?: ValidationFunction<any>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AppCaseUpdateFormOverridesProps = {
@@ -43,6 +49,9 @@ export declare type AppCaseUpdateFormOverridesProps = {
     case_created_date?: PrimitiveOverrideProps<TextFieldProps>;
     case_offense?: PrimitiveOverrideProps<SelectFieldProps>;
     case_offense_category?: PrimitiveOverrideProps<SelectFieldProps>;
+    Evidences?: PrimitiveOverrideProps<AutocompleteProps>;
+    CaseNotes?: PrimitiveOverrideProps<AutocompleteProps>;
+    CaseSuspects?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type AppCaseUpdateFormProps = React.PropsWithChildren<{
     overrides?: AppCaseUpdateFormOverridesProps | undefined | null;

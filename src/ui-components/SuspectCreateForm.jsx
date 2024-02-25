@@ -7,16 +7,179 @@
 /* eslint-disable */
 import * as React from "react";
 import {
+  Autocomplete,
+  Badge,
   Button,
+  Divider,
   Flex,
   Grid,
+  Icon,
+  ScrollView,
   SelectField,
+  Text,
   TextField,
+  useTheme,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createSuspect } from "../graphql/mutations";
+import { listCaseSuspects } from "../graphql/queries";
+import { createSuspect, updateCaseSuspects } from "../graphql/mutations";
 const client = generateClient();
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+  runValidationTasks,
+  errorMessage,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    const { hasError } = runValidationTasks();
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button size="small" variation="link" onClick={addItem}>
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function SuspectCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -53,6 +216,7 @@ export default function SuspectCreateForm(props) {
     suspect_known_associates: "",
     suspect_background_information: "",
     suspect_created_date: "",
+    CaseSuspects: [],
   };
   const [suspect_name, setSuspect_name] = React.useState(
     initialValues.suspect_name
@@ -124,6 +288,12 @@ export default function SuspectCreateForm(props) {
   const [suspect_created_date, setSuspect_created_date] = React.useState(
     initialValues.suspect_created_date
   );
+  const [CaseSuspects, setCaseSuspects] = React.useState(
+    initialValues.CaseSuspects
+  );
+  const [CaseSuspectsLoading, setCaseSuspectsLoading] = React.useState(false);
+  const [caseSuspectsRecords, setCaseSuspectsRecords] = React.useState([]);
+  const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setSuspect_name(initialValues.suspect_name);
@@ -152,7 +322,26 @@ export default function SuspectCreateForm(props) {
       initialValues.suspect_background_information
     );
     setSuspect_created_date(initialValues.suspect_created_date);
+    setCaseSuspects(initialValues.CaseSuspects);
+    setCurrentCaseSuspectsValue(undefined);
+    setCurrentCaseSuspectsDisplayValue("");
     setErrors({});
+  };
+  const [currentCaseSuspectsDisplayValue, setCurrentCaseSuspectsDisplayValue] =
+    React.useState("");
+  const [currentCaseSuspectsValue, setCurrentCaseSuspectsValue] =
+    React.useState(undefined);
+  const CaseSuspectsRef = React.createRef();
+  const getIDValue = {
+    CaseSuspects: (r) => JSON.stringify({ id: r?.id }),
+  };
+  const CaseSuspectsIdSet = new Set(
+    Array.isArray(CaseSuspects)
+      ? CaseSuspects.map((r) => getIDValue.CaseSuspects?.(r))
+      : getIDValue.CaseSuspects?.(CaseSuspects)
+  );
+  const getDisplayValue = {
+    CaseSuspects: (r) => r?.id,
   };
   const validations = {
     suspect_name: [],
@@ -179,6 +368,7 @@ export default function SuspectCreateForm(props) {
     suspect_known_associates: [],
     suspect_background_information: [],
     suspect_created_date: [],
+    CaseSuspects: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -197,6 +387,36 @@ export default function SuspectCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  const fetchCaseSuspectsRecords = async (value) => {
+    setCaseSuspectsLoading(true);
+    const newOptions = [];
+    let newNext = "";
+    while (newOptions.length < autocompleteLength && newNext != null) {
+      const variables = {
+        limit: autocompleteLength * 5,
+        filter: { or: [{ id: { contains: value } }] },
+      };
+      if (newNext) {
+        variables["nextToken"] = newNext;
+      }
+      const result = (
+        await client.graphql({
+          query: listCaseSuspects.replaceAll("__typename", ""),
+          variables,
+        })
+      )?.data?.listCaseSuspects?.items;
+      var loaded = result.filter(
+        (item) => !CaseSuspectsIdSet.has(getIDValue.CaseSuspects?.(item))
+      );
+      newOptions.push(...loaded);
+      newNext = result.nextToken;
+    }
+    setCaseSuspectsRecords(newOptions.slice(0, autocompleteLength));
+    setCaseSuspectsLoading(false);
+  };
+  React.useEffect(() => {
+    fetchCaseSuspectsRecords("");
+  }, []);
   return (
     <Grid
       as="form"
@@ -230,19 +450,28 @@ export default function SuspectCreateForm(props) {
           suspect_known_associates,
           suspect_background_information,
           suspect_created_date,
+          CaseSuspects,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
               promises.push(
                 ...modelFields[fieldName].map((item) =>
-                  runValidationTasks(fieldName, item)
+                  runValidationTasks(
+                    fieldName,
+                    item,
+                    getDisplayValue[fieldName]
+                  )
                 )
               );
               return promises;
             }
             promises.push(
-              runValidationTasks(fieldName, modelFields[fieldName])
+              runValidationTasks(
+                fieldName,
+                modelFields[fieldName],
+                getDisplayValue[fieldName]
+              )
             );
             return promises;
           }, [])
@@ -259,14 +488,61 @@ export default function SuspectCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await client.graphql({
-            query: createSuspect.replaceAll("__typename", ""),
-            variables: {
-              input: {
-                ...modelFields,
+          const modelFieldsToSave = {
+            suspect_name: modelFields.suspect_name,
+            suspect_date_of_birth: modelFields.suspect_date_of_birth,
+            suspect_gender: modelFields.suspect_gender,
+            suspect_nationality: modelFields.suspect_nationality,
+            suspect_address: modelFields.suspect_address,
+            suspect_occupation: modelFields.suspect_occupation,
+            suspect_employer: modelFields.suspect_employer,
+            suspect_education: modelFields.suspect_education,
+            suspect_phone: modelFields.suspect_phone,
+            suspect_email: modelFields.suspect_email,
+            suspect_facebook: modelFields.suspect_facebook,
+            suspect_twitter: modelFields.suspect_twitter,
+            suspect_instagram: modelFields.suspect_instagram,
+            suspect_linkedIn: modelFields.suspect_linkedIn,
+            suspect_ticktock: modelFields.suspect_ticktock,
+            suspect_height_inches: modelFields.suspect_height_inches,
+            suspect_eyecolor: modelFields.suspect_eyecolor,
+            suspect_tattoos: modelFields.suspect_tattoos,
+            suspect_scars: modelFields.suspect_scars,
+            suspect_criminal_record: modelFields.suspect_criminal_record,
+            suspect_legal_status: modelFields.suspect_legal_status,
+            suspect_known_associates: modelFields.suspect_known_associates,
+            suspect_background_information:
+              modelFields.suspect_background_information,
+            suspect_created_date: modelFields.suspect_created_date,
+          };
+          const suspect = (
+            await client.graphql({
+              query: createSuspect.replaceAll("__typename", ""),
+              variables: {
+                input: {
+                  ...modelFieldsToSave,
+                },
               },
-            },
-          });
+            })
+          )?.data?.createSuspect;
+          const promises = [];
+          promises.push(
+            ...CaseSuspects.reduce((promises, original) => {
+              promises.push(
+                client.graphql({
+                  query: updateCaseSuspects.replaceAll("__typename", ""),
+                  variables: {
+                    input: {
+                      id: original.id,
+                      suspectID: suspect.id,
+                    },
+                  },
+                })
+              );
+              return promises;
+            }, [])
+          );
+          await Promise.all(promises);
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -316,6 +592,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_name ?? value;
@@ -364,6 +641,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_date_of_birth ?? value;
@@ -413,6 +691,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_gender ?? value;
@@ -476,6 +755,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_nationality ?? value;
@@ -525,6 +805,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_address ?? value;
@@ -572,6 +853,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_occupation ?? value;
@@ -621,6 +903,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_employer ?? value;
@@ -668,6 +951,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_education ?? value;
@@ -718,6 +1002,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_phone ?? value;
@@ -765,6 +1050,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_email ?? value;
@@ -812,6 +1098,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_facebook ?? value;
@@ -859,6 +1146,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_twitter ?? value;
@@ -906,6 +1194,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_instagram ?? value;
@@ -955,6 +1244,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_linkedIn ?? value;
@@ -1002,6 +1292,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_ticktock ?? value;
@@ -1053,6 +1344,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_height_inches ?? value;
@@ -1102,6 +1394,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_eyecolor ?? value;
@@ -1149,6 +1442,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_tattoos ?? value;
@@ -1196,6 +1490,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_scars ?? value;
@@ -1243,6 +1538,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_criminal_record ?? value;
@@ -1292,6 +1588,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_legal_status ?? value;
@@ -1341,6 +1638,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates: value,
               suspect_background_information,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_known_associates ?? value;
@@ -1393,6 +1691,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information: value,
               suspect_created_date,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_background_information ?? value;
@@ -1446,6 +1745,7 @@ export default function SuspectCreateForm(props) {
               suspect_known_associates,
               suspect_background_information,
               suspect_created_date: value,
+              CaseSuspects,
             };
             const result = onChange(modelFields);
             value = result?.suspect_created_date ?? value;
@@ -1462,6 +1762,108 @@ export default function SuspectCreateForm(props) {
         hasError={errors.suspect_created_date?.hasError}
         {...getOverrideProps(overrides, "suspect_created_date")}
       ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              suspect_name,
+              suspect_date_of_birth,
+              suspect_gender,
+              suspect_nationality,
+              suspect_address,
+              suspect_occupation,
+              suspect_employer,
+              suspect_education,
+              suspect_phone,
+              suspect_email,
+              suspect_facebook,
+              suspect_twitter,
+              suspect_instagram,
+              suspect_linkedIn,
+              suspect_ticktock,
+              suspect_height_inches,
+              suspect_eyecolor,
+              suspect_tattoos,
+              suspect_scars,
+              suspect_criminal_record,
+              suspect_legal_status,
+              suspect_known_associates,
+              suspect_background_information,
+              suspect_created_date,
+              CaseSuspects: values,
+            };
+            const result = onChange(modelFields);
+            values = result?.CaseSuspects ?? values;
+          }
+          setCaseSuspects(values);
+          setCurrentCaseSuspectsValue(undefined);
+          setCurrentCaseSuspectsDisplayValue("");
+        }}
+        currentFieldValue={currentCaseSuspectsValue}
+        label={"Case suspects"}
+        items={CaseSuspects}
+        hasError={errors?.CaseSuspects?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("CaseSuspects", currentCaseSuspectsValue)
+        }
+        errorMessage={errors?.CaseSuspects?.errorMessage}
+        getBadgeText={getDisplayValue.CaseSuspects}
+        setFieldValue={(model) => {
+          setCurrentCaseSuspectsDisplayValue(
+            model ? getDisplayValue.CaseSuspects(model) : ""
+          );
+          setCurrentCaseSuspectsValue(model);
+        }}
+        inputFieldRef={CaseSuspectsRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Case suspects"
+          isRequired={false}
+          isReadOnly={false}
+          placeholder="Search CaseSuspects"
+          value={currentCaseSuspectsDisplayValue}
+          options={caseSuspectsRecords
+            .filter((r) => !CaseSuspectsIdSet.has(getIDValue.CaseSuspects?.(r)))
+            .map((r) => ({
+              id: getIDValue.CaseSuspects?.(r),
+              label: getDisplayValue.CaseSuspects?.(r),
+            }))}
+          isLoading={CaseSuspectsLoading}
+          onSelect={({ id, label }) => {
+            setCurrentCaseSuspectsValue(
+              caseSuspectsRecords.find((r) =>
+                Object.entries(JSON.parse(id)).every(
+                  ([key, value]) => r[key] === value
+                )
+              )
+            );
+            setCurrentCaseSuspectsDisplayValue(label);
+            runValidationTasks("CaseSuspects", label);
+          }}
+          onClear={() => {
+            setCurrentCaseSuspectsDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            fetchCaseSuspectsRecords(value);
+            if (errors.CaseSuspects?.hasError) {
+              runValidationTasks("CaseSuspects", value);
+            }
+            setCurrentCaseSuspectsDisplayValue(value);
+            setCurrentCaseSuspectsValue(undefined);
+          }}
+          onBlur={() =>
+            runValidationTasks("CaseSuspects", currentCaseSuspectsDisplayValue)
+          }
+          errorMessage={errors.CaseSuspects?.errorMessage}
+          hasError={errors.CaseSuspects?.hasError}
+          ref={CaseSuspectsRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "CaseSuspects")}
+        ></Autocomplete>
+      </ArrayField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -15,15 +15,13 @@ import {
   Grid,
   Icon,
   ScrollView,
-  SelectField,
   Text,
-  TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getAppCase, getEvidence, listAppCases } from "../graphql/queries";
-import { updateEvidence } from "../graphql/mutations";
+import { listAppCases, listSuspects } from "../graphql/queries";
+import { createCaseSuspects } from "../graphql/mutations";
 const client = generateClient();
 function ArrayField({
   items = [],
@@ -180,10 +178,9 @@ function ArrayField({
     </React.Fragment>
   );
 }
-export default function EvidenceUpdateForm(props) {
+export default function CaseSuspectsCreateForm(props) {
   const {
-    id: idProp,
-    evidence: evidenceModelProp,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -193,85 +190,48 @@ export default function EvidenceUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    evidence_type: "",
-    evidence_description: "",
-    evidence_url: "",
-    evidence_created_date: "",
     appcaseID: undefined,
+    suspectID: undefined,
   };
-  const [evidence_type, setEvidence_type] = React.useState(
-    initialValues.evidence_type
-  );
-  const [evidence_description, setEvidence_description] = React.useState(
-    initialValues.evidence_description
-  );
-  const [evidence_url, setEvidence_url] = React.useState(
-    initialValues.evidence_url
-  );
-  const [evidence_created_date, setEvidence_created_date] = React.useState(
-    initialValues.evidence_created_date
-  );
   const [appcaseID, setAppcaseID] = React.useState(initialValues.appcaseID);
   const [appcaseIDLoading, setAppcaseIDLoading] = React.useState(false);
   const [appcaseIDRecords, setAppcaseIDRecords] = React.useState([]);
   const [selectedAppcaseIDRecords, setSelectedAppcaseIDRecords] =
     React.useState([]);
+  const [suspectID, setSuspectID] = React.useState(initialValues.suspectID);
+  const [suspectIDLoading, setSuspectIDLoading] = React.useState(false);
+  const [suspectIDRecords, setSuspectIDRecords] = React.useState([]);
+  const [selectedSuspectIDRecords, setSelectedSuspectIDRecords] =
+    React.useState([]);
   const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = evidenceRecord
-      ? { ...initialValues, ...evidenceRecord, appcaseID }
-      : initialValues;
-    setEvidence_type(cleanValues.evidence_type);
-    setEvidence_description(cleanValues.evidence_description);
-    setEvidence_url(cleanValues.evidence_url);
-    setEvidence_created_date(cleanValues.evidence_created_date);
-    setAppcaseID(cleanValues.appcaseID);
+    setAppcaseID(initialValues.appcaseID);
     setCurrentAppcaseIDValue(undefined);
     setCurrentAppcaseIDDisplayValue("");
+    setSuspectID(initialValues.suspectID);
+    setCurrentSuspectIDValue(undefined);
+    setCurrentSuspectIDDisplayValue("");
     setErrors({});
   };
-  const [evidenceRecord, setEvidenceRecord] = React.useState(evidenceModelProp);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? (
-            await client.graphql({
-              query: getEvidence.replaceAll("__typename", ""),
-              variables: { id: idProp },
-            })
-          )?.data?.getEvidence
-        : evidenceModelProp;
-      const appcaseIDRecord = record ? record.appcaseID : undefined;
-      const appCaseRecord = appcaseIDRecord
-        ? (
-            await client.graphql({
-              query: getAppCase.replaceAll("__typename", ""),
-              variables: { id: appcaseIDRecord },
-            })
-          )?.data?.getAppCase
-        : undefined;
-      setAppcaseID(appcaseIDRecord);
-      setSelectedAppcaseIDRecords([appCaseRecord]);
-      setEvidenceRecord(record);
-    };
-    queryData();
-  }, [idProp, evidenceModelProp]);
-  React.useEffect(resetStateValues, [evidenceRecord, appcaseID]);
   const [currentAppcaseIDDisplayValue, setCurrentAppcaseIDDisplayValue] =
     React.useState("");
   const [currentAppcaseIDValue, setCurrentAppcaseIDValue] =
     React.useState(undefined);
   const appcaseIDRef = React.createRef();
+  const [currentSuspectIDDisplayValue, setCurrentSuspectIDDisplayValue] =
+    React.useState("");
+  const [currentSuspectIDValue, setCurrentSuspectIDValue] =
+    React.useState(undefined);
+  const suspectIDRef = React.createRef();
   const getDisplayValue = {
     appcaseID: (r) => `${r?.case_title ? r?.case_title + " - " : ""}${r?.id}`,
+    suspectID: (r) =>
+      `${r?.suspect_name ? r?.suspect_name + " - " : ""}${r?.id}`,
   };
   const validations = {
-    evidence_type: [{ type: "Required" }],
-    evidence_description: [],
-    evidence_url: [],
-    evidence_created_date: [],
     appcaseID: [{ type: "Required" }],
+    suspectID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -320,8 +280,39 @@ export default function EvidenceUpdateForm(props) {
     setAppcaseIDRecords(newOptions.slice(0, autocompleteLength));
     setAppcaseIDLoading(false);
   };
+  const fetchSuspectIDRecords = async (value) => {
+    setSuspectIDLoading(true);
+    const newOptions = [];
+    let newNext = "";
+    while (newOptions.length < autocompleteLength && newNext != null) {
+      const variables = {
+        limit: autocompleteLength * 5,
+        filter: {
+          or: [
+            { suspect_name: { contains: value } },
+            { id: { contains: value } },
+          ],
+        },
+      };
+      if (newNext) {
+        variables["nextToken"] = newNext;
+      }
+      const result = (
+        await client.graphql({
+          query: listSuspects.replaceAll("__typename", ""),
+          variables,
+        })
+      )?.data?.listSuspects?.items;
+      var loaded = result.filter((item) => suspectID !== item.id);
+      newOptions.push(...loaded);
+      newNext = result.nextToken;
+    }
+    setSuspectIDRecords(newOptions.slice(0, autocompleteLength));
+    setSuspectIDLoading(false);
+  };
   React.useEffect(() => {
     fetchAppcaseIDRecords("");
+    fetchSuspectIDRecords("");
   }, []);
   return (
     <Grid
@@ -332,11 +323,8 @@ export default function EvidenceUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          evidence_type,
-          evidence_description: evidence_description ?? null,
-          evidence_url: evidence_url ?? null,
-          evidence_created_date: evidence_created_date ?? null,
           appcaseID,
+          suspectID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -367,16 +355,18 @@ export default function EvidenceUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateEvidence.replaceAll("__typename", ""),
+            query: createCaseSuspects.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: evidenceRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -385,168 +375,17 @@ export default function EvidenceUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "EvidenceUpdateForm")}
+      {...getOverrideProps(overrides, "CaseSuspectsCreateForm")}
       {...rest}
     >
-      <SelectField
-        label="Evidence type"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={evidence_type}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              evidence_type: value,
-              evidence_description,
-              evidence_url,
-              evidence_created_date,
-              appcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.evidence_type ?? value;
-          }
-          if (errors.evidence_type?.hasError) {
-            runValidationTasks("evidence_type", value);
-          }
-          setEvidence_type(value);
-        }}
-        onBlur={() => runValidationTasks("evidence_type", evidence_type)}
-        errorMessage={errors.evidence_type?.errorMessage}
-        hasError={errors.evidence_type?.hasError}
-        {...getOverrideProps(overrides, "evidence_type")}
-      >
-        <option
-          children="Document"
-          value="DOCUMENT"
-          {...getOverrideProps(overrides, "evidence_typeoption0")}
-        ></option>
-        <option
-          children="Photo"
-          value="PHOTO"
-          {...getOverrideProps(overrides, "evidence_typeoption1")}
-        ></option>
-        <option
-          children="Physical"
-          value="PHYSICAL"
-          {...getOverrideProps(overrides, "evidence_typeoption2")}
-        ></option>
-        <option
-          children="Video"
-          value="VIDEO"
-          {...getOverrideProps(overrides, "evidence_typeoption3")}
-        ></option>
-        <option
-          children="Website"
-          value="WEBSITE"
-          {...getOverrideProps(overrides, "evidence_typeoption4")}
-        ></option>
-        <option
-          children="Other"
-          value="OTHER"
-          {...getOverrideProps(overrides, "evidence_typeoption5")}
-        ></option>
-      </SelectField>
-      <TextField
-        label="Evidence description"
-        isRequired={false}
-        isReadOnly={false}
-        value={evidence_description}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              evidence_type,
-              evidence_description: value,
-              evidence_url,
-              evidence_created_date,
-              appcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.evidence_description ?? value;
-          }
-          if (errors.evidence_description?.hasError) {
-            runValidationTasks("evidence_description", value);
-          }
-          setEvidence_description(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("evidence_description", evidence_description)
-        }
-        errorMessage={errors.evidence_description?.errorMessage}
-        hasError={errors.evidence_description?.hasError}
-        {...getOverrideProps(overrides, "evidence_description")}
-      ></TextField>
-      <TextField
-        label="Evidence url"
-        isRequired={false}
-        isReadOnly={false}
-        value={evidence_url}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              evidence_type,
-              evidence_description,
-              evidence_url: value,
-              evidence_created_date,
-              appcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.evidence_url ?? value;
-          }
-          if (errors.evidence_url?.hasError) {
-            runValidationTasks("evidence_url", value);
-          }
-          setEvidence_url(value);
-        }}
-        onBlur={() => runValidationTasks("evidence_url", evidence_url)}
-        errorMessage={errors.evidence_url?.errorMessage}
-        hasError={errors.evidence_url?.hasError}
-        {...getOverrideProps(overrides, "evidence_url")}
-      ></TextField>
-      <TextField
-        label="Evidence created date"
-        isRequired={false}
-        isReadOnly={false}
-        type="date"
-        value={evidence_created_date}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              evidence_type,
-              evidence_description,
-              evidence_url,
-              evidence_created_date: value,
-              appcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.evidence_created_date ?? value;
-          }
-          if (errors.evidence_created_date?.hasError) {
-            runValidationTasks("evidence_created_date", value);
-          }
-          setEvidence_created_date(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("evidence_created_date", evidence_created_date)
-        }
-        errorMessage={errors.evidence_created_date?.errorMessage}
-        hasError={errors.evidence_created_date?.hasError}
-        {...getOverrideProps(overrides, "evidence_created_date")}
-      ></TextField>
       <ArrayField
         lengthLimit={1}
         onChange={async (items) => {
           let value = items[0];
           if (onChange) {
             const modelFields = {
-              evidence_type,
-              evidence_description,
-              evidence_url,
-              evidence_created_date,
               appcaseID: value,
+              suspectID,
             };
             const result = onChange(modelFields);
             value = result?.appcaseID ?? value;
@@ -612,7 +451,6 @@ export default function EvidenceUpdateForm(props) {
           onClear={() => {
             setCurrentAppcaseIDDisplayValue("");
           }}
-          defaultValue={appcaseID}
           onChange={(e) => {
             let { value } = e.target;
             fetchAppcaseIDRecords(value);
@@ -630,19 +468,108 @@ export default function EvidenceUpdateForm(props) {
           {...getOverrideProps(overrides, "appcaseID")}
         ></Autocomplete>
       </ArrayField>
+      <ArrayField
+        lengthLimit={1}
+        onChange={async (items) => {
+          let value = items[0];
+          if (onChange) {
+            const modelFields = {
+              appcaseID,
+              suspectID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.suspectID ?? value;
+          }
+          setSuspectID(value);
+          setCurrentSuspectIDValue(undefined);
+        }}
+        currentFieldValue={currentSuspectIDValue}
+        label={"Suspect id"}
+        items={suspectID ? [suspectID] : []}
+        hasError={errors?.suspectID?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("suspectID", currentSuspectIDValue)
+        }
+        errorMessage={errors?.suspectID?.errorMessage}
+        getBadgeText={(value) =>
+          value
+            ? getDisplayValue.suspectID(
+                suspectIDRecords.find((r) => r.id === value) ??
+                  selectedSuspectIDRecords.find((r) => r.id === value)
+              )
+            : ""
+        }
+        setFieldValue={(value) => {
+          setCurrentSuspectIDDisplayValue(
+            value
+              ? getDisplayValue.suspectID(
+                  suspectIDRecords.find((r) => r.id === value) ??
+                    selectedSuspectIDRecords.find((r) => r.id === value)
+                )
+              : ""
+          );
+          setCurrentSuspectIDValue(value);
+          const selectedRecord = suspectIDRecords.find((r) => r.id === value);
+          if (selectedRecord) {
+            setSelectedSuspectIDRecords([selectedRecord]);
+          }
+        }}
+        inputFieldRef={suspectIDRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Suspect id"
+          isRequired={true}
+          isReadOnly={false}
+          placeholder="Search Suspect"
+          value={currentSuspectIDDisplayValue}
+          options={suspectIDRecords
+            .filter(
+              (r, i, arr) =>
+                arr.findIndex((member) => member?.id === r?.id) === i
+            )
+            .map((r) => ({
+              id: r?.id,
+              label: getDisplayValue.suspectID?.(r),
+            }))}
+          isLoading={suspectIDLoading}
+          onSelect={({ id, label }) => {
+            setCurrentSuspectIDValue(id);
+            setCurrentSuspectIDDisplayValue(label);
+            runValidationTasks("suspectID", label);
+          }}
+          onClear={() => {
+            setCurrentSuspectIDDisplayValue("");
+          }}
+          onChange={(e) => {
+            let { value } = e.target;
+            fetchSuspectIDRecords(value);
+            if (errors.suspectID?.hasError) {
+              runValidationTasks("suspectID", value);
+            }
+            setCurrentSuspectIDDisplayValue(value);
+            setCurrentSuspectIDValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("suspectID", currentSuspectIDValue)}
+          errorMessage={errors.suspectID?.errorMessage}
+          hasError={errors.suspectID?.hasError}
+          ref={suspectIDRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "suspectID")}
+        ></Autocomplete>
+      </ArrayField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || evidenceModelProp)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -652,10 +579,7 @@ export default function EvidenceUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || evidenceModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

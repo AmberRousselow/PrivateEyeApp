@@ -6,12 +6,179 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Autocomplete,
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Icon,
+  ScrollView,
+  Text,
+  TextField,
+  useTheme,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getCaseNote } from "../graphql/queries";
+import { getAppCase, getCaseNote, listAppCases } from "../graphql/queries";
 import { updateCaseNote } from "../graphql/mutations";
 const client = generateClient();
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+  runValidationTasks,
+  errorMessage,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    const { hasError } = runValidationTasks();
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button size="small" variation="link" onClick={addItem}>
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function CaseNoteUpdateForm(props) {
   const {
     id: idProp,
@@ -25,26 +192,35 @@ export default function CaseNoteUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    tite: "",
-    content: "",
-    image: "",
-    createDateTime: "",
+    note_title: "",
+    note_content: "",
+    note_create_date: "",
+    appcaseID: undefined,
   };
-  const [tite, setTite] = React.useState(initialValues.tite);
-  const [content, setContent] = React.useState(initialValues.content);
-  const [image, setImage] = React.useState(initialValues.image);
-  const [createDateTime, setCreateDateTime] = React.useState(
-    initialValues.createDateTime
+  const [note_title, setNote_title] = React.useState(initialValues.note_title);
+  const [note_content, setNote_content] = React.useState(
+    initialValues.note_content
   );
+  const [note_create_date, setNote_create_date] = React.useState(
+    initialValues.note_create_date
+  );
+  const [appcaseID, setAppcaseID] = React.useState(initialValues.appcaseID);
+  const [appcaseIDLoading, setAppcaseIDLoading] = React.useState(false);
+  const [appcaseIDRecords, setAppcaseIDRecords] = React.useState([]);
+  const [selectedAppcaseIDRecords, setSelectedAppcaseIDRecords] =
+    React.useState([]);
+  const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = caseNoteRecord
-      ? { ...initialValues, ...caseNoteRecord }
+      ? { ...initialValues, ...caseNoteRecord, appcaseID }
       : initialValues;
-    setTite(cleanValues.tite);
-    setContent(cleanValues.content);
-    setImage(cleanValues.image);
-    setCreateDateTime(cleanValues.createDateTime);
+    setNote_title(cleanValues.note_title);
+    setNote_content(cleanValues.note_content);
+    setNote_create_date(cleanValues.note_create_date);
+    setAppcaseID(cleanValues.appcaseID);
+    setCurrentAppcaseIDValue(undefined);
+    setCurrentAppcaseIDDisplayValue("");
     setErrors({});
   };
   const [caseNoteRecord, setCaseNoteRecord] = React.useState(caseNoteModelProp);
@@ -58,16 +234,35 @@ export default function CaseNoteUpdateForm(props) {
             })
           )?.data?.getCaseNote
         : caseNoteModelProp;
+      const appcaseIDRecord = record ? record.appcaseID : undefined;
+      const appCaseRecord = appcaseIDRecord
+        ? (
+            await client.graphql({
+              query: getAppCase.replaceAll("__typename", ""),
+              variables: { id: appcaseIDRecord },
+            })
+          )?.data?.getAppCase
+        : undefined;
+      setAppcaseID(appcaseIDRecord);
+      setSelectedAppcaseIDRecords([appCaseRecord]);
       setCaseNoteRecord(record);
     };
     queryData();
   }, [idProp, caseNoteModelProp]);
-  React.useEffect(resetStateValues, [caseNoteRecord]);
+  React.useEffect(resetStateValues, [caseNoteRecord, appcaseID]);
+  const [currentAppcaseIDDisplayValue, setCurrentAppcaseIDDisplayValue] =
+    React.useState("");
+  const [currentAppcaseIDValue, setCurrentAppcaseIDValue] =
+    React.useState(undefined);
+  const appcaseIDRef = React.createRef();
+  const getDisplayValue = {
+    appcaseID: (r) => `${r?.case_title ? r?.case_title + " - " : ""}${r?.id}`,
+  };
   const validations = {
-    tite: [{ type: "Required" }],
-    content: [],
-    image: [],
-    createDateTime: [],
+    note_title: [{ type: "Required" }],
+    note_content: [],
+    note_create_date: [],
+    appcaseID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -86,23 +281,39 @@ export default function CaseNoteUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+  const fetchAppcaseIDRecords = async (value) => {
+    setAppcaseIDLoading(true);
+    const newOptions = [];
+    let newNext = "";
+    while (newOptions.length < autocompleteLength && newNext != null) {
+      const variables = {
+        limit: autocompleteLength * 5,
+        filter: {
+          or: [
+            { case_title: { contains: value } },
+            { id: { contains: value } },
+          ],
+        },
+      };
+      if (newNext) {
+        variables["nextToken"] = newNext;
+      }
+      const result = (
+        await client.graphql({
+          query: listAppCases.replaceAll("__typename", ""),
+          variables,
+        })
+      )?.data?.listAppCases?.items;
+      var loaded = result.filter((item) => appcaseID !== item.id);
+      newOptions.push(...loaded);
+      newNext = result.nextToken;
+    }
+    setAppcaseIDRecords(newOptions.slice(0, autocompleteLength));
+    setAppcaseIDLoading(false);
   };
+  React.useEffect(() => {
+    fetchAppcaseIDRecords("");
+  }, []);
   return (
     <Grid
       as="form"
@@ -112,10 +323,10 @@ export default function CaseNoteUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          tite,
-          content: content ?? null,
-          image: image ?? null,
-          createDateTime: createDateTime ?? null,
+          note_title,
+          note_content: note_content ?? null,
+          note_create_date: note_create_date ?? null,
+          appcaseID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -168,115 +379,180 @@ export default function CaseNoteUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Tite"
+        label="Note title"
         isRequired={true}
         isReadOnly={false}
-        value={tite}
+        value={note_title}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              tite: value,
-              content,
-              image,
-              createDateTime,
+              note_title: value,
+              note_content,
+              note_create_date,
+              appcaseID,
             };
             const result = onChange(modelFields);
-            value = result?.tite ?? value;
+            value = result?.note_title ?? value;
           }
-          if (errors.tite?.hasError) {
-            runValidationTasks("tite", value);
+          if (errors.note_title?.hasError) {
+            runValidationTasks("note_title", value);
           }
-          setTite(value);
+          setNote_title(value);
         }}
-        onBlur={() => runValidationTasks("tite", tite)}
-        errorMessage={errors.tite?.errorMessage}
-        hasError={errors.tite?.hasError}
-        {...getOverrideProps(overrides, "tite")}
+        onBlur={() => runValidationTasks("note_title", note_title)}
+        errorMessage={errors.note_title?.errorMessage}
+        hasError={errors.note_title?.hasError}
+        {...getOverrideProps(overrides, "note_title")}
       ></TextField>
       <TextField
-        label="Content"
+        label="Note content"
         isRequired={false}
         isReadOnly={false}
-        value={content}
+        value={note_content}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              tite,
-              content: value,
-              image,
-              createDateTime,
+              note_title,
+              note_content: value,
+              note_create_date,
+              appcaseID,
             };
             const result = onChange(modelFields);
-            value = result?.content ?? value;
+            value = result?.note_content ?? value;
           }
-          if (errors.content?.hasError) {
-            runValidationTasks("content", value);
+          if (errors.note_content?.hasError) {
+            runValidationTasks("note_content", value);
           }
-          setContent(value);
+          setNote_content(value);
         }}
-        onBlur={() => runValidationTasks("content", content)}
-        errorMessage={errors.content?.errorMessage}
-        hasError={errors.content?.hasError}
-        {...getOverrideProps(overrides, "content")}
+        onBlur={() => runValidationTasks("note_content", note_content)}
+        errorMessage={errors.note_content?.errorMessage}
+        hasError={errors.note_content?.hasError}
+        {...getOverrideProps(overrides, "note_content")}
       ></TextField>
       <TextField
-        label="Image"
+        label="Note create date"
         isRequired={false}
         isReadOnly={false}
-        value={image}
+        type="date"
+        value={note_create_date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              tite,
-              content,
-              image: value,
-              createDateTime,
+              note_title,
+              note_content,
+              note_create_date: value,
+              appcaseID,
             };
             const result = onChange(modelFields);
-            value = result?.image ?? value;
+            value = result?.note_create_date ?? value;
           }
-          if (errors.image?.hasError) {
-            runValidationTasks("image", value);
+          if (errors.note_create_date?.hasError) {
+            runValidationTasks("note_create_date", value);
           }
-          setImage(value);
+          setNote_create_date(value);
         }}
-        onBlur={() => runValidationTasks("image", image)}
-        errorMessage={errors.image?.errorMessage}
-        hasError={errors.image?.hasError}
-        {...getOverrideProps(overrides, "image")}
+        onBlur={() => runValidationTasks("note_create_date", note_create_date)}
+        errorMessage={errors.note_create_date?.errorMessage}
+        hasError={errors.note_create_date?.hasError}
+        {...getOverrideProps(overrides, "note_create_date")}
       ></TextField>
-      <TextField
-        label="Create date time"
-        isRequired={false}
-        isReadOnly={false}
-        type="datetime-local"
-        value={createDateTime && convertToLocal(new Date(createDateTime))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+      <ArrayField
+        lengthLimit={1}
+        onChange={async (items) => {
+          let value = items[0];
           if (onChange) {
             const modelFields = {
-              tite,
-              content,
-              image,
-              createDateTime: value,
+              note_title,
+              note_content,
+              note_create_date,
+              appcaseID: value,
             };
             const result = onChange(modelFields);
-            value = result?.createDateTime ?? value;
+            value = result?.appcaseID ?? value;
           }
-          if (errors.createDateTime?.hasError) {
-            runValidationTasks("createDateTime", value);
-          }
-          setCreateDateTime(value);
+          setAppcaseID(value);
+          setCurrentAppcaseIDValue(undefined);
         }}
-        onBlur={() => runValidationTasks("createDateTime", createDateTime)}
-        errorMessage={errors.createDateTime?.errorMessage}
-        hasError={errors.createDateTime?.hasError}
-        {...getOverrideProps(overrides, "createDateTime")}
-      ></TextField>
+        currentFieldValue={currentAppcaseIDValue}
+        label={"Appcase id"}
+        items={appcaseID ? [appcaseID] : []}
+        hasError={errors?.appcaseID?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("appcaseID", currentAppcaseIDValue)
+        }
+        errorMessage={errors?.appcaseID?.errorMessage}
+        getBadgeText={(value) =>
+          value
+            ? getDisplayValue.appcaseID(
+                appcaseIDRecords.find((r) => r.id === value) ??
+                  selectedAppcaseIDRecords.find((r) => r.id === value)
+              )
+            : ""
+        }
+        setFieldValue={(value) => {
+          setCurrentAppcaseIDDisplayValue(
+            value
+              ? getDisplayValue.appcaseID(
+                  appcaseIDRecords.find((r) => r.id === value) ??
+                    selectedAppcaseIDRecords.find((r) => r.id === value)
+                )
+              : ""
+          );
+          setCurrentAppcaseIDValue(value);
+          const selectedRecord = appcaseIDRecords.find((r) => r.id === value);
+          if (selectedRecord) {
+            setSelectedAppcaseIDRecords([selectedRecord]);
+          }
+        }}
+        inputFieldRef={appcaseIDRef}
+        defaultFieldValue={""}
+      >
+        <Autocomplete
+          label="Appcase id"
+          isRequired={true}
+          isReadOnly={false}
+          placeholder="Search AppCase"
+          value={currentAppcaseIDDisplayValue}
+          options={appcaseIDRecords
+            .filter(
+              (r, i, arr) =>
+                arr.findIndex((member) => member?.id === r?.id) === i
+            )
+            .map((r) => ({
+              id: r?.id,
+              label: getDisplayValue.appcaseID?.(r),
+            }))}
+          isLoading={appcaseIDLoading}
+          onSelect={({ id, label }) => {
+            setCurrentAppcaseIDValue(id);
+            setCurrentAppcaseIDDisplayValue(label);
+            runValidationTasks("appcaseID", label);
+          }}
+          onClear={() => {
+            setCurrentAppcaseIDDisplayValue("");
+          }}
+          defaultValue={appcaseID}
+          onChange={(e) => {
+            let { value } = e.target;
+            fetchAppcaseIDRecords(value);
+            if (errors.appcaseID?.hasError) {
+              runValidationTasks("appcaseID", value);
+            }
+            setCurrentAppcaseIDDisplayValue(value);
+            setCurrentAppcaseIDValue(undefined);
+          }}
+          onBlur={() => runValidationTasks("appcaseID", currentAppcaseIDValue)}
+          errorMessage={errors.appcaseID?.errorMessage}
+          hasError={errors.appcaseID?.hasError}
+          ref={appcaseIDRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "appcaseID")}
+        ></Autocomplete>
+      </ArrayField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
