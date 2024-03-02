@@ -30,6 +30,8 @@ export declare type AppCaseCreateFormInputValues = {
     Evidences?: any[];
     CaseNotes?: any[];
     CaseSuspects?: any[];
+    case_status?: string;
+    case_number?: number;
 };
 export declare type AppCaseCreateFormValidationValues = {
     case_title?: ValidationFunction<string>;
@@ -40,6 +42,8 @@ export declare type AppCaseCreateFormValidationValues = {
     Evidences?: ValidationFunction<any>;
     CaseNotes?: ValidationFunction<any>;
     CaseSuspects?: ValidationFunction<any>;
+    case_status?: ValidationFunction<string>;
+    case_number?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AppCaseCreateFormOverridesProps = {
@@ -52,6 +56,8 @@ export declare type AppCaseCreateFormOverridesProps = {
     Evidences?: PrimitiveOverrideProps<AutocompleteProps>;
     CaseNotes?: PrimitiveOverrideProps<AutocompleteProps>;
     CaseSuspects?: PrimitiveOverrideProps<AutocompleteProps>;
+    case_status?: PrimitiveOverrideProps<SelectFieldProps>;
+    case_number?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AppCaseCreateFormProps = React.PropsWithChildren<{
     overrides?: AppCaseCreateFormOverridesProps | undefined | null;

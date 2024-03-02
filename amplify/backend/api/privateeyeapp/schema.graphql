@@ -1,3 +1,8 @@
+enum Status {
+  UNSOLVED
+  SOLVED
+}
+
 type CaseSuspects @model @auth(rules: [{allow: public}]) {
   id: ID!
   appcaseID: ID! @index(name: "byAppCase")
@@ -80,6 +85,8 @@ type AppCase @model @auth(rules: [{allow: public}]) {
   Evidences: [Evidence] @hasMany(indexName: "byAppCase", fields: ["id"])
   CaseNotes: [CaseNote] @hasMany(indexName: "byAppCase", fields: ["id"])
   CaseSuspects: [CaseSuspects] @hasMany(indexName: "byAppCase", fields: ["id"])
+  case_status: Status
+  case_number: Int
 }
 
 type CaseNote @model @auth(rules: [{allow: public}]) {

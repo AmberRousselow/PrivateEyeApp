@@ -99,7 +99,7 @@ export default function CaseCard(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="000001"
+              children={Case?.id}
               {...getOverrideProps(overrides, "000001")}
             ></Text>
             <Text
@@ -238,6 +238,7 @@ export default function CaseCard(props) {
           size="small"
           isDisabled={false}
           variation="primary"
+          key={Case?.id}
           children="Button"
           {...getOverrideProps(overrides, "CaseViewButton")}
         ></Button>

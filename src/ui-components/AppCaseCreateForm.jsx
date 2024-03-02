@@ -209,6 +209,8 @@ export default function AppCaseCreateForm(props) {
     Evidences: [],
     CaseNotes: [],
     CaseSuspects: [],
+    case_status: "",
+    case_number: "",
   };
   const [case_title, setCase_title] = React.useState(initialValues.case_title);
   const [case_description, setCase_description] = React.useState(
@@ -234,6 +236,12 @@ export default function AppCaseCreateForm(props) {
   );
   const [CaseSuspectsLoading, setCaseSuspectsLoading] = React.useState(false);
   const [caseSuspectsRecords, setCaseSuspectsRecords] = React.useState([]);
+  const [case_status, setCase_status] = React.useState(
+    initialValues.case_status
+  );
+  const [case_number, setCase_number] = React.useState(
+    initialValues.case_number
+  );
   const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -251,6 +259,8 @@ export default function AppCaseCreateForm(props) {
     setCaseSuspects(initialValues.CaseSuspects);
     setCurrentCaseSuspectsValue(undefined);
     setCurrentCaseSuspectsDisplayValue("");
+    setCase_status(initialValues.case_status);
+    setCase_number(initialValues.case_number);
     setErrors({});
   };
   const [currentEvidencesDisplayValue, setCurrentEvidencesDisplayValue] =
@@ -303,6 +313,8 @@ export default function AppCaseCreateForm(props) {
     Evidences: [],
     CaseNotes: [],
     CaseSuspects: [],
+    case_status: [],
+    case_number: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -434,6 +446,8 @@ export default function AppCaseCreateForm(props) {
           Evidences,
           CaseNotes,
           CaseSuspects,
+          case_status,
+          case_number,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -477,6 +491,8 @@ export default function AppCaseCreateForm(props) {
             case_created_date: modelFields.case_created_date,
             case_offense: modelFields.case_offense,
             case_offense_category: modelFields.case_offense_category,
+            case_status: modelFields.case_status,
+            case_number: modelFields.case_number,
           };
           const appCase = (
             await client.graphql({
@@ -571,6 +587,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             value = result?.case_title ?? value;
@@ -602,6 +620,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             value = result?.case_description ?? value;
@@ -634,6 +654,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             value = result?.case_created_date ?? value;
@@ -667,6 +689,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             value = result?.case_offense ?? value;
@@ -709,6 +733,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             value = result?.case_offense_category ?? value;
@@ -764,6 +790,8 @@ export default function AppCaseCreateForm(props) {
               Evidences: values,
               CaseNotes,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             values = result?.Evidences ?? values;
@@ -849,6 +877,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes: values,
               CaseSuspects,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             values = result?.CaseNotes ?? values;
@@ -934,6 +964,8 @@ export default function AppCaseCreateForm(props) {
               Evidences,
               CaseNotes,
               CaseSuspects: values,
+              case_status,
+              case_number,
             };
             const result = onChange(modelFields);
             values = result?.CaseSuspects ?? values;
@@ -1006,6 +1038,87 @@ export default function AppCaseCreateForm(props) {
           {...getOverrideProps(overrides, "CaseSuspects")}
         ></Autocomplete>
       </ArrayField>
+      <SelectField
+        label="Case status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={case_status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              case_title,
+              case_description,
+              case_created_date,
+              case_offense,
+              case_offense_category,
+              Evidences,
+              CaseNotes,
+              CaseSuspects,
+              case_status: value,
+              case_number,
+            };
+            const result = onChange(modelFields);
+            value = result?.case_status ?? value;
+          }
+          if (errors.case_status?.hasError) {
+            runValidationTasks("case_status", value);
+          }
+          setCase_status(value);
+        }}
+        onBlur={() => runValidationTasks("case_status", case_status)}
+        errorMessage={errors.case_status?.errorMessage}
+        hasError={errors.case_status?.hasError}
+        {...getOverrideProps(overrides, "case_status")}
+      >
+        <option
+          children="Unsolved"
+          value="UNSOLVED"
+          {...getOverrideProps(overrides, "case_statusoption0")}
+        ></option>
+        <option
+          children="Solved"
+          value="SOLVED"
+          {...getOverrideProps(overrides, "case_statusoption1")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Case number"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={case_number}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              case_title,
+              case_description,
+              case_created_date,
+              case_offense,
+              case_offense_category,
+              Evidences,
+              CaseNotes,
+              CaseSuspects,
+              case_status,
+              case_number: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.case_number ?? value;
+          }
+          if (errors.case_number?.hasError) {
+            runValidationTasks("case_number", value);
+          }
+          setCase_number(value);
+        }}
+        onBlur={() => runValidationTasks("case_number", case_number)}
+        errorMessage={errors.case_number?.errorMessage}
+        hasError={errors.case_number?.hasError}
+        {...getOverrideProps(overrides, "case_number")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
