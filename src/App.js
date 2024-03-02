@@ -4,12 +4,14 @@ import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import {
   AppCaseCreateForm,
-  EvidenceCreateForm, 
-  SuspectCreateForm, 
+  CaseCard,
+  EvidenceCreateForm,
+  SuspectCreateForm,
   MarketingFooter
 } from './ui-components';
 import {
   Button,
+  Collection,
   Flex,
   Heading,
   Text,
@@ -24,8 +26,6 @@ import {
   listCaseSuspects, getCaseSuspects,
 } from "./graphql/queries";
 import {
-  /* createTodo as createNoteMutation,
-   deleteTodo as deleteNoteMutation,*/
   createAppCase,
   updateAppCase,
   deleteAppCase,
@@ -51,7 +51,6 @@ const App = ({ signOut }) => {
   const [appcases, setAppCases] = useState([]);
 
   useEffect(() => {
-    /*fetchNotes();*/
     fetchAppCases();
   }, []);
   /*
@@ -405,46 +404,76 @@ const oneSuspect = await client.graphql({
   return (
     <View className="App">
       <Heading level={1}>Private Eye App</Heading>
+      <Button onClick={signOut}>Sign Out</Button>
       <View>
-        <Flex>
-          <AppCaseCreateForm
-            onSubmit={(fields) => {
-              // Example function to trim all string inputs
-              const updatedFields = {}
-              Object.keys(fields).forEach(key => {
-                if (typeof fields[key] === 'string') {
-                  updatedFields[key] = fields[key].trim()
-                } else {
-                  updatedFields[key] = fields[key]
-                }
-              })
-              return updatedFields
-            }}
-          />
-          <SuspectCreateForm 
-          onSubmit={(fields) => {
-            // Example function to trim all string inputs
-            const updatedFields = {}
-            Object.keys(fields).forEach(key => {
-              if (typeof fields[key] === 'string') {
-                updatedFields[key] = fields[key].trim()
-              } else {
-                updatedFields[key] = fields[key]
-              }
-            })
-            return updatedFields
-          }}
-        />
+        <Flex
+          direction="row"
+          height="100%"
+          width="100%"
+          justifyContent="stretch"
+          gap="0"
+        >
+          <Flex
+            direction="column"
+            gap="medium"
+            padding="xxl"
+            backgroundColor="background.primary"
+          >
+            <AppCaseCreateForm
+              onSubmit={(fields) => {
+                // Example function to trim all string inputs
+                const updatedFields = {}
+                Object.keys(fields).forEach(key => {
+                  if (typeof fields[key] === 'string') {
+                    updatedFields[key] = fields[key].trim()
+                  } else {
+                    updatedFields[key] = fields[key]
+                  }
+                })
+                return updatedFields
+              }}
+            />
+          </Flex>
+          <Flex
+            direction="column"
+            gap="medium"
+            padding="xxl"
+            backgroundColor="background.primary"
+          >
+            <SuspectCreateForm
+              onSubmit={(fields) => {
+                // Example function to trim all string inputs
+                const updatedFields = {}
+                Object.keys(fields).forEach(key => {
+                  if (typeof fields[key] === 'string') {
+                    updatedFields[key] = fields[key].trim()
+                  } else {
+                    updatedFields[key] = fields[key]
+                  }
+                })
+                return updatedFields
+              }}
+            />
+          </Flex>
         </Flex>
       </View>
       <Heading level={2}>Current Cases</Heading>
+      <Flex>
+      <Collection gap="small" type="list" items={appcases}>
+        {(appcase) => (
+          <CaseCard
+          key={appcase.id}
+          ></CaseCard>
+        )}
+      </Collection>
+      </Flex>
       <View margin="3rem 0">
         {appcases.map((appcase) => (
           <Flex
             key={appcase.id}
             direction="row"
-            justifyContent="center"
-            alignItems="center"
+            justifyContent="Left"
+            alignItems="Left"
           >
             <Text as="strong" fontWeight={700}>
               {appcase.case_title}
@@ -459,7 +488,6 @@ const oneSuspect = await client.graphql({
           </Flex>
         ))}
       </View>
-      <Button onClick={signOut}>Sign Out</Button>
       <View margin="3rem 0">
         <MarketingFooter />
       </View>
