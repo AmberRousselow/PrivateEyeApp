@@ -300,6 +300,8 @@ export const getAppCase = /* GraphQL */ `
         nextToken
         __typename
       }
+      case_status
+      case_number
       createdAt
       updatedAt
       __typename
@@ -332,6 +334,8 @@ export const listAppCases = /* GraphQL */ `
           nextToken
           __typename
         }
+        case_status
+        case_number
         createdAt
         updatedAt
         __typename

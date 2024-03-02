@@ -458,22 +458,28 @@ const oneSuspect = await client.graphql({
         </Flex>
       </View>
       <Heading level={2}>Current Cases</Heading>
-      <Flex>
       <Collection gap="small" type="list" items={appcases}>
         {(appcase) => (
+          <Flex
+                key={appcase.id}
+                direction="row"
+                justifyContent="Left"
+                alignItems="Left"
+                >
           <CaseCard
           key={appcase.id}
+          title={appcase.case_title}
           ></CaseCard>
+          </Flex>
         )}
       </Collection>
-      </Flex>
       <View margin="3rem 0">
         {appcases.map((appcase) => (
           <Flex
             key={appcase.id}
             direction="row"
             justifyContent="Left"
-            alignItems="Left"
+            alignItems="Center"
           >
             <Text as="strong" fontWeight={700}>
               {appcase.case_title}

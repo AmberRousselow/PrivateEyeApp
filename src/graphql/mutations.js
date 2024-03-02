@@ -300,6 +300,8 @@ export const createAppCase = /* GraphQL */ `
         nextToken
         __typename
       }
+      case_status
+      case_number
       createdAt
       updatedAt
       __typename
@@ -359,6 +361,8 @@ export const updateAppCase = /* GraphQL */ `
         nextToken
         __typename
       }
+      case_status
+      case_number
       createdAt
       updatedAt
       __typename
@@ -418,6 +422,8 @@ export const deleteAppCase = /* GraphQL */ `
         nextToken
         __typename
       }
+      case_status
+      case_number
       createdAt
       updatedAt
       __typename
