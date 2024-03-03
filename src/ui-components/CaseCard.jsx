@@ -91,7 +91,7 @@ export default function CaseCard(props) {
               display="block"
               direction="column"
               justifyContent="unset"
-              width="71px"
+              width="221px"
               height="25px"
               gap="unset"
               alignItems="unset"
