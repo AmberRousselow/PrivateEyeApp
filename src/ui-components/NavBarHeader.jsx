@@ -22,7 +22,7 @@ export default function NavBarHeader(props) {
       position="relative"
       boxShadow="0px 2px 6px rgba(0.05098039284348488, 0.10196078568696976, 0.14901961386203766, 0.15000000596046448)"
       padding="15px 32px 15px 32px"
-      backgroundColor="rgba(255,255,255,1)"
+      backgroundColor="rgba(177,170,165,1)"
       {...getOverrideProps(overrides, "NavBarHeader")}
       {...rest}
     >
@@ -40,11 +40,52 @@ export default function NavBarHeader(props) {
         padding="0px 0px 0px 0px"
         {...getOverrideProps(overrides, "Frame 321")}
       >
+        <Flex
+          padding="0px 0px 0px 0px"
+          width="335px"
+          height="64px"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
+          shrink="0"
+          position="relative"
+          {...getOverrideProps(overrides, "Group 1")}
+        >
+          <Image
+            width="54px"
+            height="64px"
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
+            position="absolute"
+            top="0px"
+            left="0px"
+            padding="0px 0px 0px 0px"
+            objectFit="cover"
+            {...getOverrideProps(overrides, "textlogo")}
+          ></Image>
+          <Image
+            width="267px"
+            height="33.5px"
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
+            position="absolute"
+            top="15px"
+            left="68px"
+            padding="0px 0px 0px 0px"
+            objectFit="cover"
+            {...getOverrideProps(overrides, "imagelogo")}
+          ></Image>
+        </Flex>
         <Text
           fontFamily="Inter"
           fontSize="16px"
           fontWeight="400"
-          color="rgba(92,102,112,1)"
+          color="rgba(13,26,38,1)"
           lineHeight="24px"
           textAlign="left"
           display="block"
@@ -65,7 +106,7 @@ export default function NavBarHeader(props) {
           fontFamily="Inter"
           fontSize="16px"
           fontWeight="400"
-          color="rgba(92,102,112,1)"
+          color="rgba(13,26,38,1)"
           lineHeight="24px"
           textAlign="left"
           display="block"
@@ -86,7 +127,7 @@ export default function NavBarHeader(props) {
           fontFamily="Inter"
           fontSize="16px"
           fontWeight="400"
-          color="rgba(92,102,112,1)"
+          color="rgba(13,26,38,1)"
           lineHeight="24px"
           textAlign="left"
           display="block"
@@ -129,7 +170,7 @@ export default function NavBarHeader(props) {
           shrink="0"
           position="relative"
           padding="0px 0px 0px 0px"
-          type="notification"
+          type="close"
           {...getOverrideProps(overrides, "MyIcon")}
         ></MyIcon>
         <Image
@@ -144,7 +185,7 @@ export default function NavBarHeader(props) {
           borderRadius="160px"
           padding="0px 0px 0px 0px"
           objectFit="cover"
-          {...getOverrideProps(overrides, "image")}
+          {...getOverrideProps(overrides, "avatar")}
         ></Image>
       </Flex>
     </Flex>

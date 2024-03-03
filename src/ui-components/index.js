@@ -25,6 +25,7 @@ export { default as MarketingFooter } from "./MarketingFooter";
 export { default as MarketingFooterBrand } from "./MarketingFooterBrand";
 export { default as MyIcon } from "./MyIcon";
 export { default as NavBarHeader } from "./NavBarHeader";
+export { default as NewCaseCreateForm } from "./NewCaseCreateForm";
 export { default as ProfileCard } from "./ProfileCard";
 export { default as Stat } from "./Stat";
 export { default as SuspectCard } from "./SuspectCard";

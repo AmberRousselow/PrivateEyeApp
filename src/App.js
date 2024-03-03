@@ -3,51 +3,40 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import {
-  AppCaseCreateForm,
-  CaseCard,
-  EvidenceCreateForm,
-  SuspectCreateForm,
-  MarketingFooter
+  CaseCardCollection,
+  MarketingFooterBrand,
+  NavBarHeader,
+  NewCaseCreateForm,
 } from './ui-components';
 import {
   Button,
-  Collection,
   Flex,
   Heading,
-  Text,
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
 import {
-  listAppCases, getAppCase,
-  listSuspects, getSuspects,
-  listEvidences, getEvidence,
-  listCaseNotes, getCaseNote,
-  listCaseSuspects, getCaseSuspects,
+  listAppCases
 } from "./graphql/queries";
-import {
-  createAppCase,
-  updateAppCase,
-  deleteAppCase,
-  createSuspect,
-  updateSuspect,
-  deleteSuspect,
-  createEvidence,
-  updateEvidence,
-  deleteEvidence,
-  createCaseNote,
-  updateCaseNote,
-  deleteCaseNote,
-  createCaseSuspects,
-  updateCaseSuspects,
-  deleteCaseSuspects
-} from "./graphql/mutations";
 import { generateClient } from 'aws-amplify/api';
 
 const client = generateClient();
 
 const App = ({ signOut }) => {
+
   const [appcases, setAppCases] = useState([]);
+
+  const navbarOverrides = {
+    "imagelogo": {
+      src: "/public/PElogo.png", // app logo
+    },
+    "textlogo": {
+      src: "public/PElogoText.png", // textlogo
+    },
+    "avatar": {
+      src: "public/ai-generated-8534133_1280.jpg", // profile image
+    },
+  };
 
   async function fetchAppCases() {
     const apiData = await client.graphql({ query: listAppCases });
@@ -64,36 +53,6 @@ const App = ({ signOut }) => {
     fetchAppCases();
   }, []);
 
-
-  /*  
-    async function createNote(event) {
-      event.preventDefault();
-      const form = new FormData(event.target);
-      const image = form.get("image");
-      const data = {
-        name: form.get("name"),
-        description: form.get("description"),
-        image: image.name,
-      };
-      if (!!data.image) await Storage.put(data.name, image);
-      await client.graphql({
-        query: createNoteMutation,
-        variables: { input: data },
-      });
-      fetchNotes();
-      event.target.reset();
-    }
-  
-    async function deleteNote({ id, name}) {
-      const newNotes = notes.filter((note) => note.id !== id);
-      setNotes(newNotes);
-      await Storage.remove(name);
-      await client.graphql({
-        query: deleteNoteMutation,
-        variables: { input: { id } },
-      });
-    }
-    */
 
   /* APPCASE WIP
   const newAppCase = await client.graphql({
@@ -385,69 +344,30 @@ const oneSuspect = await client.graphql({
   //Render on page
   return (
     <View className="App">
-      <Heading level={1}>Private Eye App</Heading>
-      <Button onClick={signOut}>Sign Out</Button>
+      <Heading level={1}>Private Eye App </Heading>
+      <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginBottom={"20px"}></NavBarHeader>
       <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        <Flex
-          direction="row"
-          height="100%"
-          width="100%"
-          justifyContent="stretch"
-          gap="0"
-        >
-          <Flex
-            direction="column"
-            gap="medium"
-            padding="xxl"
-            backgroundColor="background.primary"
-          >
-            <AppCaseCreateForm
-              onSubmit={(fields) => {
-                // Example function to trim all string inputs
-                const updatedFields = {}
-                Object.keys(fields).forEach(key => {
-                  if (typeof fields[key] === 'string') {
-                    updatedFields[key] = fields[key].trim()
-                  } else {
-                    updatedFields[key] = fields[key]
-                  }
-                })
-                return updatedFields
-              }}
-            />
-          </Flex>
-        </Flex>
+        style={{
+          flex: 2,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <NewCaseCreateForm marginBlock={"50px"}></NewCaseCreateForm>
       </View>
-      <Heading level={2}>Current Cases</Heading>
-      <View margin="3rem 0">
-        {appcases.map((appcase) => (
-          <Flex
-            key={appcase.id}
-            direction="row"
-            justifyContent="Left"
-            alignItems="Center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {appcase.case_title}
-            </Text>
-            <Text as="span">{appcase.case_description}</Text>
-            <Text as="span">{appcase.case_created_date}</Text>
-            <Text as="span">{appcase.case_offense}</Text>
-            <Text as="span">{appcase.case_offense_category}</Text>
-            <Button variation="link" onClick={() => deleteAppCase(appcase)}>
-              Delete Case
-            </Button>
-          </Flex>
-        ))}
-      </View>
-      <Flex>
-        <MarketingFooter />
+      <Heading level={2} marginBottom={"40px"}>Current Cases</Heading>
+      <Flex
+        direction="row"
+        justifyContent="Center"
+        alignItems="Center" >
+        <CaseCardCollection>
+        </CaseCardCollection>
       </Flex>
+      <View style={{ alignItems: 'flex-end' }}>
+        <Button marginBlock="25px" onClick={signOut}>Sign Out</Button>
+      </View>
+
+      <MarketingFooterBrand width={"100vw"}>
+      </MarketingFooterBrand>
     </View>
   );
 };

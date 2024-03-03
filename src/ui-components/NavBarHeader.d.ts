@@ -21,12 +21,15 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type NavBarHeaderOverridesProps = {
     NavBarHeader?: PrimitiveOverrideProps<FlexProps>;
     "Frame 321"?: PrimitiveOverrideProps<FlexProps>;
+    "Group 1"?: PrimitiveOverrideProps<FlexProps>;
+    textlogo?: PrimitiveOverrideProps<ImageProps>;
+    imagelogo?: PrimitiveOverrideProps<ImageProps>;
     Cases?: PrimitiveOverrideProps<TextProps>;
     Suspects?: PrimitiveOverrideProps<TextProps>;
     Reports?: PrimitiveOverrideProps<TextProps>;
     "Frame 322"?: PrimitiveOverrideProps<FlexProps>;
     MyIcon?: MyIconProps;
-    image?: PrimitiveOverrideProps<ImageProps>;
+    avatar?: PrimitiveOverrideProps<ImageProps>;
 } & EscapeHatchProps;
 export declare type NavBarHeaderProps = React.PropsWithChildren<Partial<FlexProps> & {
     overrides?: NavBarHeaderOverridesProps | undefined | null;
