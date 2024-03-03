@@ -169,6 +169,14 @@ export const listSuspects = /* GraphQL */ `
         suspect_background_information
         suspect_created_date
         CaseSuspects {
+          items {
+            id
+            appcaseID
+            suspectID
+            createdAt
+            updatedAt
+            __typename
+          }
           nextToken
           __typename
         }
@@ -323,14 +331,43 @@ export const listAppCases = /* GraphQL */ `
         case_offense
         case_offense_category
         Evidences {
+          items {
+            id
+            evidence_type
+            evidence_description
+            evidence_url
+            evidence_created_date
+            appcaseID
+            createdAt
+            updatedAt
+            __typename
+          }
           nextToken
           __typename
         }
         CaseNotes {
+          items {
+            id
+            note_title
+            note_content
+            note_create_date
+            appcaseID
+            createdAt
+            updatedAt
+            __typename
+          }
           nextToken
           __typename
         }
         CaseSuspects {
+          items {
+            id
+            appcaseID
+            suspectID
+            createdAt
+            updatedAt
+            __typename
+          }
           nextToken
           __typename
         }

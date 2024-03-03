@@ -7,6 +7,7 @@
 export { default as AppCaseCreateForm } from "./AppCaseCreateForm";
 export { default as AppCaseUpdateForm } from "./AppCaseUpdateForm";
 export { default as CaseCard } from "./CaseCard";
+export { default as CaseCardCollection } from "./CaseCardCollection";
 export { default as CaseNote } from "./CaseNote";
 export { default as CaseNoteCreateForm } from "./CaseNoteCreateForm";
 export { default as CaseNoteUpdateForm } from "./CaseNoteUpdateForm";
