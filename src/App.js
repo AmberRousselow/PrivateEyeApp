@@ -46,29 +46,26 @@ import { generateClient } from 'aws-amplify/api';
 
 const client = generateClient();
 
-
 const App = ({ signOut }) => {
   const [appcases, setAppCases] = useState([]);
+
+  async function fetchAppCases() {
+    const apiData = await client.graphql({ query: listAppCases });
+    const appCasesFromAPI = apiData.data.listAppCases.items;
+    await Promise.all(
+      appCasesFromAPI.map(async (appcase) => {
+        return appcase;
+      })
+    );
+    setAppCases(appCasesFromAPI);
+  }
 
   useEffect(() => {
     fetchAppCases();
   }, []);
-  /*
-    async function fetchNotes() {
-      const apiData = await client.graphql({ query: listTodos });
-      const notesFromAPI = apiData.data.listTodos.items;
-      await Promise.all(
-        notesFromAPI.map(async (note) => {
-          if (note.image) {
-            const url = await Storage.get(note.name);
-            note.image = url;
-          }
-          return note;
-        })
-      );
-      setNotes(notesFromAPI);
-    }
-  
+
+
+  /*  
     async function createNote(event) {
       event.preventDefault();
       const form = new FormData(event.target);
@@ -97,21 +94,6 @@ const App = ({ signOut }) => {
       });
     }
     */
-
-  async function fetchAppCases() {
-    const apiData = await client.graphql({ query: listAppCases });
-    const appCasesFromAPI = apiData.data.listAppCases.items;
-    await Promise.all(
-      appCasesFromAPI.map(async (appcase) => {
-        /*if (appcase.image) {
-          const url = await Storage.get(appcase.name);
-          appcase.image = url;
-        }*/
-        return appcase;
-      })
-    );
-    setAppCases(appCasesFromAPI);
-  }
 
   /* APPCASE WIP
   const newAppCase = await client.graphql({
@@ -405,7 +387,12 @@ const oneSuspect = await client.graphql({
     <View className="App">
       <Heading level={1}>Private Eye App</Heading>
       <Button onClick={signOut}>Sign Out</Button>
-      <View>
+      <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
         <Flex
           direction="row"
           height="100%"
@@ -434,45 +421,9 @@ const oneSuspect = await client.graphql({
               }}
             />
           </Flex>
-          <Flex
-            direction="column"
-            gap="medium"
-            padding="xxl"
-            backgroundColor="background.primary"
-          >
-            <SuspectCreateForm
-              onSubmit={(fields) => {
-                // Example function to trim all string inputs
-                const updatedFields = {}
-                Object.keys(fields).forEach(key => {
-                  if (typeof fields[key] === 'string') {
-                    updatedFields[key] = fields[key].trim()
-                  } else {
-                    updatedFields[key] = fields[key]
-                  }
-                })
-                return updatedFields
-              }}
-            />
-          </Flex>
         </Flex>
       </View>
       <Heading level={2}>Current Cases</Heading>
-      <Collection gap="small" type="list" items={appcases}>
-        {(appcase) => (
-          <Flex
-                key={appcase.id}
-                direction="row"
-                justifyContent="Left"
-                alignItems="Left"
-                >
-          <CaseCard
-          key={appcase.id}
-          title={appcase.case_title}
-          ></CaseCard>
-          </Flex>
-        )}
-      </Collection>
       <View margin="3rem 0">
         {appcases.map((appcase) => (
           <Flex
@@ -494,9 +445,9 @@ const oneSuspect = await client.graphql({
           </Flex>
         ))}
       </View>
-      <View margin="3rem 0">
+      <Flex>
         <MarketingFooter />
-      </View>
+      </Flex>
     </View>
   );
 };
