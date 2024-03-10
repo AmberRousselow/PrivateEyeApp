@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
+import logoHead from './Images/PElogo.png'; 
+import textLogoHead from './Images/PElogoText.png'; 
+import ladyAvatar from './Images/ai-generated-8534133_1280.jpg'; 
 import {
   CaseCardCollection,
   MarketingFooterBrand,
@@ -14,6 +17,7 @@ import {
   Heading,
   View,
   withAuthenticator,
+  Icon
 } from "@aws-amplify/ui-react";
 import {
   listAppCases
@@ -28,13 +32,13 @@ const App = ({ signOut }) => {
 
   const navbarOverrides = {
     "imagelogo": {
-      src: "/public/PElogo.png", // app logo
+      src: textLogoHead ,// app logo
     },
     "textlogo": {
-      src: "public/PElogoText.png", // textlogo
+      src: logoHead,// textlogo
     },
     "avatar": {
-      src: "public/ai-generated-8534133_1280.jpg", // profile image
+      src: ladyAvatar, // profile image
     },
   };
 
@@ -344,7 +348,6 @@ const oneSuspect = await client.graphql({
   //Render on page
   return (
     <View className="App">
-      <Heading level={1}>Private Eye App </Heading>
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginBottom={"20px"}></NavBarHeader>
       <View
         style={{
