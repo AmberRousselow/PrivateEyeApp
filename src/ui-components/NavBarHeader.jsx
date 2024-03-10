@@ -6,11 +6,11 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "./utils";
+import { getOverrideProps, useAuthSignOutAction } from "./utils";
 import { Flex, Image, Text } from "@aws-amplify/ui-react";
-import MyIcon from "./MyIcon";
 export default function NavBarHeader(props) {
   const { overrides, ...rest } = props;
+  const signOutOnClick = useAuthSignOutAction({ global: true });
   return (
     <Flex
       gap="40px"
@@ -159,20 +159,30 @@ export default function NavBarHeader(props) {
         padding="0px 0px 0px 0px"
         {...getOverrideProps(overrides, "Frame 322")}
       >
-        <MyIcon
-          width="24px"
-          height="24px"
+        <Text
+          fontFamily="Inter"
+          fontSize="16px"
+          fontWeight="400"
+          color="rgba(13,26,38,1)"
+          lineHeight="24px"
+          textAlign="left"
           display="block"
+          direction="column"
+          justifyContent="unset"
+          width="unset"
+          height="unset"
           gap="unset"
           alignItems="unset"
-          justifyContent="unset"
-          overflow="hidden"
           shrink="0"
           position="relative"
           padding="0px 0px 0px 0px"
-          type="close"
-          {...getOverrideProps(overrides, "MyIcon")}
-        ></MyIcon>
+          whiteSpace="pre-wrap"
+          children="Sign Out"
+          onClick={() => {
+            signOutOnClick();
+          }}
+          {...getOverrideProps(overrides, "Sign Out")}
+        ></Text>
         <Image
           width="45px"
           height="45px"
