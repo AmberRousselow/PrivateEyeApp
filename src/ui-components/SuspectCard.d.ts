@@ -23,7 +23,7 @@ export declare type SuspectCardOverridesProps = {
     Liked?: PrimitiveOverrideProps<FlexProps>;
     "User Liked"?: PrimitiveOverrideProps<FlexProps>;
     MyIcon29766875?: MyIconProps;
-    "Danny added this"?: PrimitiveOverrideProps<TextProps>;
+    "Prime Suspect"?: PrimitiveOverrideProps<TextProps>;
     Body?: PrimitiveOverrideProps<FlexProps>;
     image?: PrimitiveOverrideProps<ImageProps>;
     Frame29766879?: PrimitiveOverrideProps<FlexProps>;
@@ -46,6 +46,8 @@ export declare type SuspectCardOverridesProps = {
     MyIcon29766898?: MyIconProps;
 } & EscapeHatchProps;
 export declare type SuspectCardProps = React.PropsWithChildren<Partial<FlexProps> & {
+    suspect?: any;
+} & {
     overrides?: SuspectCardOverridesProps | undefined | null;
 }>;
 export default function SuspectCard(props: SuspectCardProps): React.ReactElement;

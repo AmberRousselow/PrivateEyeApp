@@ -175,7 +175,7 @@ export default function CaseNote(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               type="arrow-right"
-              {...getOverrideProps(overrides, "MyIcon29766860")}
+              {...getOverrideProps(overrides, "MyIcon")}
             ></MyIcon>
             <Text
               fontFamily="Inter"
@@ -204,83 +204,6 @@ export default function CaseNote(props) {
               )}
             ></Text>
           </Flex>
-          <Flex
-            gap="16px"
-            direction="row"
-            width="unset"
-            height="unset"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            shrink="0"
-            position="relative"
-            padding="0px 0px 0px 0px"
-            {...getOverrideProps(overrides, "Share29766862")}
-          >
-            <Text
-              fontFamily="Inter"
-              fontSize="16px"
-              fontWeight="400"
-              color="rgba(92,102,112,1)"
-              lineHeight="24px"
-              textAlign="left"
-              display="block"
-              direction="column"
-              justifyContent="unset"
-              letterSpacing="0.01px"
-              width="unset"
-              height="unset"
-              gap="unset"
-              alignItems="unset"
-              shrink="0"
-              position="relative"
-              padding="0px 0px 0px 0px"
-              whiteSpace="pre-wrap"
-              children="Share"
-              {...getOverrideProps(overrides, "Share29766863")}
-            ></Text>
-            <MyIcon
-              width="24px"
-              height="24px"
-              display="block"
-              gap="unset"
-              alignItems="unset"
-              justifyContent="unset"
-              overflow="hidden"
-              shrink="0"
-              position="relative"
-              padding="0px 0px 0px 0px"
-              type="bookmark_border"
-              {...getOverrideProps(overrides, "MyIcon29766864")}
-            ></MyIcon>
-            <MyIcon
-              width="24px"
-              height="24px"
-              display="block"
-              gap="unset"
-              alignItems="unset"
-              justifyContent="unset"
-              overflow="hidden"
-              shrink="0"
-              position="relative"
-              padding="0px 0px 0px 0px"
-              type="share"
-              {...getOverrideProps(overrides, "MyIcon29766865")}
-            ></MyIcon>
-            <MyIcon
-              width="24px"
-              height="24px"
-              display="block"
-              gap="unset"
-              alignItems="unset"
-              justifyContent="unset"
-              overflow="hidden"
-              shrink="0"
-              position="relative"
-              padding="0px 0px 0px 0px"
-              type="more_vert"
-              {...getOverrideProps(overrides, "MyIcon29766866")}
-            ></MyIcon>
-          </Flex>
         </Flex>
         <Image
           width="160px"
@@ -296,59 +219,6 @@ export default function CaseNote(props) {
           objectFit="unset"
           {...getOverrideProps(overrides, "image")}
         ></Image>
-      </Flex>
-      <Flex
-        gap="16px"
-        direction="row"
-        width="unset"
-        height="unset"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        shrink="0"
-        alignSelf="stretch"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        {...getOverrideProps(overrides, "Read more29766868")}
-      >
-        <MyIcon
-          width="24px"
-          height="24px"
-          display="block"
-          gap="unset"
-          alignItems="unset"
-          justifyContent="unset"
-          overflow="hidden"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          type="arrow-right"
-          {...getOverrideProps(overrides, "MyIcon29766869")}
-        ></MyIcon>
-        <Text
-          fontFamily="Inter"
-          fontSize="16px"
-          fontWeight="400"
-          color="rgba(13,26,38,1)"
-          lineHeight="24px"
-          textAlign="left"
-          display="block"
-          direction="column"
-          justifyContent="unset"
-          textDecoration="underline"
-          letterSpacing="0.01px"
-          width="unset"
-          height="unset"
-          gap="unset"
-          alignItems="unset"
-          grow="1"
-          shrink="1"
-          basis="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          whiteSpace="pre-wrap"
-          children="Read more"
-          {...getOverrideProps(overrides, "Read more29766870")}
-        ></Text>
       </Flex>
     </Flex>
   );

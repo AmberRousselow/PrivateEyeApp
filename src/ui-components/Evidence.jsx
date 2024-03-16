@@ -16,7 +16,7 @@ import {
   Text,
 } from "@aws-amplify/ui-react";
 export default function Evidence(props) {
-  const { overrides, ...rest } = props;
+  const { evidence, overrides, ...rest } = props;
   return (
     <Flex
       gap="0"
@@ -108,7 +108,7 @@ export default function Evidence(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Information about this evidence"
+              children={evidence?.appcaseID}
               {...getOverrideProps(
                 overrides,
                 "Information about this evidence"
@@ -134,7 +134,7 @@ export default function Evidence(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Title - Fingerprint Images"
+            children={evidence?.evidence_description}
             {...getOverrideProps(overrides, "Title - Fingerprint Images")}
           ></Text>
         </Flex>
@@ -179,7 +179,7 @@ export default function Evidence(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Information about this evidence."
+            children={evidence?.evidence_url}
             {...getOverrideProps(
               overrides,
               "Information about this evidence.29766836"
@@ -205,7 +205,7 @@ export default function Evidence(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Information about this evidence."
+            children={evidence?.appcaseID}
             {...getOverrideProps(
               overrides,
               "Information about this evidence.29766837"

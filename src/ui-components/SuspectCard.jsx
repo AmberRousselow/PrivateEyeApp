@@ -10,7 +10,7 @@ import { getOverrideProps } from "./utils";
 import MyIcon from "./MyIcon";
 import { Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function SuspectCard(props) {
-  const { overrides, ...rest } = props;
+  const { suspect, overrides, ...rest } = props;
   return (
     <Flex
       gap="16px"
@@ -83,8 +83,8 @@ export default function SuspectCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Danny added this"
-            {...getOverrideProps(overrides, "Danny added this")}
+            children="Prime Suspect"
+            {...getOverrideProps(overrides, "Prime Suspect")}
           ></Text>
         </Flex>
       </Flex>
@@ -173,7 +173,7 @@ export default function SuspectCard(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Scott"
+                children={suspect?.suspect_name}
                 {...getOverrideProps(overrides, "Scott")}
               ></Text>
             </Flex>
@@ -227,7 +227,7 @@ export default function SuspectCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="“Lorem ipsum dolor sit amet, consectetur adipiscing elit. ”"
+            children={suspect?.suspect_background_information}
             {...getOverrideProps(
               overrides,
               "\u201CLorem ipsum dolor sit amet, consectetur adipiscing elit. \u201D"

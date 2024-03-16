@@ -5,6 +5,12 @@ import "@aws-amplify/ui-react/styles.css";
 import logoHead from './Images/PElogo.png';
 import textLogoHead from './Images/PElogoText.png';
 import ladyAvatar from './Images/ai-generated-8534133_1280.jpg';
+import fingerprintImg1 from './Images/fingerprint-146242_1280.png';
+import fingerprintImg2 from './Images/fingerprint-255899_1280.jpg';
+import fingerprintImg3 from './Images/fingerprint-257037_1280.png';
+import hackerImg from './Images/hacker-3342696_1280.jpg';
+import typewriterImg from './Images/concept-5355841_1280.jpg';
+import manAvatar from './Images/detective-4787272_1280.png'
 import {
   CaseCardCollection,
   CaseNoteCollection,
@@ -12,27 +18,21 @@ import {
   MarketingFooterBrand,
   NavBarHeader,
   NewCaseCreateForm,
+  SuspectCard,
 } from './ui-components';
 import {
-  Button,
   Flex,
   Heading,
   View,
   withAuthenticator,
-  Icon,
-  Grid
 } from "@aws-amplify/ui-react";
-import {
-  listAppCases
-} from "./graphql/queries";
 import { generateClient } from 'aws-amplify/api';
-import SuspectCard from "./ui-components/SuspectCard";
 
-const client = generateClient();
+/*onst client = generateClient();*/
 
 const App = ({ signOut }) => {
 
-  const [appcases, setAppCases] = useState([]);
+  /*const [appcases, setAppCases] = useState([]);*/
 
   const navbarOverrides = {
     "imagelogo": {
@@ -44,23 +44,40 @@ const App = ({ signOut }) => {
     "avatar": {
       src: ladyAvatar, // profile image
     },
+    "Cases": {
+      onClick: () => {
+        handleCaseHeaderClick();
+      },
+    }
   };
 
-  async function fetchAppCases() {
-    const apiData = await client.graphql({ query: listAppCases });
-    const appCasesFromAPI = apiData.data.listAppCases.items;
-    await Promise.all(
-      appCasesFromAPI.map(async (appcase) => {
-        return appcase;
-      })
-    );
-    setAppCases(appCasesFromAPI);
-  }
-
-  useEffect(() => {
-    fetchAppCases();
-  }, []);
-
+  const caseCardOverrides = {
+    "image": {
+      src: fingerprintImg1,
+    },
+    "CaseViewButton": {
+      onClick: () => {
+        handleCaseViewButtonClick();
+      },
+    }
+  };
+  /*
+    async function fetchAppCases() {
+      const apiData = await client.graphql({ query: listAppCases });
+      const appCasesFromAPI = apiData.data.listAppCases.items;
+      await Promise.all(
+        appCasesFromAPI.map(async (appcase) => {
+          return appcase;
+        })
+      );
+      setAppCases(appCasesFromAPI);
+    }
+  
+    useEffect(() => {
+      console.log("app cases fetched");
+      fetchAppCases();
+    }, []);
+  */
   const [showCreateCase, setShowCreateCase] = useState(false);
 
   // Function to toggle visibility
@@ -68,14 +85,14 @@ const App = ({ signOut }) => {
     setShowCreateCase(!showCreateCase);
   };
 
-  const [showDetailedView, setShowDetailedView] = useState(false);
+  const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
 
-  const handleViewButtonClick = () => {
-    console.log("View button clicked"); // Add logging to check if the function is called
-    setShowDetailedView(!showDetailedView);
+  const handleCaseViewButtonClick = () => {
+    console.log("View button clicked on Case"); // Add logging to check if the function is called
+    setShowDetailedCaseView(!showDetailedCaseView);
   };
 
-  const detailedView = showDetailedView && (
+  const detailedCaseView = showDetailedCaseView ? (
     <div>
       <Flex>
         <CaseNoteCollection />
@@ -83,295 +100,40 @@ const App = ({ signOut }) => {
         <SuspectCard />
       </Flex>
     </div>
-  );
+  ) : null; // Render null if showDetailedCaseView is false
 
+  const [showAllCaseView, setShowAllCaseView] = useState(false);
 
-  /* APPCASE WIP
-  const newAppCase = await client.graphql({
-     query: createAppCase,
-     variables: {
-         input: {
-     "case_title": "Lorem ipsum dolor sit amet",
-     "case_description": "Lorem ipsum dolor sit amet",
-     "case_created_date": "1970-01-01Z",
-     "case_offense": CaseOffense.FELONY,
-     "case_offense_category": OffenseCategory.PERSON,
-     "Evidences": [],
-     "CaseNotes": [],
-     "CaseSuspects": []
-   }
-     }
- });
- 
- const updatedAppCase = await client.graphql({
-     query: updateAppCase,
-     variables: {
-         input: {
-     "case_title": "Lorem ipsum dolor sit amet",
-     "case_description": "Lorem ipsum dolor sit amet",
-     "case_created_date": "1970-01-01Z",
-     "case_offense": CaseOffense.FELONY,
-     "case_offense_category": OffenseCategory.PERSON,
-     "Evidences": [],
-     "CaseNotes": [],
-     "CaseSuspects": []
-   }
-     }
- });
- 
- const deletedAppCase = await client.graphql({
-     query: deleteAppCase,
-     variables: {
-         input: {
-             id: "YOUR_RECORD_ID"
-         }
-     }
- });
- // List all items
- const allAppCases = await client.graphql({
-     query: listAppCases
- });
- console.log(allAppCase);
- 
- // Get a specific item
- const oneAppCase = await client.graphql({
-     query: getAppCase,
-     variables: { id: 'YOUR_RECORD_ID' }
- });
- 
- /*
- CaseNote CREATE, DELETE and UPDATE - WIP
- const newCaseNote = await client.graphql({
-     query: createCaseNote,
-     variables: {
-         input: {
-     "note_title": "Lorem ipsum dolor sit amet",
-     "note_content": "Lorem ipsum dolor sit amet",
-     "note_create_date": "1970-01-01Z",
-     "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
-   }
-     }
- });
- 
- const updatedCaseNote = await client.graphql({
-     query: updateCaseNote,
-     variables: {
-         input: {
-     "note_title": "Lorem ipsum dolor sit amet",
-     "note_content": "Lorem ipsum dolor sit amet",
-     "note_create_date": "1970-01-01Z",
-     "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
-   }
-     }
- });
- 
- const deletedCaseNote = await client.graphql({
-     query: deleteCaseNote,
-     variables: {
-         input: {
-             id: "YOUR_RECORD_ID"
-         }
-     }
- });
- 
- // List all items
- const allCaseNotes = await client.graphql({
-     query: listCaseNotes
- });
- console.log(allCaseNote);
- 
- // Get a specific item
- const oneCaseNote = await client.graphql({
-     query: getCaseNote,
-     variables: { id: 'YOUR_RECORD_ID' }
- });
- */
+  const handleCaseHeaderClick = () => {
+    console.log("Cases on Nav Bar Clicked"); // Add logging to check if the function is called
+    setShowAllCaseView(!showAllCaseView);
+  };
 
-  /* EVIDENCE WIP
- 
- const newEvidence = await client.graphql({
-     query: createEvidence,
-     variables: {
-         input: {
-     "evidence_type": EvidenceType.DOCUMENT,
-     "evidence_description": "Lorem ipsum dolor sit amet",
-     "evidence_url": "Lorem ipsum dolor sit amet",
-     "evidence_created_date": "1970-01-01Z",
-     "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
-   }
-     }
- });
- 
- const updatedEvidence = await client.graphql({
-     query: updateEvidence,
-     variables: {
-         input: {
-     "evidence_type": EvidenceType.DOCUMENT,
-     "evidence_description": "Lorem ipsum dolor sit amet",
-     "evidence_url": "Lorem ipsum dolor sit amet",
-     "evidence_created_date": "1970-01-01Z",
-     "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
-   }
-     }
- });
- 
- const deletedEvidence = await client.graphql({
-     query: deleteEvidence,
-     variables: {
-         input: {
-             id: "YOUR_RECORD_ID"
-         }
-     }
- });
- 
- // List all items
- const allEvidences = await client.graphql({
-     query: listEvidences
- });
- console.log(allEvidence);
- 
- // Get a specific item
- const oneEvidence = await client.graphql({
-     query: getEvidence,
-     variables: { id: 'YOUR_RECORD_ID' }
- });
- */
+  const allCaseView = showAllCaseView ? (
+    <div>
+      <Flex
+        direction="Column"
+        justifyContent="Center"
+        alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"}>Current Cases</Heading>
+        <CaseCardCollection overrideItems={() => {
+          return {
+            overrides: {
+              "CaseViewButton": {
+                onClick: () => {
+                  handleCaseViewButtonClick();
+                },
+              },
+              "image": {
+                src: fingerprintImg1,
+              }
+            },
+          };
+        }} />
+      </Flex>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
 
-  /* SUSPECT WIP
-
- const newSuspect = await client.graphql({
-    query: createSuspect,
-    variables: {
-        input: {
-    "suspectName": "Lorem ipsum dolor sit amet",
-    "dateOfBirth": "1970-01-01Z",
-    "Gender": Gender.FEMALE,
-    "nationality": "Lorem ipsum dolor sit amet",
-    "address": "Lorem ipsum dolor sit amet",
-    "occupation": "Lorem ipsum dolor sit amet",
-    "employer": "Lorem ipsum dolor sit amet",
-    "education": "Lorem ipsum dolor sit amet",
-    "phone": "(555) 123-6789",
-    "email": "test12346789@testemailtestemail.com",
-    "facebook":  Provide init commands ,
-    "twitter":  Provide init commands ,
-    "instagram":   Provide init commands ,
-    "linkedIn":   Provide init commands ,
-    "ticktock":   Provide init commands ,
-    "heightinches": 1020,
-    "eyecolor": "Lorem ipsum dolor sit amet",
-    "tattoos": "Lorem ipsum dolor sit amet",
-    "scars": "Lorem ipsum dolor sit amet",
-    "criminalrecord": "Lorem ipsum dolor sit amet",
-    "legalstatus": "Lorem ipsum dolor sit amet",
-    "knownassociates": "Lorem ipsum dolor sit amet",
-    "backgroundinformation": "Lorem ipsum dolor sit amet",
-    "createdDateTime": 1023123,
-    "IsDeleted": true,
-    "suspectcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
-    "AppCases": []
-  }
-    }
-});
-
-const updatedSuspect = await client.graphql({
-    query: updateSuspect,
-    variables: {
-        input: {
-    "suspect_name": "Lorem ipsum dolor sit amet",
-    "suspect_date_of_birth": "1970-01-01Z",
-    "suspect_gender": Gender.FEMALE,
-    "suspect_nationality": "Lorem ipsum dolor sit amet",
-    "suspect_address": "Lorem ipsum dolor sit amet",
-    "suspect_occupation": "Lorem ipsum dolor sit amet",
-    "suspect_employer": "Lorem ipsum dolor sit amet",
-    "suspect_education": "Lorem ipsum dolor sit amet",
-    "suspect_phone": "(555) 123-6789",
-    "suspect_email": "test12346789@testemailtestemail.com",
-    "suspect_facebook":  /* Provide init commands ,
-    "suspect_twitter":  /* Provide init commands ,
-    "suspect_instagram":  /* Provide init commands ,
-    "suspect_linkedIn":  /* Provide init commands ,
-    "suspect_ticktock":  /* Provide init commands ,
-    "suspect_height_inches": 1020,
-    "suspect_eyecolor": "Lorem ipsum dolor sit amet",
-    "suspect_tattoos": "Lorem ipsum dolor sit amet",
-    "suspect_scars": "Lorem ipsum dolor sit amet",
-    "suspect_criminal_record": "Lorem ipsum dolor sit amet",
-    "suspect_legal_status": "Lorem ipsum dolor sit amet",
-    "suspect_known_associates": "Lorem ipsum dolor sit amet",
-    "suspect_background_information": "Lorem ipsum dolor sit amet",
-    "suspect_created_date": "1970-01-01Z",
-    "CaseSuspects": []
-  }
-    }
-});
-
-const deletedSuspect = await client.graphql({
-    query: deleteSuspect,
-    variables: {
-        input: {
-            id: "YOUR_RECORD_ID"
-        }
-    }
-});
-
-// List all items
-const allSuspects = await client.graphql({
-    query: listSuspects
-});
-console.log(allSuspect);
-
-// Get a specific item
-const oneSuspect = await client.graphql({
-    query: getSuspect,
-    variables: { id: 'YOUR_RECORD_ID' }
-});
-
-
-*/
-
-  /* CASESUSPECTS WIP
-  const newCaseSuspects = await client.graphql({
-    query: createCaseSuspects,
-    variables: {
-        input: {
-    "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
-    "suspectID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
-  }
-    }
-  });
-  
-  const updatedCaseSuspects = await client.graphql({
-    query: updateCaseSuspects,
-    variables: {
-        input: {
-    "appcaseID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d",
-    "suspectID": "a3f4095e-39de-43d2-baf4-f8c16f0f6f4d"
-  }
-    }
-  });
-  
-  const deletedCaseSuspects = await client.graphql({
-    query: deleteCaseSuspects,
-    variables: {
-        input: {
-            id: "YOUR_RECORD_ID"
-        }
-    }
-  });
-  
-  // List all items
-  const allCaseSuspectss = await client.graphql({
-    query: listCaseSuspectss
-  });
-  console.log(allCaseSuspects);
-  
-  // Get a specific item
-  const oneCaseSuspects = await client.graphql({
-    query: getCaseSuspects,
-    variables: { id: 'YOUR_RECORD_ID' }
-  });*/
 
   //Render on page
   return (
@@ -391,18 +153,30 @@ const oneSuspect = await client.graphql({
           <NewCaseCreateForm marginBlock={"5px"}></NewCaseCreateForm>
         </Flex>
       </View>
-      <Flex
-        direction="Column"
-        justifyContent="Center"
-        alignItems="Center" >
-        <Heading level={2} marginTop={"40px"} marginBottom={"40px"}>Current Cases</Heading>
-        <CaseCardCollection onCardView={handleViewButtonClick} overrides={{
-          "CaseViewButton": {
-            onClick: handleViewButtonClick // Pass the handleViewButtonClick function as the onClick event handler
-          }
-        }} />
-      </Flex>
-      {detailedView}
+      {!showDetailedCaseView && !showAllCaseView && ( // Render only if not in detailed view or all case view
+        <Flex
+          direction="Column"
+          justifyContent="Center"
+          alignItems="Center" >
+          <Heading level={2} marginTop={"40px"} marginBottom={"40px"}>Current Cases</Heading>
+          <CaseCardCollection overrideItems={() => {
+            return {
+              overrides: {
+                "CaseViewButton": {
+                  onClick: () => {
+                    handleCaseViewButtonClick();
+                  },
+                },
+                "image": {
+                  src: fingerprintImg2,
+                }
+              },
+            };
+          }} />
+        </Flex>
+      )}
+      {showAllCaseView && allCaseView} {/* Render all cases if showAllCaseView is true */}
+      {showDetailedCaseView && detailedCaseView} {/* Render detailed view if showDetailedCaseView is true */}
       <MarketingFooterBrand width={"100vw"}>
       </MarketingFooterBrand>
     </View>

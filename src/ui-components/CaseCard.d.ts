@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { ButtonProps, FlexProps, IconProps, ImageProps, TextProps } from "@aws-amplify/ui-react";
+import { ButtonProps, FlexProps, ImageProps, TextProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -21,10 +21,9 @@ export declare type CaseCardOverridesProps = {
     CaseCard?: PrimitiveOverrideProps<FlexProps>;
     CaseCardContent?: PrimitiveOverrideProps<FlexProps>;
     "Header Area"?: PrimitiveOverrideProps<FlexProps>;
-    "Ellipse 1"?: PrimitiveOverrideProps<IconProps>;
     "Header Text"?: PrimitiveOverrideProps<FlexProps>;
-    "000001"?: PrimitiveOverrideProps<TextProps>;
-    "Case Title is Listed Here"?: PrimitiveOverrideProps<TextProps>;
+    CaseNumber?: PrimitiveOverrideProps<TextProps>;
+    CaseTitle?: PrimitiveOverrideProps<TextProps>;
     image?: PrimitiveOverrideProps<ImageProps>;
     "Lower Text Grouping"?: PrimitiveOverrideProps<FlexProps>;
     "Status - Unsolved"?: PrimitiveOverrideProps<TextProps>;

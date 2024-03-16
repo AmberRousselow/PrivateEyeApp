@@ -7,7 +7,7 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps } from "./utils";
-import { Button, Flex, Icon, Image, Text } from "@aws-amplify/ui-react";
+import { Button, Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function CaseCard(props) {
   const { Case, overrides, ...rest } = props;
   return (
@@ -15,7 +15,7 @@ export default function CaseCard(props) {
       gap="0"
       direction="column"
       width="unset"
-      height="unset"
+      height="510px"
       justifyContent="flex-start"
       alignItems="flex-end"
       position="relative"
@@ -30,7 +30,7 @@ export default function CaseCard(props) {
         gap="10px"
         direction="column"
         width="unset"
-        height="unset"
+        height="422px"
         justifyContent="flex-start"
         alignItems="center"
         shrink="0"
@@ -42,7 +42,7 @@ export default function CaseCard(props) {
           gap="11px"
           direction="row"
           width="294px"
-          height="48px"
+          height="unset"
           justifyContent="center"
           alignItems="center"
           shrink="0"
@@ -50,29 +50,10 @@ export default function CaseCard(props) {
           padding="20px 0px 10px 0px"
           {...getOverrideProps(overrides, "Header Area")}
         >
-          <Icon
-            width="37px"
-            height="36px"
-            viewBox={{ minX: 0, minY: 0, width: 37, height: 36 }}
-            paths={[
-              {
-                d: "M37 18C37 27.9411 28.7173 36 18.5 36C8.28273 36 0 27.9411 0 18C0 8.05887 8.28273 0 18.5 0C28.7173 0 37 8.05887 37 18Z",
-                fill: "rgba(102,0,0,1)",
-                fillRule: "nonzero",
-              },
-            ]}
-            display="block"
-            gap="unset"
-            alignItems="unset"
-            justifyContent="unset"
-            shrink="0"
-            position="relative"
-            {...getOverrideProps(overrides, "Ellipse 1")}
-          ></Icon>
           <Flex
             gap="0"
             direction="column"
-            width="unset"
+            width="272px"
             height="unset"
             justifyContent="flex-start"
             alignItems="flex-start"
@@ -84,9 +65,9 @@ export default function CaseCard(props) {
             <Text
               fontFamily="Inter"
               fontSize="16px"
-              fontWeight="800"
+              fontWeight="700"
               color="rgba(0,0,0,1)"
-              lineHeight="20px"
+              lineHeight="24px"
               textAlign="left"
               display="block"
               direction="column"
@@ -100,7 +81,7 @@ export default function CaseCard(props) {
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
               children={Case?.case_number}
-              {...getOverrideProps(overrides, "000001")}
+              {...getOverrideProps(overrides, "CaseNumber")}
             ></Text>
             <Text
               fontFamily="Inter"
@@ -121,13 +102,13 @@ export default function CaseCard(props) {
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
               children={Case?.case_title}
-              {...getOverrideProps(overrides, "Case Title is Listed Here")}
+              {...getOverrideProps(overrides, "CaseTitle")}
             ></Text>
           </Flex>
         </Flex>
         <Image
           width="320px"
-          height="215px"
+          height="221px"
           display="block"
           gap="unset"
           alignItems="unset"
@@ -142,7 +123,7 @@ export default function CaseCard(props) {
           gap="0"
           direction="column"
           width="unset"
-          height="unset"
+          height="126px"
           justifyContent="flex-start"
           alignItems="flex-start"
           shrink="0"
@@ -221,8 +202,8 @@ export default function CaseCard(props) {
       <Flex
         gap="10px"
         direction="column"
-        width="unset"
-        height="unset"
+        width="320px"
+        height="73px"
         justifyContent="flex-end"
         alignItems="flex-end"
         overflow="hidden"
@@ -233,8 +214,9 @@ export default function CaseCard(props) {
       >
         <Button
           width="unset"
-          height="unset"
+          height="40px"
           shrink="0"
+          alignSelf="stretch"
           size="small"
           isDisabled={false}
           variation="primary"

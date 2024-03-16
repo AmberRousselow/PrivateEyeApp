@@ -24,13 +24,11 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type CaseNoteCreateFormInputValues = {
     note_title?: string;
     note_content?: string;
-    note_create_date?: string;
     appcaseID?: string;
 };
 export declare type CaseNoteCreateFormValidationValues = {
     note_title?: ValidationFunction<string>;
     note_content?: ValidationFunction<string>;
-    note_create_date?: ValidationFunction<string>;
     appcaseID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -38,7 +36,6 @@ export declare type CaseNoteCreateFormOverridesProps = {
     CaseNoteCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     note_title?: PrimitiveOverrideProps<TextFieldProps>;
     note_content?: PrimitiveOverrideProps<TextFieldProps>;
-    note_create_date?: PrimitiveOverrideProps<TextFieldProps>;
     appcaseID?: PrimitiveOverrideProps<AutocompleteProps>;
 } & EscapeHatchProps;
 export declare type CaseNoteCreateFormProps = React.PropsWithChildren<{

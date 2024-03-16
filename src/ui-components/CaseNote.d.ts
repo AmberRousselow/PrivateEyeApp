@@ -28,17 +28,9 @@ export declare type CaseNoteOverridesProps = {
     "Nikhil S"?: PrimitiveOverrideProps<TextProps>;
     "2nd December 2021"?: PrimitiveOverrideProps<TextProps>;
     Article?: PrimitiveOverrideProps<FlexProps>;
-    MyIcon29766860?: MyIconProps;
+    MyIcon?: MyIconProps;
     "Private Eye is an Evidence Assembly Companion designed explicitly for Private Investigators and hobbyist sleuths passionate about contributing to true crime investigations. As these individuals require a modern and intuitive tool, Private Eye aims to empower them by providing a user-friendly platform to assemble research and evidence. This web-based application is a dynamic companion, allowing investigators to effortlessly unite digital artifacts, upload documents, and manage case-related information."?: PrimitiveOverrideProps<TextProps>;
-    Share29766862?: PrimitiveOverrideProps<FlexProps>;
-    Share29766863?: PrimitiveOverrideProps<TextProps>;
-    MyIcon29766864?: MyIconProps;
-    MyIcon29766865?: MyIconProps;
-    MyIcon29766866?: MyIconProps;
     image?: PrimitiveOverrideProps<ImageProps>;
-    "Read more29766868"?: PrimitiveOverrideProps<FlexProps>;
-    MyIcon29766869?: MyIconProps;
-    "Read more29766870"?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type CaseNoteProps = React.PropsWithChildren<Partial<FlexProps> & {
     overrides?: CaseNoteOverridesProps | undefined | null;

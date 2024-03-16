@@ -193,15 +193,11 @@ export default function CaseNoteCreateForm(props) {
   const initialValues = {
     note_title: "",
     note_content: "",
-    note_create_date: "",
     appcaseID: undefined,
   };
   const [note_title, setNote_title] = React.useState(initialValues.note_title);
   const [note_content, setNote_content] = React.useState(
     initialValues.note_content
-  );
-  const [note_create_date, setNote_create_date] = React.useState(
-    initialValues.note_create_date
   );
   const [appcaseID, setAppcaseID] = React.useState(initialValues.appcaseID);
   const [appcaseIDLoading, setAppcaseIDLoading] = React.useState(false);
@@ -213,7 +209,6 @@ export default function CaseNoteCreateForm(props) {
   const resetStateValues = () => {
     setNote_title(initialValues.note_title);
     setNote_content(initialValues.note_content);
-    setNote_create_date(initialValues.note_create_date);
     setAppcaseID(initialValues.appcaseID);
     setCurrentAppcaseIDValue(undefined);
     setCurrentAppcaseIDDisplayValue("");
@@ -230,7 +225,6 @@ export default function CaseNoteCreateForm(props) {
   const validations = {
     note_title: [{ type: "Required" }],
     note_content: [],
-    note_create_date: [],
     appcaseID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -294,7 +288,6 @@ export default function CaseNoteCreateForm(props) {
         let modelFields = {
           note_title,
           note_content,
-          note_create_date,
           appcaseID,
         };
         const validationResponses = await Promise.all(
@@ -360,7 +353,6 @@ export default function CaseNoteCreateForm(props) {
             const modelFields = {
               note_title: value,
               note_content,
-              note_create_date,
               appcaseID,
             };
             const result = onChange(modelFields);
@@ -387,7 +379,6 @@ export default function CaseNoteCreateForm(props) {
             const modelFields = {
               note_title,
               note_content: value,
-              note_create_date,
               appcaseID,
             };
             const result = onChange(modelFields);
@@ -403,34 +394,6 @@ export default function CaseNoteCreateForm(props) {
         hasError={errors.note_content?.hasError}
         {...getOverrideProps(overrides, "note_content")}
       ></TextField>
-      <TextField
-        label="Note create date"
-        isRequired={false}
-        isReadOnly={false}
-        type="date"
-        value={note_create_date}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              note_title,
-              note_content,
-              note_create_date: value,
-              appcaseID,
-            };
-            const result = onChange(modelFields);
-            value = result?.note_create_date ?? value;
-          }
-          if (errors.note_create_date?.hasError) {
-            runValidationTasks("note_create_date", value);
-          }
-          setNote_create_date(value);
-        }}
-        onBlur={() => runValidationTasks("note_create_date", note_create_date)}
-        errorMessage={errors.note_create_date?.errorMessage}
-        hasError={errors.note_create_date?.hasError}
-        {...getOverrideProps(overrides, "note_create_date")}
-      ></TextField>
       <ArrayField
         lengthLimit={1}
         onChange={async (items) => {
@@ -439,7 +402,6 @@ export default function CaseNoteCreateForm(props) {
             const modelFields = {
               note_title,
               note_content,
-              note_create_date,
               appcaseID: value,
             };
             const result = onChange(modelFields);
@@ -527,15 +489,6 @@ export default function CaseNoteCreateForm(props) {
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
-        <Button
-          children="Clear"
-          type="reset"
-          onClick={(event) => {
-            event.preventDefault();
-            resetStateValues();
-          }}
-          {...getOverrideProps(overrides, "ClearButton")}
-        ></Button>
         <Flex
           gap="15px"
           {...getOverrideProps(overrides, "RightAlignCTASubFlex")}

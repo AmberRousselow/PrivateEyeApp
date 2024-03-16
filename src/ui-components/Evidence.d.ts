@@ -33,6 +33,8 @@ export declare type EvidenceOverridesProps = {
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type EvidenceProps = React.PropsWithChildren<Partial<FlexProps> & {
+    evidence?: any;
+} & {
     overrides?: EvidenceOverridesProps | undefined | null;
 }>;
 export default function Evidence(props: EvidenceProps): React.ReactElement;
