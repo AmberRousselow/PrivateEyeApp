@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import logoHead from './Images/PElogo.png'; 
-import textLogoHead from './Images/PElogoText.png'; 
-import ladyAvatar from './Images/ai-generated-8534133_1280.jpg'; 
+import logoHead from './Images/PElogo.png';
+import textLogoHead from './Images/PElogoText.png';
+import ladyAvatar from './Images/ai-generated-8534133_1280.jpg';
 import {
   CaseCardCollection,
+  CaseNoteCollection,
+  EvidenceCollection,
   MarketingFooterBrand,
   NavBarHeader,
   NewCaseCreateForm,
@@ -24,6 +26,7 @@ import {
   listAppCases
 } from "./graphql/queries";
 import { generateClient } from 'aws-amplify/api';
+import SuspectCard from "./ui-components/SuspectCard";
 
 const client = generateClient();
 
@@ -33,7 +36,7 @@ const App = ({ signOut }) => {
 
   const navbarOverrides = {
     "imagelogo": {
-      src: textLogoHead ,// app logo
+      src: textLogoHead,// app logo
     },
     "textlogo": {
       src: logoHead,// textlogo
@@ -60,10 +63,27 @@ const App = ({ signOut }) => {
 
   const [showCreateCase, setShowCreateCase] = useState(false);
 
-// Function to toggle visibility
-const toggleCreateCase = () => {
-  setShowCreateCase(!showCreateCase);
-};
+  // Function to toggle visibility
+  const toggleCreateCase = () => {
+    setShowCreateCase(!showCreateCase);
+  };
+
+  const [showDetailedView, setShowDetailedView] = useState(false);
+
+  const handleViewButtonClick = () => {
+    console.log("View button clicked"); // Add logging to check if the function is called
+    setShowDetailedView(!showDetailedView);
+  };
+
+  const detailedView = showDetailedView && (
+    <div>
+      <Flex>
+        <CaseNoteCollection />
+        <EvidenceCollection />
+        <SuspectCard />
+      </Flex>
+    </div>
+  );
 
 
   /* APPCASE WIP
@@ -364,27 +384,27 @@ const oneSuspect = await client.graphql({
           alignItems: 'center',
         }}>
         <Flex
-                direction="Column"
-                justifyContent="Center"
-                alignItems="Center" >
-                  
-        <Heading level={2} marginBottom={"5px"}>Create Case</Heading>
-        <NewCaseCreateForm marginBlock={"5px"}>
-        </NewCaseCreateForm>
+          direction="Column"
+          justifyContent="Center"
+          alignItems="Center" >
+          <Heading level={2} marginBottom={"5px"}>Create Case</Heading>
+          <NewCaseCreateForm marginBlock={"5px"}></NewCaseCreateForm>
         </Flex>
-        
       </View>
       <Flex
         direction="Column"
         justifyContent="Center"
         alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"}>Current Cases</Heading>
-        <CaseCardCollection >
-        </CaseCardCollection>
+        <CaseCardCollection onCardView={handleViewButtonClick} overrides={{
+          "CaseViewButton": {
+            onClick: handleViewButtonClick // Pass the handleViewButtonClick function as the onClick event handler
+          }
+        }} />
       </Flex>
+      {detailedView}
       <MarketingFooterBrand width={"100vw"}>
       </MarketingFooterBrand>
-      
     </View>
   );
 };
