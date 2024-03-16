@@ -17,7 +17,8 @@ import {
   Heading,
   View,
   withAuthenticator,
-  Icon
+  Icon,
+  Grid
 } from "@aws-amplify/ui-react";
 import {
   listAppCases
@@ -56,6 +57,13 @@ const App = ({ signOut }) => {
   useEffect(() => {
     fetchAppCases();
   }, []);
+
+  const [showCreateCase, setShowCreateCase] = useState(false);
+
+// Function to toggle visibility
+const toggleCreateCase = () => {
+  setShowCreateCase(!showCreateCase);
+};
 
 
   /* APPCASE WIP
@@ -348,29 +356,35 @@ const oneSuspect = await client.graphql({
   //Render on page
   return (
     <View className="App">
-      <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginBottom={"20px"}></NavBarHeader>
+      <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"20p"} marginBottom={"20px"}></NavBarHeader>
       <View
         style={{
           flex: 2,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <NewCaseCreateForm marginBlock={"50px"}></NewCaseCreateForm>
+        <Flex
+                direction="Column"
+                justifyContent="Center"
+                alignItems="Center" >
+                  
+        <Heading level={2} marginBottom={"5px"}>Create Case</Heading>
+        <NewCaseCreateForm marginBlock={"5px"}>
+        </NewCaseCreateForm>
+        </Flex>
+        
       </View>
-      <Heading level={2} marginBottom={"40px"}>Current Cases</Heading>
       <Flex
-        direction="row"
+        direction="Column"
         justifyContent="Center"
         alignItems="Center" >
-        <CaseCardCollection>
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"}>Current Cases</Heading>
+        <CaseCardCollection >
         </CaseCardCollection>
       </Flex>
-      <View style={{ alignItems: 'flex-end' }}>
-        <Button marginBlock="25px" onClick={signOut}>Sign Out</Button>
-      </View>
-
       <MarketingFooterBrand width={"100vw"}>
       </MarketingFooterBrand>
+      
     </View>
   );
 };

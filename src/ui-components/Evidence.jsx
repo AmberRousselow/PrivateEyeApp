@@ -228,7 +228,7 @@ export default function Evidence(props) {
           size="default"
           isDisabled={false}
           variation="primary"
-          children="Button"
+          children="View"
           {...getOverrideProps(overrides, "Button")}
         ></Button>
       </Flex>

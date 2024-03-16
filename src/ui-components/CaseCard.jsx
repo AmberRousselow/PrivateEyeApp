@@ -238,7 +238,7 @@ export default function CaseCard(props) {
           size="small"
           isDisabled={false}
           variation="primary"
-          children="Button"
+          children="View"
           {...getOverrideProps(overrides, "CaseViewButton")}
         ></Button>
       </Flex>
