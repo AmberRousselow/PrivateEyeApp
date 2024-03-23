@@ -35,6 +35,8 @@ export declare type CaseDetailHeaderOverridesProps = {
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type CaseDetailHeaderProps = React.PropsWithChildren<Partial<FlexProps> & {
+    appCase?: any;
+} & {
     mode?: "Light";
 } & {
     overrides?: CaseDetailHeaderOverridesProps | undefined | null;

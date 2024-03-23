@@ -15,7 +15,7 @@ export default function SuspectCard(props) {
     <Flex
       gap="16px"
       direction="column"
-      width="unset"
+      width="954px"
       height="unset"
       justifyContent="flex-start"
       alignItems="flex-start"

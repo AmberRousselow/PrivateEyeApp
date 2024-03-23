@@ -13,7 +13,7 @@ import {
 } from "./utils";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function CaseDetailHeader(props) {
-  const { overrides: overridesProp, ...rest } = props;
+  const { appCase, overrides: overridesProp, ...rest } = props;
   const variants = [
     {
       overrides: {
