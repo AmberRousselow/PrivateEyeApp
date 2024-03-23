@@ -169,6 +169,7 @@ const App = ({ signOut }) => {
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
       <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
       <Button onClick={toggleCreateCase}>Create Case</Button>
+      <Button onClick={toggleCreateCase}>Add Case Note</Button>
       {createCaseView}
 
       {!showDetailedCaseView && !showAllCaseView && ( // Render only if not in detailed view or all case view
