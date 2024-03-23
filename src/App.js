@@ -84,6 +84,8 @@ const App = ({ signOut }) => {
   const [showAllCaseView, setShowAllCaseView] = useState(false);
   //show all suspects 
   const [showAllSuspectsView, setShowAllSuspectsView] = useState(false);
+  //show all suspects 
+  const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
 
   /**HANDLE CLICKS**/
   // Function to toggle create case
@@ -94,6 +96,7 @@ const App = ({ signOut }) => {
     setShowDetailedCaseView(false); // Set showDetailedCaseView to false
     setShowAllCaseView(false); // Set showAllCaseView to false
     setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false); 
   };
 
   // Function to toggle create note
@@ -104,6 +107,7 @@ const App = ({ signOut }) => {
     setShowDetailedCaseView(false);
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false); 
   };
 
   // Function to handle case detailview
@@ -119,6 +123,7 @@ const App = ({ signOut }) => {
     setShowCreateNote(false);
     setShowDetailedCaseView(false);
     setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false); 
   };
 
   // Function to handle suspects header click
@@ -129,7 +134,19 @@ const App = ({ signOut }) => {
     setShowCreateCase(false);
     setShowCreateNote(false);
     setShowDetailedCaseView(false);
+    setShowSuspectDetailView(false); 
   };
+
+    // Function to handle view click
+    const handleSuspectsDetailClick = () => {
+      console.log("Sustpects on Nav Bar Clicked"); // Add logging to check if the function is called
+      setShowSuspectDetailView(true); 
+      setShowAllSuspectsView(false);
+      setShowAllCaseView(false);
+      setShowCreateCase(false);
+      setShowCreateNote(false);
+      setShowDetailedCaseView(false);
+    };
 
   /**VIEW FUNCTIONS**/
   const createCaseView = showCreateCase ? (
@@ -212,16 +229,32 @@ const App = ({ signOut }) => {
   const allSuspectView = showAllSuspectsView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
-        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
         <SuspectCollection overrideItems={() => {
           return {
             overrides: {
+              "Button": {
+                onClick: () => {
+                  handleSuspectsDetailClick();
+                },
+              },
               "image": {
                 src: suspectImg1,
               }
             },
           };
         }} />
+      </Flex>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
+
+   //Suspect Detail
+   const suspectDetailView = showSuspectDetailView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Suspect Details</Heading>
+        <suspectDetailView>
+        </suspectDetailView>
       </Flex>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
@@ -247,6 +280,7 @@ const App = ({ signOut }) => {
         {allCaseView}
         {detailedCaseView}
         {allSuspectView}
+        {suspectDetailView}
       </main>
       <MarketingFooterBrand class="Footer" width={"100vw"} marginTop={"40p"} >
       </MarketingFooterBrand>
