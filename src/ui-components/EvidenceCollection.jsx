@@ -24,7 +24,7 @@ export default function EvidenceCollection(props) {
   const [loading, setLoading] = React.useState(true);
   const [maxViewed, setMaxViewed] = React.useState(1);
   const pageSize = 6;
-  const isPaginated = false;
+  const isPaginated = true;
   React.useEffect(() => {
     nextToken[instanceKey] = "";
     apiCache[instanceKey] = [];
@@ -81,7 +81,10 @@ export default function EvidenceCollection(props) {
     <div>
       <Collection
         type="list"
+        isSearchable={true}
+        searchPlaceholder="Search..."
         direction="column"
+        alignItems="stretch"
         justifyContent="left"
         itemsPerPage={pageSize}
         isPaginated={!isApiPagination && isPaginated}
@@ -95,6 +98,8 @@ export default function EvidenceCollection(props) {
           }
           return (
             <Evidence
+              evidence={item}
+              margin="10px 10px 10px 10px"
               key={item.id}
               {...(overrideItems && overrideItems({ item, index }))}
             ></Evidence>

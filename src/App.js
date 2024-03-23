@@ -13,11 +13,11 @@ import {
   CaseNoteCollection,
   CaseNoteCreateForm,
   EvidenceCollection,
-  HeroLayout1,
   MarketingFooterBrand,
   NavBarHeader,
   NewCaseCreateForm,
   SuspectCard,
+  SuspectCollection,
 } from './ui-components';
 import {
   Button,
@@ -52,7 +52,12 @@ const App = ({ signOut }) => {
       onClick: () => {
         handleSuspectsHeaderClick();
       }
-
+    }, 
+    "Sign Out": { 
+      className: "custom-btn", 
+      onClick: () => { 
+        signOut(); 
+      }
     }
   };
 
@@ -208,7 +213,7 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
-        <SuspectCard overrideItems={() => {
+        <SuspectCollection overrideItems={() => {
           return {
             overrides: {
               "image": {

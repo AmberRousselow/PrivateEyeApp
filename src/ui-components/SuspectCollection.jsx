@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { listEvidences } from "../graphql/queries";
+import { listSuspects } from "../graphql/queries";
 import Suspect from "./Suspect";
 import { getOverrideProps } from "./utils";
 import { Collection, Pagination, Placeholder } from "@aws-amplify/ui-react";
@@ -55,10 +55,10 @@ export default function SuspectCollection(props) {
       }
       const result = (
         await client.graphql({
-          query: listEvidences.replaceAll("__typename", ""),
+          query: listSuspects.replaceAll("__typename", ""),
           variables,
         })
-      ).data.listEvidences;
+      ).data.listSuspects;
       newCache.push(...result.items);
       newNext = result.nextToken;
     }
@@ -80,13 +80,12 @@ export default function SuspectCollection(props) {
   return (
     <div>
       <Collection
-        type="grid"
+        type="list"
         isSearchable={true}
         searchPlaceholder="Search..."
-        templateColumns="1fr 1fr"
-        autoFlow="row"
+        direction="column"
         alignItems="stretch"
-        justifyContent="stretch"
+        justifyContent="left"
         itemsPerPage={pageSize}
         isPaginated={!isApiPagination && isPaginated}
         items={itemsProp || (loading ? new Array(pageSize).fill({}) : items)}
@@ -99,6 +98,7 @@ export default function SuspectCollection(props) {
           }
           return (
             <Suspect
+              suspect={item}
               height="auto"
               width="auto"
               margin="10px 10px 10px 10px"

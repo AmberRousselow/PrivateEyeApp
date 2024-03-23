@@ -24,7 +24,7 @@ export default function CaseCardCollection(props) {
   const [loading, setLoading] = React.useState(true);
   const [maxViewed, setMaxViewed] = React.useState(1);
   const pageSize = 6;
-  const isPaginated = false;
+  const isPaginated = true;
   React.useEffect(() => {
     nextToken[instanceKey] = "";
     apiCache[instanceKey] = [];
@@ -81,12 +81,12 @@ export default function CaseCardCollection(props) {
     <div>
       <Collection
         type="grid"
-        isSearchable={true}
+        isSearchable="true"
         searchPlaceholder="Search..."
-        templateRows="1fr 1fr"
-        autoFlow="column"
-        alignItems="stretch"
-        justifyContent="stretch"
+        templateColumns="1fr 1fr 1fr"
+        autoFlow="row"
+        alignItems="center"
+        justifyContent="center"
         itemsPerPage={pageSize}
         isPaginated={!isApiPagination && isPaginated}
         items={itemsProp || (loading ? new Array(pageSize).fill({}) : items)}
@@ -102,7 +102,7 @@ export default function CaseCardCollection(props) {
               Case={item}
               height="auto"
               width="auto"
-              margin="20px 40px 20px 40px"
+              margin="10px 10px 10px 10px"
               key={item.id}
               {...(overrideItems && overrideItems({ item, index }))}
             ></CaseCard>
