@@ -7,6 +7,7 @@ import textLogoHead from './Images/PElogoText.png';
 import ladyAvatar from './Images/ai-generated-8534133_1280.jpg';
 import fingerprintImg1 from './Images/fingerprint-146242_1280.png';
 import fingerprintImg2 from './Images/fingerprint-255899_1280.jpg';
+import suspectImg1 from './Images/hacker-3342696_1280.jpg';
 import {
   CaseCardCollection,
   CaseNoteCollection,
@@ -45,6 +46,13 @@ const App = ({ signOut }) => {
       onClick: () => {
         handleCaseHeaderClick();
       },
+    },
+    "Suspects": {
+      className: "custom-btn",
+      onClick: () => {
+        handleSuspectsHeaderClick();
+      }
+
     }
   };
 
@@ -63,33 +71,59 @@ const App = ({ signOut }) => {
   /*****HOOKS****/
   //show create case
   const [showCreateCase, setShowCreateCase] = useState(false);
+  //show create note
+  const [showCreateNote, setShowCreateNote] = useState(false);
   //show detail case
   const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
   //show all cases 
   const [showAllCaseView, setShowAllCaseView] = useState(false);
-  //show create note
-  const [showCreateNote, setShowCreateNote] = useState(false);
+  //show all suspects 
+  const [showAllSuspectsView, setShowAllSuspectsView] = useState(false);
 
   /**HANDLE CLICKS**/
   // Function to toggle create case
   const toggleCreateCase = () => {
     console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
-    setShowCreateCase(!showCreateCase);
+    setShowCreateCase(true); // Set showCreateCase to true
+    setShowCreateNote(false); // Set showCreateNote to false
+    setShowDetailedCaseView(false); // Set showDetailedCaseView to false
+    setShowAllCaseView(false); // Set showAllCaseView to false
+    setShowAllSuspectsView(false);
   };
+
   // Function to toggle create note
   const toggleCreateNote = () => {
     console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
-    setShowCreateNote(!showCreateNote);
+    setShowCreateNote(true);
+    setShowCreateCase(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
   };
+
   // Function to handle case detailview
   const handleCaseViewButtonClick = () => {
     console.log("View button clicked on Case"); // Add logging to check if the function is called
     setShowDetailedCaseView(!showDetailedCaseView);
   };
-  //when Cases on Nav bar is clicked
+  // Function to handle case header click
   const handleCaseHeaderClick = () => {
     console.log("Cases on Nav Bar Clicked"); // Add logging to check if the function is called
-    setShowAllCaseView(!showAllCaseView);
+    setShowAllCaseView(true);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllSuspectsView(false);
+  };
+
+  // Function to handle suspects header click
+  const handleSuspectsHeaderClick = () => {
+    console.log("Sustpects on Nav Bar Clicked"); // Add logging to check if the function is called
+    setShowAllSuspectsView(true);
+    setShowAllCaseView(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
   };
 
   /**VIEW FUNCTIONS**/
@@ -147,13 +181,10 @@ const App = ({ signOut }) => {
       </View>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
-
+  //Display all cases
   const allCaseView = showAllCaseView ? (
     <div>
-      <Flex
-        direction="Column"
-        justifyContent="Center"
-        alignItems="Center" >
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
         <CaseCardCollection overrideItems={() => {
           return {
@@ -172,21 +203,47 @@ const App = ({ signOut }) => {
       </Flex>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
+  //Display all Suspects
+  const allSuspectView = showAllSuspectsView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
+        <SuspectCard overrideItems={() => {
+          return {
+            overrides: {
+              "image": {
+                src: suspectImg1,
+              }
+            },
+          };
+        }} />
+      </Flex>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
 
-  //Render on page
+  /**RENDER ON PAGE**/
   return (
     <View className="App">
 
       {/* Header -- ALWAYS DISPLAY*/}
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
-      <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
-      <Button onClick={toggleCreateCase}>Create Case</Button>
-      <Button onClick={toggleCreateNote}>Add Case Note</Button>
-      {createCaseView}
-      {createNoteView}
-      {allCaseView}
-      {detailedCaseView}
-      <MarketingFooterBrand width={"100vw"}>
+      <main>
+        <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
+        <Flex justifyContent="Center" direction="row" alignItems="Center" >
+          <View marginRight={"80px"}>
+            <Button onClick={toggleCreateCase} >Create Case</Button>
+          </View>
+          <View>
+            <Button onClick={toggleCreateNote} >Add Case Note</Button>
+          </View>
+        </Flex>
+        {createCaseView}
+        {createNoteView}
+        {allCaseView}
+        {detailedCaseView}
+        {allSuspectView}
+      </main>
+      <MarketingFooterBrand class="Footer" width={"100vw"} marginTop={"40p"} >
       </MarketingFooterBrand>
     </View>
   );
