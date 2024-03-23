@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import logoHead from './Images/PElogo.png';
@@ -7,34 +7,29 @@ import textLogoHead from './Images/PElogoText.png';
 import ladyAvatar from './Images/ai-generated-8534133_1280.jpg';
 import fingerprintImg1 from './Images/fingerprint-146242_1280.png';
 import fingerprintImg2 from './Images/fingerprint-255899_1280.jpg';
-import fingerprintImg3 from './Images/fingerprint-257037_1280.png';
-import hackerImg from './Images/hacker-3342696_1280.jpg';
-import typewriterImg from './Images/concept-5355841_1280.jpg';
-import manAvatar from './Images/detective-4787272_1280.png'
 import {
   CaseCardCollection,
   CaseNoteCollection,
   CaseNoteCreateForm,
   EvidenceCollection,
+  HeroLayout1,
   MarketingFooterBrand,
   NavBarHeader,
   NewCaseCreateForm,
   SuspectCard,
 } from './ui-components';
 import {
+  Button,
   Flex,
   Heading,
   View,
   withAuthenticator,
 } from "@aws-amplify/ui-react";
-import { generateClient } from 'aws-amplify/api';
-
-/*onst client = generateClient();*/
 
 const App = ({ signOut }) => {
 
-  /*const [appcases, setAppCases] = useState([]);*/
-
+  /*OVERRIDES*/
+  //Nav bar images and user clicks
   const navbarOverrides = {
     "imagelogo": {
       src: textLogoHead,// app logo
@@ -52,6 +47,7 @@ const App = ({ signOut }) => {
     }
   };
 
+  //Case Card images and view click
   const caseCardOverrides = {
     "image": {
       src: fingerprintImg1,
@@ -62,51 +58,67 @@ const App = ({ signOut }) => {
       },
     }
   };
-  /*
-    async function fetchAppCases() {
-      const apiData = await client.graphql({ query: listAppCases });
-      const appCasesFromAPI = apiData.data.listAppCases.items;
-      await Promise.all(
-        appCasesFromAPI.map(async (appcase) => {
-          return appcase;
-        })
-      );
-      setAppCases(appCasesFromAPI);
-    }
-  
-    useEffect(() => {
-      console.log("app cases fetched");
-      fetchAppCases();
-    }, []);
-  */
-  const [showCreateCase, setShowCreateCase] = useState(false);
 
-  // Function to toggle visibility
+  /*****HOOKS****/
+  //show create case
+  const [showCreateCase, setShowCreateCase] = useState(false);
+  //show detail case
+  const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
+  //show all cases 
+  const [showAllCaseView, setShowAllCaseView] = useState(false);
+
+  /**HANDLE CLICKS**/
+  // Function to toggle create case
   const toggleCreateCase = () => {
+    console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
     setShowCreateCase(!showCreateCase);
   };
-
-  const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
 
   const handleCaseViewButtonClick = () => {
     console.log("View button clicked on Case"); // Add logging to check if the function is called
     setShowDetailedCaseView(!showDetailedCaseView);
   };
 
+  //when Cases on Nav bar is clicked
+  const handleCaseHeaderClick = () => {
+    console.log("Cases on Nav Bar Clicked"); // Add logging to check if the function is called
+    setShowAllCaseView(!showAllCaseView);
+  };
+
+  /**VIEW FUNCTIONS**/
+
+  const createCaseView = showCreateCase ? (
+    <div>
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        {/* Create Note Section */}
+        <View style={{ flex: 1, marginRight: 10 }}>
+          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
+          <CaseNoteCreateForm />
+        </View>
+
+        {/* Create Case Section */}
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
+          <NewCaseCreateForm />
+        </View>
+      </View>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
+
+  //Display Case detail when clicking view
   const detailedCaseView = showDetailedCaseView ? (
     <div>
-
       {/* Suspects */}
       <View justifyContent="Center" alignItems="center" direction="Row">
-      <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
-      <Flex
-        direction="row"
-        justifyContent="Center"
-        alignItems="Center" >
-        <SuspectCard />
+        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
+        <Flex
+          direction="row"
+          justifyContent="Center"
+          alignItems="Center" >
+          <SuspectCard />
         </Flex>
       </View>
-      
+
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         {/* Create Note Section */}
         <View style={{ flex: 1, marginLeft: 50, marginRight: 10 }}>
@@ -115,7 +127,7 @@ const App = ({ signOut }) => {
         </View>
 
         {/* Create Case Section */}
-        <View style={{ flex: 1, marginLeft: 10 , marginRight: 50}}>
+        <View style={{ flex: 1, marginLeft: 10, marginRight: 50 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Evidence</Heading>
           <EvidenceCollection />
         </View>
@@ -124,16 +136,43 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
-  const [showAllCaseView, setShowAllCaseView] = useState(false);
-
-  const handleCaseHeaderClick = () => {
-    console.log("Cases on Nav Bar Clicked"); // Add logging to check if the function is called
-    setShowAllCaseView(!showAllCaseView);
-  };
-
   const allCaseView = showAllCaseView ? (
     <div>
-     <Flex
+      <Flex
+        direction="Column"
+        justifyContent="Center"
+        alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
+        <CaseCardCollection overrideItems={() => {
+          return {
+            overrides: {
+              "CaseViewButton": {
+                onClick: () => {
+                  handleCaseViewButtonClick();
+                },
+              },
+              "image": {
+                src: fingerprintImg2,
+              }
+            },
+          };
+        }} />
+      </Flex>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
+
+  //Render on page
+  return (
+    <View className="App">
+
+      {/* Header -- ALWAYS DISPLAY*/}
+      <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
+      <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
+      <Button onClick={toggleCreateCase}>Create Case</Button>
+      {createCaseView}
+
+      {!showDetailedCaseView && !showAllCaseView && ( // Render only if not in detailed view or all case view
+        <Flex
           direction="Column"
           justifyContent="Center"
           alignItems="Center" >
@@ -153,34 +192,6 @@ const App = ({ signOut }) => {
             };
           }} />
         </Flex>
-    </div>
-  ) : null; // Render null if showDetailedCaseView is false
-
-
-  //Render on page
-  return (
-    <View className="App">
-
-      {/* Header */}
-      <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
-
-      {/* Create Note and Create Case */}
-      <View style={{ display: 'flex', flexDirection: 'row' }}>
-        {/* Create Note Section */}
-        <View style={{ flex: 1, marginRight: 10 }}>
-          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
-          <CaseNoteCreateForm />
-        </View>
-
-        {/* Create Case Section */}
-        <View style={{ flex: 1, marginLeft: 10 }}>
-          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-          <NewCaseCreateForm />
-        </View>
-      </View>
-
-      {!showDetailedCaseView && !showAllCaseView && ( // Render only if not in detailed view or all case view
-        {showAllCaseView}
       )}
       {showAllCaseView && allCaseView} {/* Render all cases if showAllCaseView is true */}
       {showDetailedCaseView && detailedCaseView} {/* Render detailed view if showDetailedCaseView is true */}
