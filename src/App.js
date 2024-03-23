@@ -41,6 +41,7 @@ const App = ({ signOut }) => {
       src: ladyAvatar, // profile image
     },
     "Cases": {
+      className: "custom-btn",
       onClick: () => {
         handleCaseHeaderClick();
       },
@@ -66,6 +67,8 @@ const App = ({ signOut }) => {
   const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
   //show all cases 
   const [showAllCaseView, setShowAllCaseView] = useState(false);
+  //show create note
+  const [showCreateNote, setShowCreateNote] = useState(false);
 
   /**HANDLE CLICKS**/
   // Function to toggle create case
@@ -73,12 +76,16 @@ const App = ({ signOut }) => {
     console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
     setShowCreateCase(!showCreateCase);
   };
-
+  // Function to toggle create note
+  const toggleCreateNote = () => {
+    console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
+    setShowCreateNote(!showCreateNote);
+  };
+  // Function to handle case detailview
   const handleCaseViewButtonClick = () => {
     console.log("View button clicked on Case"); // Add logging to check if the function is called
     setShowDetailedCaseView(!showDetailedCaseView);
   };
-
   //when Cases on Nav bar is clicked
   const handleCaseHeaderClick = () => {
     console.log("Cases on Nav Bar Clicked"); // Add logging to check if the function is called
@@ -86,20 +93,25 @@ const App = ({ signOut }) => {
   };
 
   /**VIEW FUNCTIONS**/
-
   const createCaseView = showCreateCase ? (
+    <div>
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        {/* Create Case Section */}
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
+          <NewCaseCreateForm />
+        </View>
+      </View>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
+
+  const createNoteView = showCreateNote ? (
     <div>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         {/* Create Note Section */}
         <View style={{ flex: 1, marginRight: 10 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
           <CaseNoteCreateForm />
-        </View>
-
-        {/* Create Case Section */}
-        <View style={{ flex: 1, marginLeft: 10 }}>
-          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-          <NewCaseCreateForm />
         </View>
       </View>
     </div>
@@ -169,33 +181,11 @@ const App = ({ signOut }) => {
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
       <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
       <Button onClick={toggleCreateCase}>Create Case</Button>
-      <Button onClick={toggleCreateCase}>Add Case Note</Button>
+      <Button onClick={toggleCreateNote}>Add Case Note</Button>
       {createCaseView}
-
-      {!showDetailedCaseView && !showAllCaseView && ( // Render only if not in detailed view or all case view
-        <Flex
-          direction="Column"
-          justifyContent="Center"
-          alignItems="Center" >
-          <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
-          <CaseCardCollection overrideItems={() => {
-            return {
-              overrides: {
-                "CaseViewButton": {
-                  onClick: () => {
-                    handleCaseViewButtonClick();
-                  },
-                },
-                "image": {
-                  src: fingerprintImg2,
-                }
-              },
-            };
-          }} />
-        </Flex>
-      )}
-      {showAllCaseView && allCaseView} {/* Render all cases if showAllCaseView is true */}
-      {showDetailedCaseView && detailedCaseView} {/* Render detailed view if showDetailedCaseView is true */}
+      {createNoteView}
+      {allCaseView}
+      {detailedCaseView}
       <MarketingFooterBrand width={"100vw"}>
       </MarketingFooterBrand>
     </View>
