@@ -28,6 +28,7 @@ export default function Suspect(props) {
       overflow="hidden"
       position="relative"
       padding="0px 0px 0px 0px"
+      id={suspect?.id}
       {...getOverrideProps(overrides, "Suspect")}
       {...rest}
     >

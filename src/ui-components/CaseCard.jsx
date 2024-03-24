@@ -24,6 +24,7 @@ export default function CaseCard(props) {
       borderRadius="15px"
       padding="0px 0px 0px 0px"
       backgroundColor="rgba(255,255,255,1)"
+      id={Case?.id}
       {...getOverrideProps(overrides, "CaseCard")}
       {...rest}
     >
