@@ -441,7 +441,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="54”"
+              children={suspectDetail?.suspect_height_inches}
               {...getOverrideProps(overrides, "54\u201D")}
             ></Text>
             <Text
@@ -485,7 +485,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Blue"
+              children={suspectDetail?.suspect_eyecolor}
               {...getOverrideProps(overrides, "Blue")}
             ></Text>
           </Flex>
@@ -552,7 +552,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="None"
+              children={suspectDetail?.suspect_tattoos}
               {...getOverrideProps(overrides, "None")}
             ></Text>
             <Text
@@ -596,7 +596,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Small"
+              children={suspectDetail?.suspect_scars}
               {...getOverrideProps(overrides, "Small")}
             ></Text>
           </Flex>
@@ -663,7 +663,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_address}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791453"
@@ -733,7 +733,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Female"
+              children={suspectDetail?.suspect_occupation}
               {...getOverrideProps(overrides, "Female38791581")}
             ></Text>
             <Text
@@ -777,7 +777,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Unknown"
+              children={suspectDetail?.suspect_phone}
               {...getOverrideProps(overrides, "Unknown38791583")}
             ></Text>
           </Flex>
@@ -844,7 +844,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Female"
+              children={suspectDetail?.suspect_education}
               {...getOverrideProps(overrides, "Female38791594")}
             ></Text>
             <Text
@@ -888,7 +888,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Unknown"
+              children={suspectDetail?.suspect_employer}
               {...getOverrideProps(overrides, "Unknown38791596")}
             ></Text>
           </Flex>
@@ -955,7 +955,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_employer}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791474"
@@ -1025,7 +1025,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_facebook}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791479"
@@ -1095,7 +1095,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_twitter}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791484"
@@ -1165,7 +1165,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_instagram}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791489"
@@ -1235,7 +1235,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_linkedIn}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791494"
@@ -1305,7 +1305,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_ticktock}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791499"
@@ -1375,7 +1375,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_criminal_record}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791524"
@@ -1445,7 +1445,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_legal_status}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791529"
@@ -1515,7 +1515,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_known_associates}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791534"
@@ -1585,7 +1585,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.suspect_background_information}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791539"
@@ -1655,7 +1655,7 @@ export default function SuspectDetail(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="amber.rousselow@mymail.champlain.edu"
+              children={suspectDetail?.createdAt}
               {...getOverrideProps(
                 overrides,
                 "amber.rousselow@mymail.champlain.edu38791544"

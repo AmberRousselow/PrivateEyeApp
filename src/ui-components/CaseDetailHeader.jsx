@@ -48,6 +48,7 @@ export default function CaseDetailHeader(props) {
       height="unset"
       justifyContent="center"
       alignItems="center"
+      overflow="hidden"
       position="relative"
       boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
       padding="0px 0px 0px 0px"
@@ -59,7 +60,7 @@ export default function CaseDetailHeader(props) {
         fontFamily="Inter"
         fontSize="85px"
         fontWeight="800"
-        color="rgba(78,67,59,1)"
+        color="rgba(37,30,25,1)"
         lineHeight="106.25px"
         textAlign="left"
         display="block"
@@ -304,7 +305,7 @@ export default function CaseDetailHeader(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         whiteSpace="pre-wrap"
-        children="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque."
+        children={appCase?.case_description}
         {...getOverrideProps(overrides, "Description")}
       ></Text>
       <Button

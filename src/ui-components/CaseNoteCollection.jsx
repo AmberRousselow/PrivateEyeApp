@@ -81,9 +81,8 @@ export default function CaseNoteCollection(props) {
     <div>
       <Collection
         type="list"
-        searchPlaceholder="Search..."
         direction="column"
-        justifyContent="stretch"
+        justifyContent="left"
         itemsPerPage={pageSize}
         isPaginated={!isApiPagination && isPaginated}
         items={itemsProp || (loading ? new Array(pageSize).fill({}) : items)}
@@ -96,6 +95,8 @@ export default function CaseNoteCollection(props) {
           }
           return (
             <CaseNote
+              caseNote={item}
+              margin="10px 0 10px 0"
               key={item.id}
               {...(overrideItems && overrideItems({ item, index }))}
             ></CaseNote>

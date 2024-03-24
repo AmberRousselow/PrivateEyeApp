@@ -25,7 +25,6 @@ export declare type NavBarHeaderOverridesProps = {
     imagelogo?: PrimitiveOverrideProps<ImageProps>;
     Cases?: PrimitiveOverrideProps<TextProps>;
     Suspects?: PrimitiveOverrideProps<TextProps>;
-    Reports?: PrimitiveOverrideProps<TextProps>;
     "Frame 322"?: PrimitiveOverrideProps<FlexProps>;
     "Sign Out"?: PrimitiveOverrideProps<TextProps>;
     avatar?: PrimitiveOverrideProps<ImageProps>;

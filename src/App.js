@@ -16,7 +16,6 @@ import {
   MarketingFooterBrand,
   NavBarHeader,
   NewCaseCreateForm,
-  SuspectCard,
   SuspectCollection,
 } from './ui-components';
 import {
@@ -37,6 +36,10 @@ const App = ({ signOut }) => {
     },
     "textlogo": {
       src: logoHead,// textlogo
+      className: "custom-btn",
+      onClick: () => {
+        toggleHomeView(); 
+      },
     },
     "avatar": {
       src: ladyAvatar, // profile image
@@ -52,11 +55,11 @@ const App = ({ signOut }) => {
       onClick: () => {
         handleSuspectsHeaderClick();
       }
-    }, 
-    "Sign Out": { 
-      className: "custom-btn", 
-      onClick: () => { 
-        signOut(); 
+    },
+    "Sign Out": {
+      className: "custom-btn",
+      onClick: () => {
+        signOut();
       }
     }
   };
@@ -73,7 +76,22 @@ const App = ({ signOut }) => {
     }
   };
 
+  //Suspect Card images and view click
+  const suspectCardOverrides = {
+    
+    "image": {
+      src: suspectImg1,
+    },
+    "CaseViewButton": {
+      onClick: () => {
+        handleCaseViewButtonClick();
+      },
+    }
+  };
+
   /*****HOOKS****/
+  //HOME 
+  const [showHome, setShowHome] = useState(true);
   //show create case
   const [showCreateCase, setShowCreateCase] = useState(false);
   //show create note
@@ -88,67 +106,107 @@ const App = ({ signOut }) => {
   const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
 
   /**HANDLE CLICKS**/
-  // Function to toggle create case
+  // Function to toggle default HOME view
+  const toggleHomeView = () => {
+    console.log("Toggle Home"); // Add logging to check if the function is called
+    setShowHome(true); // #1 Home True
+    setShowCreateCase(false); // #2 Set showCreateCase to true
+    setShowCreateNote(false); // #3 Set showCreateNote to false
+    setShowDetailedCaseView(false); // #4 Set showDetailedCaseView to false
+    setShowAllCaseView(false); // #5 Set showAllCaseView to false
+    setShowAllSuspectsView(false); // #6 Set showAllSuspectView to false
+    setShowSuspectDetailView(false); // #7 Set showSuspectDetailView to false
+  };
+
+  // Function to toggle CREATE CASE
   const toggleCreateCase = () => {
-    console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
-    setShowCreateCase(true); // Set showCreateCase to true
-    setShowCreateNote(false); // Set showCreateNote to false
-    setShowDetailedCaseView(false); // Set showDetailedCaseView to false
-    setShowAllCaseView(false); // Set showAllCaseView to false
+    console.log("Toggle Create Case Clicked");
+    setShowHome(false);
+    setShowCreateCase(true); // #2 Create Case
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
     setShowAllSuspectsView(false);
-    setShowSuspectDetailView(false); 
+    setShowSuspectDetailView(false);
   };
 
-  // Function to toggle create note
+  // Function to toggle CREATE NOTE
   const toggleCreateNote = () => {
-    console.log("Toggle Create Case Clicked"); // Add logging to check if the function is called
-    setShowCreateNote(true);
+    console.log("Toggle Create Note Clicked");
+    setShowHome(false);
     setShowCreateCase(false);
+    setShowCreateNote(true); // #3 Create Note
     setShowDetailedCaseView(false);
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
-    setShowSuspectDetailView(false); 
+    setShowSuspectDetailView(false);
   };
 
-  // Function to handle case detailview
+  // Function to handle CASE DETAIL view
   const handleCaseViewButtonClick = () => {
-    console.log("View button clicked on Case"); // Add logging to check if the function is called
-    setShowDetailedCaseView(!showDetailedCaseView);
-  };
-  // Function to handle case header click
-  const handleCaseHeaderClick = () => {
-    console.log("Cases on Nav Bar Clicked"); // Add logging to check if the function is called
-    setShowAllCaseView(true);
+    console.log("View button clicked on Case");
+    setShowHome(false);
     setShowCreateCase(false);
-    setShowCreateNote(false);
-    setShowDetailedCaseView(false);
-    setShowAllSuspectsView(false);
-    setShowSuspectDetailView(false); 
-  };
-
-  // Function to handle suspects header click
-  const handleSuspectsHeaderClick = () => {
-    console.log("Sustpects on Nav Bar Clicked"); // Add logging to check if the function is called
-    setShowAllSuspectsView(true);
+    setShowCreateNote(true);
+    setShowDetailedCaseView(true); // #4 Detailed Case View
     setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+  };
+  // Function to handle CASE HEADER click
+  const handleCaseHeaderClick = () => {
+    console.log("Cases on Nav Bar Clicked");
+    setShowHome(false);
     setShowCreateCase(false);
     setShowCreateNote(false);
     setShowDetailedCaseView(false);
-    setShowSuspectDetailView(false); 
+    setShowAllCaseView(true); // #5 All Cases
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
   };
 
-    // Function to handle view click
-    const handleSuspectsDetailClick = () => {
-      console.log("Sustpects on Nav Bar Clicked"); // Add logging to check if the function is called
-      setShowSuspectDetailView(true); 
-      setShowAllSuspectsView(false);
-      setShowAllCaseView(false);
-      setShowCreateCase(false);
-      setShowCreateNote(false);
-      setShowDetailedCaseView(false);
-    };
+  // Function to handle SUSPECT HEADER click
+  const handleSuspectsHeaderClick = () => {
+    console.log("Suspects on Nav Bar Clicked");
+    setShowHome(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(true); // #6 All Suspects
+    setShowSuspectDetailView(false);
+  };
 
-  /**VIEW FUNCTIONS**/
+  // Function to handle SUSPECT DETAIL view click
+  const handleSuspectsDetailClick = () => {
+    console.log("View Suspects button Clicked");
+    setShowHome(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(true); // #7 Suspect Detail
+  };
+
+  /*****VIEW FUNCTIONS******/
+
+  /* HOME */
+  const homeView = showHome ? (
+    <div>
+      <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
+      <Flex justifyContent="Center" direction="row" alignItems="Center" >
+        <View marginRight={"80px"}>
+          <Button onClick={toggleCreateCase} >Create Case</Button>
+        </View>
+        <View>
+          <Button onClick={toggleCreateNote} >Add Case Note</Button>
+        </View>
+      </Flex>
+    </div>
+  ) : null;
+
+  /*CREATE CASE FORM*/
   const createCaseView = showCreateCase ? (
     <div>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -161,6 +219,7 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
+  /*CREATE NOTE FORM*/
   const createNoteView = showCreateNote ? (
     <div>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -173,17 +232,14 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
-  //Display Case detail when clicking view
+  /*CASE DETAIL VIEW*/
   const detailedCaseView = showDetailedCaseView ? (
     <div>
       {/* Suspects */}
       <View justifyContent="Center" alignItems="center" direction="Row">
         <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
-        <Flex
-          direction="row"
-          justifyContent="Center"
-          alignItems="Center" >
-          <SuspectCard />
+        <Flex direction="row" justifyContent="Center" alignItems="Center" >
+        <SuspectCollection></SuspectCollection>
         </Flex>
       </View>
 
@@ -202,8 +258,9 @@ const App = ({ signOut }) => {
 
       </View>
     </div>
-  ) : null; // Render null if showDetailedCaseView is false
-  //Display all cases
+  ) : null; // Render null
+
+  /*ALL CASE VIEW**/
   const allCaseView = showAllCaseView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
@@ -224,8 +281,9 @@ const App = ({ signOut }) => {
         }} />
       </Flex>
     </div>
-  ) : null; // Render null if showDetailedCaseView is false
-  //Display all Suspects
+  ) : null; // Render null
+
+  /*ALL SUSPECTS VIEW*/
   const allSuspectView = showAllSuspectsView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
@@ -246,10 +304,10 @@ const App = ({ signOut }) => {
         }} />
       </Flex>
     </div>
-  ) : null; // Render null if showDetailedCaseView is false
+  ) : null; // Render null 
 
-   //Suspect Detail
-   const suspectDetailView = showSuspectDetailView ? (
+  /*SUSPECT DETAIL VIEW*/
+  const suspectDetailView = showSuspectDetailView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Suspect Details</Heading>
@@ -259,22 +317,14 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
-  /**RENDER ON PAGE**/
+  /********RENDER ON PAGE*********/
   return (
     <View className="App">
 
-      {/* Header -- ALWAYS DISPLAY*/}
+      {/*** HEADER *** ALWAYS DISPLAY ***/}
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
       <main>
-        <Heading level={1} class="special-elite-regular" fontSize={"85px"}>Ready to solve the mystery?</Heading>
-        <Flex justifyContent="Center" direction="row" alignItems="Center" >
-          <View marginRight={"80px"}>
-            <Button onClick={toggleCreateCase} >Create Case</Button>
-          </View>
-          <View>
-            <Button onClick={toggleCreateNote} >Add Case Note</Button>
-          </View>
-        </Flex>
+        {homeView}
         {createCaseView}
         {createNoteView}
         {allCaseView}

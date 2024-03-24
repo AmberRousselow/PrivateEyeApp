@@ -6,11 +6,12 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "./utils";
+import { getOverrideProps, useAuth } from "./utils";
 import { Flex, Image, Text } from "@aws-amplify/ui-react";
 import MyIcon from "./MyIcon";
 export default function CaseNote(props) {
-  const { overrides, ...rest } = props;
+  const { caseNote, overrides, ...rest } = props;
+  const authAttributes = useAuth().user?.attributes ?? {};
   return (
     <Flex
       gap="16px"
@@ -19,6 +20,7 @@ export default function CaseNote(props) {
       height="unset"
       justifyContent="flex-start"
       alignItems="flex-start"
+      overflow="hidden"
       position="relative"
       borderRadius="15px"
       padding="24px 24px 24px 24px"
@@ -33,6 +35,7 @@ export default function CaseNote(props) {
         height="unset"
         justifyContent="flex-start"
         alignItems="flex-start"
+        overflow="hidden"
         shrink="0"
         alignSelf="stretch"
         position="relative"
@@ -85,7 +88,7 @@ export default function CaseNote(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="This is a Case Note that is saved for safe keeping"
+              children={caseNote?.note_title}
               {...getOverrideProps(
                 overrides,
                 "This is a Case Note that is saved for safe keeping"
@@ -123,7 +126,7 @@ export default function CaseNote(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Nikhil S"
+                children={authAttributes["email"]}
                 {...getOverrideProps(overrides, "Nikhil S")}
               ></Text>
               <Text
@@ -145,7 +148,7 @@ export default function CaseNote(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="2nd December 2021"
+                children={caseNote?.note_create_date}
                 {...getOverrideProps(overrides, "2nd December 2021")}
               ></Text>
             </Flex>
@@ -197,7 +200,7 @@ export default function CaseNote(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Private Eye is an Evidence Assembly Companion designed explicitly for Private Investigators and hobbyist sleuths passionate about contributing to true crime investigations. As these individuals require a modern and intuitive tool, Private Eye aims to empower them by providing a user-friendly platform to assemble research and evidence. This web-based application is a dynamic companion, allowing investigators to effortlessly unite digital artifacts, upload documents, and manage case-related information."
+              children={caseNote?.note_content}
               {...getOverrideProps(
                 overrides,
                 "Private Eye is an Evidence Assembly Companion designed explicitly for Private Investigators and hobbyist sleuths passionate about contributing to true crime investigations. As these individuals require a modern and intuitive tool, Private Eye aims to empower them by providing a user-friendly platform to assemble research and evidence. This web-based application is a dynamic companion, allowing investigators to effortlessly unite digital artifacts, upload documents, and manage case-related information."

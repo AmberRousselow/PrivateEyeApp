@@ -33,6 +33,8 @@ export declare type CaseNoteOverridesProps = {
     image?: PrimitiveOverrideProps<ImageProps>;
 } & EscapeHatchProps;
 export declare type CaseNoteProps = React.PropsWithChildren<Partial<FlexProps> & {
+    caseNote?: any;
+} & {
     overrides?: CaseNoteOverridesProps | undefined | null;
 }>;
 export default function CaseNote(props: CaseNoteProps): React.ReactElement;

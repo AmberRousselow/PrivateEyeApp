@@ -25,6 +25,7 @@ export default function Suspect(props) {
       height="unset"
       justifyContent="flex-start"
       alignItems="flex-start"
+      overflow="hidden"
       position="relative"
       padding="0px 0px 0px 0px"
       {...getOverrideProps(overrides, "Suspect")}
