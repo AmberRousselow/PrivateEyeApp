@@ -27,6 +27,25 @@
   color: white;
 }
 
+.sidebar-icon {
+  font-size: 24px;
+  position: fixed;
+  left: 0; /* Position on the left side */
+  padding: 1%;
+}
+
+.container {
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  height: 40vh; /* Full height of the viewport */
+}
+
+.create-form {
+  width: 50%;
+  padding: 30px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Drop shadow for depth */
+}
+
 main{ 
 flex-grow: 1;
 }

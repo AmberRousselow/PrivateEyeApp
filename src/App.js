@@ -1,11 +1,12 @@
 
 import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import logoHead from './Images/PElogo.png';
 import textLogoHead from './Images/PElogoText.png';
 import ladyAvatar from './Images/ai-generated-8534133_1280.jpg';
-import fingerprintImg1 from './Images/fingerprint-146242_1280.png';
 import fingerprintImg2 from './Images/fingerprint-255899_1280.jpg';
 import suspectImg1 from './Images/hacker-3342696_1280.jpg';
 import {
@@ -13,10 +14,14 @@ import {
   CaseNoteCollection,
   CaseNoteCreateForm,
   EvidenceCollection,
+  EvidenceCreateForm,
   MarketingFooterBrand,
   NavBarHeader,
   NewCaseCreateForm,
+  SideBar,
   SuspectCollection,
+  SuspectCreateForm,
+  SuspectDetail,
 } from './ui-components';
 import {
   Button,
@@ -38,7 +43,7 @@ const App = ({ signOut }) => {
       src: logoHead,// textlogo
       className: "custom-btn",
       onClick: () => {
-        toggleHomeView(); 
+        toggleHomeView();
       },
     },
     "avatar": {
@@ -64,32 +69,31 @@ const App = ({ signOut }) => {
     }
   };
 
-  //Case Card images and view click
-  const caseCardOverrides = {
-    "image": {
-      src: fingerprintImg1,
-    },
-    "CaseViewButton": {
+  //FOOTER user clicks
+  const footerOverrides = {
+    "Cases": {
+      className: "custom-btn",
       onClick: () => {
-        handleCaseViewButtonClick();
+        showAllCaseView();
       },
-    }
-  };
+    },
+    "Suspects": {
+      className: "custom-btn",
+      onClick: () => {
+        showAllSuspectsView();
+      }
+    },
+    "Evidence": {
+      className: "custom-btn",
+      onClick: () => {
 
-  //Suspect Card images and view click
-  const suspectCardOverrides = {
-    
-    "image": {
-      src: suspectImg1,
-    },
-    "CaseViewButton": {
-      onClick: () => {
-        handleCaseViewButtonClick();
-      },
+      }
     }
   };
 
   /*****HOOKS****/
+  //SIDE BAR
+  const [showSidebar, setShowSidebar] = useState(false);
   //HOME 
   const [showHome, setShowHome] = useState(true);
   //show create case
@@ -106,14 +110,20 @@ const App = ({ signOut }) => {
   const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
 
   /**HANDLE CLICKS**/
+  // view SIDE BAR
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   // Function to toggle default HOME view
   const toggleHomeView = () => {
     console.log("Toggle Home"); // Add logging to check if the function is called
     setShowHome(true); // #1 Home True
+    setShowSidebar(!showSidebar); 
     setShowCreateCase(false); // #2 Set showCreateCase to true
     setShowCreateNote(false); // #3 Set showCreateNote to false
     setShowDetailedCaseView(false); // #4 Set showDetailedCaseView to false
-    setShowAllCaseView(false); // #5 Set showAllCaseView to false
+    setShowAllCaseView(true); // #5 Set showAllCaseView to true
     setShowAllSuspectsView(false); // #6 Set showAllSuspectView to false
     setShowSuspectDetailView(false); // #7 Set showSuspectDetailView to false
   };
@@ -190,6 +200,51 @@ const App = ({ signOut }) => {
   };
 
   /*****VIEW FUNCTIONS******/
+  /**SIDE BAR**/
+  const sideBarView = showSidebar ? (
+    <div>
+      <SideBar
+        class="sidebar"
+        overrides={{ //SIDEBAR user clicks
+            "label39493362": {
+              className: "custom-btn",
+              onClick: () => {
+                toggleHomeView();
+              },
+            },
+            "label39493368": {
+              className: "custom-btn",
+              onClick: () => {
+                toggleCreateCase();
+              }
+            },
+            "label39493372": {
+              className: "custom-btn",
+              onClick: () => {
+                <SuspectCreateForm></SuspectCreateForm>
+              }
+            },
+            "label39493376": {
+              className: "custom-btn",
+              onClick: () => {
+                <EvidenceCreateForm></EvidenceCreateForm>
+              }
+            },
+            "label39493382": {
+              className: "custom-btn",
+              onClick: () => {
+                handleCaseHeaderClick(); 
+              }
+            },
+            "label39493386": {
+              className: "custom-btn",
+              onClick: () => {
+                handleSuspectsHeaderClick(); 
+              }
+            }}}
+      ></SideBar>
+    </div>
+  ) : null;
 
   /* HOME */
   const homeView = showHome ? (
@@ -213,7 +268,7 @@ const App = ({ signOut }) => {
         {/* Create Case Section */}
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-          <NewCaseCreateForm />
+          <NewCaseCreateForm class="create-form"/>
         </View>
       </View>
     </div>
@@ -239,7 +294,7 @@ const App = ({ signOut }) => {
       <View justifyContent="Center" alignItems="center" direction="Row">
         <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
         <Flex direction="row" justifyContent="Center" alignItems="Center" >
-        <SuspectCollection></SuspectCollection>
+          <SuspectCollection></SuspectCollection>
         </Flex>
       </View>
 
@@ -265,12 +320,12 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
-        <CaseCardCollection overrideItems={() => {
+        <CaseCardCollection overrideItems={({item,index}) => {
           return {
             overrides: {
               "CaseViewButton": {
                 onClick: () => {
-                  handleCaseViewButtonClick();
+                  handleCaseViewButtonClick(item);
                 },
               },
               "image": {
@@ -288,12 +343,12 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
-        <SuspectCollection overrideItems={() => {
+        <SuspectCollection overrideItems={({item,index}) => {
           return {
             overrides: {
               "Button": {
                 onClick: () => {
-                  handleSuspectsDetailClick();
+                  handleSuspectsDetailClick(item);
                 },
               },
               "image": {
@@ -311,11 +366,10 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Suspect Details</Heading>
-        <suspectDetailView>
-        </suspectDetailView>
+        <SuspectDetail></SuspectDetail>
       </Flex>
     </div>
-  ) : null; // Render null if showDetailedCaseView is false
+  ) : null;
 
   /********RENDER ON PAGE*********/
   return (
@@ -324,6 +378,8 @@ const App = ({ signOut }) => {
       {/*** HEADER *** ALWAYS DISPLAY ***/}
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
       <main>
+        <FontAwesomeIcon icon={showSidebar ? faTimes : faArrowRight} onClick={toggleSidebar} className="sidebar-icon" />
+        {sideBarView}
         {homeView}
         {createCaseView}
         {createNoteView}
@@ -332,7 +388,7 @@ const App = ({ signOut }) => {
         {allSuspectView}
         {suspectDetailView}
       </main>
-      <MarketingFooterBrand class="Footer" width={"100vw"} marginTop={"40p"} >
+      <MarketingFooterBrand overrides={footerOverrides} class="Footer" width={"100vw"} marginTop={"40p"} >
       </MarketingFooterBrand>
     </View>
   );

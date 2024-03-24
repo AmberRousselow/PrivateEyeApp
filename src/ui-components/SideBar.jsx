@@ -167,7 +167,7 @@ export default function SideBar(props) {
             <Flex
               gap="8px"
               direction="row"
-              width="unset"
+              width="296px"
               height="unset"
               justifyContent="flex-start"
               alignItems="center"
@@ -224,7 +224,7 @@ export default function SideBar(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Content"
+                children="Create Case"
                 {...getOverrideProps(overrides, "label39493368")}
               ></Text>
             </Flex>
@@ -280,7 +280,7 @@ export default function SideBar(props) {
                 direction="column"
                 justifyContent="unset"
                 letterSpacing="0.01px"
-                width="100px"
+                width="258px"
                 height="unset"
                 gap="unset"
                 alignItems="unset"
@@ -288,14 +288,14 @@ export default function SideBar(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Users"
+                children="Create Suspect"
                 {...getOverrideProps(overrides, "label39493372")}
               ></Text>
             </Flex>
             <Flex
               gap="8px"
               direction="row"
-              width="unset"
+              width="296px"
               height="unset"
               justifyContent="flex-start"
               alignItems="center"
@@ -352,7 +352,7 @@ export default function SideBar(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Files"
+                children="Create Evidence"
                 {...getOverrideProps(overrides, "label39493376")}
               ></Text>
             </Flex>
@@ -360,7 +360,7 @@ export default function SideBar(props) {
           <Flex
             gap="16px"
             direction="column"
-            width="unset"
+            width="296px"
             height="unset"
             justifyContent="flex-start"
             alignItems="flex-start"
@@ -387,7 +387,7 @@ export default function SideBar(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               whiteSpace="pre-wrap"
-              children="Set up"
+              children="View"
               {...getOverrideProps(overrides, "label39493378")}
             ></Text>
             <Flex
@@ -450,7 +450,7 @@ export default function SideBar(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Data"
+                children="All Cases"
                 {...getOverrideProps(overrides, "label39493382")}
               ></Text>
             </Flex>
@@ -514,7 +514,7 @@ export default function SideBar(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="Storage"
+                children="All Suspects"
                 {...getOverrideProps(overrides, "label39493386")}
               ></Text>
             </Flex>
@@ -529,59 +529,7 @@ export default function SideBar(props) {
               position="relative"
               padding="0px 0px 0px 0px"
               {...getOverrideProps(overrides, "link39493387")}
-            >
-              <Flex
-                gap="0"
-                direction="row"
-                width="unset"
-                height="unset"
-                justifyContent="flex-start"
-                alignItems="flex-start"
-                shrink="0"
-                position="relative"
-                borderRadius="4px"
-                padding="6px 6px 6px 6px"
-                backgroundColor="rgba(177,170,165,1)"
-                {...getOverrideProps(overrides, "icon39493388")}
-              >
-                <MyIcon
-                  width="18px"
-                  height="18px"
-                  display="block"
-                  gap="unset"
-                  alignItems="unset"
-                  justifyContent="unset"
-                  overflow="hidden"
-                  shrink="0"
-                  position="relative"
-                  padding="0px 0px 0px 0px"
-                  type="authentication"
-                  {...getOverrideProps(overrides, "MyIcon39493389")}
-                ></MyIcon>
-              </Flex>
-              <Text
-                fontFamily="Inter"
-                fontSize="16px"
-                fontWeight="400"
-                color="rgba(78,67,59,1)"
-                lineHeight="24px"
-                textAlign="left"
-                display="block"
-                direction="column"
-                justifyContent="unset"
-                letterSpacing="0.01px"
-                width="unset"
-                height="unset"
-                gap="unset"
-                alignItems="unset"
-                shrink="0"
-                position="relative"
-                padding="0px 0px 0px 0px"
-                whiteSpace="pre-wrap"
-                children="Authentication"
-                {...getOverrideProps(overrides, "label39493390")}
-              ></Text>
-            </Flex>
+            ></Flex>
           </Flex>
         </Flex>
       </Flex>

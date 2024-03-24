@@ -52,9 +52,6 @@ export declare type SideBarOverridesProps = {
     MyIcon39493385?: MyIconProps;
     label39493386?: PrimitiveOverrideProps<TextProps>;
     link39493387?: PrimitiveOverrideProps<FlexProps>;
-    icon39493388?: PrimitiveOverrideProps<FlexProps>;
-    MyIcon39493389?: MyIconProps;
-    label39493390?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type SideBarProps = React.PropsWithChildren<Partial<FlexProps> & {
     overrides?: SideBarOverridesProps | undefined | null;
