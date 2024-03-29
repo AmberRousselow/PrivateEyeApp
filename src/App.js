@@ -11,7 +11,7 @@ import fingerprintImg2 from './Images/fingerprint-255899_1280.jpg';
 import suspectImg1 from './Images/hacker-3342696_1280.jpg';
 import {
   CaseCardCollection,
-  CaseNoteCollection,
+  CaseDetailHeader,
   CaseNoteCreateForm,
   EvidenceCollection,
   EvidenceCreateForm,
@@ -74,13 +74,13 @@ const App = ({ signOut }) => {
     "Cases": {
       className: "custom-btn",
       onClick: () => {
-        showAllCaseView();
+        handleCaseHeaderClick();
       },
     },
     "Suspects": {
       className: "custom-btn",
       onClick: () => {
-        showAllSuspectsView();
+        handleSuspectsHeaderClick();
       }
     },
     "Evidence": {
@@ -119,7 +119,7 @@ const App = ({ signOut }) => {
   const toggleHomeView = () => {
     console.log("Toggle Home"); // Add logging to check if the function is called
     setShowHome(true); // #1 Home True
-    setShowSidebar(!showSidebar); 
+    setShowSidebar(!showSidebar);
     setShowCreateCase(false); // #2 Set showCreateCase to true
     setShowCreateNote(false); // #3 Set showCreateNote to false
     setShowDetailedCaseView(false); // #4 Set showDetailedCaseView to false
@@ -157,7 +157,7 @@ const App = ({ signOut }) => {
     console.log("View button clicked on Case");
     setShowHome(false);
     setShowCreateCase(false);
-    setShowCreateNote(true);
+    setShowCreateNote(false);
     setShowDetailedCaseView(true); // #4 Detailed Case View
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
@@ -206,42 +206,43 @@ const App = ({ signOut }) => {
       <SideBar
         class="sidebar"
         overrides={{ //SIDEBAR user clicks
-            "label39493362": {
-              className: "custom-btn",
-              onClick: () => {
-                toggleHomeView();
-              },
+          "label39493362": {
+            className: "custom-btn",
+            onClick: () => {
+              toggleHomeView();
             },
-            "label39493368": {
-              className: "custom-btn",
-              onClick: () => {
-                toggleCreateCase();
-              }
-            },
-            "label39493372": {
-              className: "custom-btn",
-              onClick: () => {
-                <SuspectCreateForm></SuspectCreateForm>
-              }
-            },
-            "label39493376": {
-              className: "custom-btn",
-              onClick: () => {
-                <EvidenceCreateForm></EvidenceCreateForm>
-              }
-            },
-            "label39493382": {
-              className: "custom-btn",
-              onClick: () => {
-                handleCaseHeaderClick(); 
-              }
-            },
-            "label39493386": {
-              className: "custom-btn",
-              onClick: () => {
-                handleSuspectsHeaderClick(); 
-              }
-            }}}
+          },
+          "label39493368": {
+            className: "custom-btn",
+            onClick: () => {
+              toggleCreateCase();
+            }
+          },
+          "label39493372": {
+            className: "custom-btn",
+            onClick: () => {
+              <SuspectCreateForm></SuspectCreateForm>
+            }
+          },
+          "label39493376": {
+            className: "custom-btn",
+            onClick: () => {
+              <EvidenceCreateForm></EvidenceCreateForm>
+            }
+          },
+          "label39493382": {
+            className: "custom-btn",
+            onClick: () => {
+              handleCaseHeaderClick();
+            }
+          },
+          "label39493386": {
+            className: "custom-btn",
+            onClick: () => {
+              handleSuspectsHeaderClick();
+            }
+          }
+        }}
       ></SideBar>
     </div>
   ) : null;
@@ -268,7 +269,7 @@ const App = ({ signOut }) => {
         {/* Create Case Section */}
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-          <NewCaseCreateForm class="create-form"/>
+          <NewCaseCreateForm class="create-form" />
         </View>
       </View>
     </div>
@@ -290,19 +291,14 @@ const App = ({ signOut }) => {
   /*CASE DETAIL VIEW*/
   const detailedCaseView = showDetailedCaseView ? (
     <div>
-      {/* Suspects */}
-      <View justifyContent="Center" alignItems="center" direction="Row">
-        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
-        <Flex direction="row" justifyContent="Center" alignItems="Center" >
-          <SuspectCollection></SuspectCollection>
-        </Flex>
+      <View style={{ flex: 1, marginLeft: 10, marginRight: 50 }}>
+        <CaseDetailHeader width={"80%"} alignItems={"center"} marginTop={"40p"} marginBottom={"2px"}></CaseDetailHeader>
       </View>
-
       <View style={{ display: 'flex', flexDirection: 'row' }}>
-        {/* Create Note Section */}
+        {/* Suspects Section */}
         <View style={{ flex: 1, marginLeft: 50, marginRight: 10 }}>
-          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Notes</Heading>
-          <CaseNoteCollection />
+          <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
+          <SuspectCollection></SuspectCollection>
         </View>
 
         {/* Create Case Section */}
@@ -320,7 +316,7 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
-        <CaseCardCollection overrideItems={({item,index}) => {
+        <CaseCardCollection overrideItems={({ item, index }) => {
           return {
             overrides: {
               "CaseViewButton": {
@@ -343,7 +339,7 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
-        <SuspectCollection overrideItems={({item,index}) => {
+        <SuspectCollection overrideItems={({ item, index }) => {
           return {
             overrides: {
               "Button": {
@@ -388,7 +384,7 @@ const App = ({ signOut }) => {
         {allSuspectView}
         {suspectDetailView}
       </main>
-      <MarketingFooterBrand overrides={footerOverrides} class="Footer" width={"100vw"} marginTop={"40p"} >
+      <MarketingFooterBrand overrides={footerOverrides} className="footer" width={"100vw"} marginTop={"40p"} >
       </MarketingFooterBrand>
     </View>
   );

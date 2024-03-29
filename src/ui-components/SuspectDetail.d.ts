@@ -121,7 +121,7 @@ export declare type SuspectDetailOverridesProps = {
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type SuspectDetailProps = React.PropsWithChildren<Partial<FlexProps> & {
-    suspectDetail?: any;
+    suspect?: any;
 } & {
     overrides?: SuspectDetailOverridesProps | undefined | null;
 }>;

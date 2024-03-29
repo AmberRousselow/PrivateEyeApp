@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "./utils";
+import { getOverrideProps, useNavigateAction } from "./utils";
 import {
   Badge,
   Button,
@@ -17,6 +17,7 @@ import {
 } from "@aws-amplify/ui-react";
 export default function Suspect(props) {
   const { suspect, overrides, ...rest } = props;
+  const buttonOnClick = useNavigateAction({ type: "url", url: suspect?.id });
   return (
     <Flex
       gap="0"
@@ -218,6 +219,9 @@ export default function Suspect(props) {
             isDisabled={false}
             variation="primary"
             children="View"
+            onClick={() => {
+              buttonOnClick();
+            }}
             {...getOverrideProps(overrides, "Button")}
           ></Button>
         </Flex>
