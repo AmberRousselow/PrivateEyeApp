@@ -6,23 +6,10 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { generateClient } from "aws-amplify/api";
-import { updateSuspect } from "../graphql/mutations";
 import { getOverrideProps } from "./utils";
 import { Button, Divider, Flex, Text } from "@aws-amplify/ui-react";
-const client = generateClient();
 export default function SuspectDetail(props) {
   const { suspect, overrides, ...rest } = props;
-  const buttonOnClick = async () => {
-    await client.graphql({
-      query: updateSuspect.replaceAll("__typename", ""),
-      variables: {
-        input: {
-          id: suspect?.id,
-        },
-      },
-    });
-  };
   return (
     <Flex
       gap="0"
@@ -35,6 +22,7 @@ export default function SuspectDetail(props) {
       position="relative"
       padding="0px 0px 0px 0px"
       backgroundColor="rgba(255,255,255,1)"
+      key={suspect?.id}
       {...getOverrideProps(overrides, "SuspectDetail")}
       {...rest}
     >
@@ -1786,9 +1774,6 @@ export default function SuspectDetail(props) {
               isDisabled={false}
               variation="primary"
               children="Edit Details"
-              onClick={() => {
-                buttonOnClick();
-              }}
               {...getOverrideProps(overrides, "Button")}
             ></Button>
           </Flex>

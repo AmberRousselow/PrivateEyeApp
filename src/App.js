@@ -24,6 +24,11 @@ import {
   SuspectDetail,
 } from './ui-components';
 import {
+  getAppCase,
+  getCaseSuspects,
+  getEvidence
+} from './graphql/queries';
+import {
   Button,
   Flex,
   Heading,
@@ -108,6 +113,8 @@ const App = ({ signOut }) => {
   const [showAllSuspectsView, setShowAllSuspectsView] = useState(false);
   //show all suspects 
   const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
+
+  const [getAppCase, setAppCase] = useState(); 
 
   /**HANDLE CLICKS**/
   // view SIDE BAR
@@ -288,17 +295,41 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
+
+  /*ALL CASE VIEW**/
+  const allCaseView = showAllCaseView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
+        <CaseCardCollection overrideItems={({ item, index }) => ({
+          overrides: {
+            "CaseViewButton": {
+              onClick: () => {
+                setAppCase(item); 
+                handleCaseViewButtonClick();
+              },
+            },
+            "image": {
+              src: fingerprintImg2
+            }
+          }
+        })
+        } />
+      </Flex>
+    </div>
+  ) : null; // Render null
+
   /*CASE DETAIL VIEW*/
   const detailedCaseView = showDetailedCaseView ? (
     <div>
       <View style={{ flex: 1, marginLeft: 10, marginRight: 50 }}>
-        <CaseDetailHeader width={"80%"} alignItems={"center"} marginTop={"40p"} marginBottom={"2px"}></CaseDetailHeader>
+        <CaseDetailHeader appCase={getAppCase} width={"80%"} alignItems={"center"} marginTop={"40p"} marginBottom={"2px"}></CaseDetailHeader>
       </View>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         {/* Suspects Section */}
         <View style={{ flex: 1, marginLeft: 50, marginRight: 10 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
-          <SuspectCollection></SuspectCollection>
+          <SuspectCollection ></SuspectCollection>
         </View>
 
         {/* Create Case Section */}
@@ -311,40 +342,20 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null
 
-  /*ALL CASE VIEW**/
-  const allCaseView = showAllCaseView ? (
-    <div>
-      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
-        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
-        <CaseCardCollection overrideItems={({ item, index }) => {
-          return {
-            overrides: {
-              "CaseViewButton": {
-                onClick: () => {
-                  handleCaseViewButtonClick(item);
-                },
-              },
-              "image": {
-                src: fingerprintImg2,
-              }
-            },
-          };
-        }} />
-      </Flex>
-    </div>
-  ) : null; // Render null
 
   /*ALL SUSPECTS VIEW*/
   const allSuspectView = showAllSuspectsView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
-        <SuspectCollection overrideItems={({ item, index }) => {
+        <SuspectCollection overrideItems={({ item }) => {
+          console.log("Suspect detail");
+          console.log("Suspect detail");
           return {
             overrides: {
               "Button": {
                 onClick: () => {
-                  handleSuspectsDetailClick(item);
+                  handleSuspectsDetailClick();
                 },
               },
               "image": {
