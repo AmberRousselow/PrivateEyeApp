@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import "./App.css";
@@ -23,11 +23,8 @@ import {
   SuspectCreateForm,
   SuspectDetail,
 } from './ui-components';
-import {
-  getAppCase,
-  getCaseSuspects,
-  getEvidence
-} from './graphql/queries';
+import { generateClient } from "aws-amplify/api";
+import * as queries from './graphql/queries'; 
 import {
   Button,
   Flex,
@@ -37,6 +34,8 @@ import {
 } from "@aws-amplify/ui-react";
 
 const App = ({ signOut }) => {
+
+  const client = generateClient(); 
 
   /*OVERRIDES*/
   //Nav bar images and user clicks
@@ -114,7 +113,12 @@ const App = ({ signOut }) => {
   //show all suspects 
   const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
 
+  /*BIND DATA*/
+  //setSuspect on button click
   const [getAppCase, setAppCase] = useState(); 
+  const [getSuspect, setSuspect] = useState();
+
+  useEffect(() => {}, []);
 
   /**HANDLE CLICKS**/
   // view SIDE BAR
@@ -276,7 +280,7 @@ const App = ({ signOut }) => {
         {/* Create Case Section */}
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-          <NewCaseCreateForm class="create-form" />
+          <NewCaseCreateForm class="create-form"/>
         </View>
       </View>
     </div>
@@ -306,6 +310,7 @@ const App = ({ signOut }) => {
             "CaseViewButton": {
               onClick: () => {
                 setAppCase(item); 
+                console.log("appCase "+item);
                 handleCaseViewButtonClick();
               },
             },
@@ -348,13 +353,14 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
-        <SuspectCollection overrideItems={({ item }) => {
-          console.log("Suspect detail");
+        <SuspectCollection overrideItems={({ item, index}) => {
           console.log("Suspect detail");
           return {
             overrides: {
               "Button": {
                 onClick: () => {
+                  setSuspect(item); 
+                  console.log("suspect ");
                   handleSuspectsDetailClick();
                 },
               },
@@ -373,7 +379,7 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Suspect Details</Heading>
-        <SuspectDetail></SuspectDetail>
+        <SuspectDetail suspect={getSuspect}></SuspectDetail>
       </Flex>
     </div>
   ) : null;
