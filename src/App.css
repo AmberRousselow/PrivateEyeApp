@@ -44,8 +44,10 @@
 }
 
 .main-content {
-  margin-left: 0; /* Adjust margin to accommodate sidebar width */
+  margin: 0; /* Adjust margin to accommodate sidebar width */
+  padding: 0;
   transition: margin 0.3s ease; /* Add transition effect for smooth adjustment */
+  min-height: calc(100vh - 34px);
 }
 
 .main-content.sidebar-open {
@@ -66,7 +68,10 @@
 }
 
 .footer {
-  margin-top: auto; /* Push the footer to the bottom */
+  margin-top: 0px; /* Push the footer to the bottom */
+  bottom: 0;
+  left: 0; 
+  position: fixed;  
 }
 
 .custom-btn:hover {

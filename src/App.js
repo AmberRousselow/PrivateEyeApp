@@ -475,7 +475,7 @@ const App = ({ signOut }) => {
         {suspectDetailView}
       </main>
       {/*** FOOTER *** ALWAYS DISPLAY***/}
-      <MarketingFooterBrand overrides={footerOverrides} className="footer" width={"100vw"} marginTop={"40p"} >
+      <MarketingFooterBrand overrides={footerOverrides} className="footer" width={"100vw"} >
       </MarketingFooterBrand>
     </View>
   );
