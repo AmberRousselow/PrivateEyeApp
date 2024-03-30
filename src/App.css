@@ -1,19 +1,5 @@
 .App {
   text-align: center; 
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; 
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -26,32 +12,51 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.sidebar-container {
+  position: absolute; /* Position container relative to its containing element */
+}
+
+.sidebar {
+  position: absolute; /* Position sidebar relative to its container */
+  top: 10px; /* Position at the top of the container */
+  left: 10px; /* Position at the left of the container */
+  width: 10px; /* Adjust width as needed */
+  height: 10%; /* Take up the full height of the container */
+  background-color: #f0f0f0; /* Adjust background color as needed */
+  z-index: 100; /* Ensure sidebar appears above other content */
+  transition: transform 0.3s ease; /* Add transition effect for smooth appearance */
+}
+
+.sidebar.open {
+  transform: translateX(0); /* Slide sidebar into view */
+}
+
+.sidebar.closed {
+  transform: translateX(-100%); /* Slide sidebar out of view */
+}
 
 .sidebar-icon {
   font-size: 24px;
-  position: fixed;
-  left: 0; /* Position on the left side */
-  padding: 1%;
+  position: absolute; /* Position sidebar icon relative to its container */
+  top: auto; /* Adjust top position as needed */
+  left: auto; /* Adjust left position as needed */
+  cursor: pointer; /* Add cursor pointer for interaction */
 }
 
-.container {
-  display: flex;
-  justify-content: center; /* Center content horizontally */
-  height: 40vh; /* Full height of the viewport */
+.main-content {
+  margin-left: 0; /* Adjust margin to accommodate sidebar width */
+  transition: margin 0.3s ease; /* Add transition effect for smooth adjustment */
+}
+
+.main-content.sidebar-open {
+  margin-left: 10px; /* Adjust margin to accommodate open sidebar */
 }
 
 .create-form {
   width: 50%;
   padding: 30px; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Drop shadow for depth */
-}
-
-main{ 
-flex-grow: 1;
-}
-
-.App-link {
-  color: #61dafb;
+  margin: 0 auto; /* Center horizontally */
 }
 
 .special-elite-regular {
@@ -70,11 +75,7 @@ flex-grow: 1;
   font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+main{ 
+  flex-grow: 1;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
