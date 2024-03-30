@@ -24,7 +24,7 @@ import {
   SuspectDetail,
 } from './ui-components';
 import { generateClient } from "aws-amplify/api";
-import * as queries from './graphql/queries'; 
+import * as queries from './graphql/queries';
 import {
   Button,
   Flex,
@@ -35,7 +35,7 @@ import {
 
 const App = ({ signOut }) => {
 
-  const client = generateClient(); 
+  const client = generateClient();
 
   /*OVERRIDES*/
   //Nav bar images and user clicks
@@ -114,11 +114,15 @@ const App = ({ signOut }) => {
   const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
 
   /*BIND DATA*/
+  //set Case on button click
+  const [getAppCase, setAppCase] = useState();
   //setSuspect on button click
-  const [getAppCase, setAppCase] = useState(); 
   const [getSuspect, setSuspect] = useState();
+  //setList of Suspects linked to Case
+  const [getListSuspect, setListSuspect] = useState();
 
-  useEffect(() => {}, []);
+
+  useEffect(() => { }, []);
 
   /**HANDLE CLICKS**/
   // view SIDE BAR
@@ -280,7 +284,7 @@ const App = ({ signOut }) => {
         {/* Create Case Section */}
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-          <NewCaseCreateForm class="create-form"/>
+          <NewCaseCreateForm class="create-form" />
         </View>
       </View>
     </div>
@@ -309,8 +313,8 @@ const App = ({ signOut }) => {
           overrides: {
             "CaseViewButton": {
               onClick: () => {
-                setAppCase(item); 
-                console.log("appCase "+item);
+                setAppCase(item);
+                console.log("appCase " + item);
                 handleCaseViewButtonClick();
               },
             },
@@ -353,13 +357,13 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
-        <SuspectCollection overrideItems={({ item, index}) => {
+        <SuspectCollection overrideItems={({ item, index }) => {
           console.log("Suspect detail");
           return {
             overrides: {
               "Button": {
                 onClick: () => {
-                  setSuspect(item); 
+                  setSuspect(item);
                   console.log("suspect ");
                   handleSuspectsDetailClick();
                 },
