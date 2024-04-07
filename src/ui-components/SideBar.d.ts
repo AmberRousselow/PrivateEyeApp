@@ -33,6 +33,10 @@ export declare type SideBarOverridesProps = {
     icon39493366?: PrimitiveOverrideProps<FlexProps>;
     MyIcon39493367?: MyIconProps;
     label39493368?: PrimitiveOverrideProps<TextProps>;
+    link3904810?: PrimitiveOverrideProps<FlexProps>;
+    icon3904811?: PrimitiveOverrideProps<FlexProps>;
+    MyIcon3904812?: MyIconProps;
+    label3904813?: PrimitiveOverrideProps<TextProps>;
     link39493369?: PrimitiveOverrideProps<FlexProps>;
     icon39493370?: PrimitiveOverrideProps<FlexProps>;
     MyIcon39493371?: MyIconProps;
@@ -47,6 +51,14 @@ export declare type SideBarOverridesProps = {
     icon39493380?: PrimitiveOverrideProps<FlexProps>;
     MyIcon39493381?: MyIconProps;
     label39493382?: PrimitiveOverrideProps<TextProps>;
+    link3904858?: PrimitiveOverrideProps<FlexProps>;
+    icon3904859?: PrimitiveOverrideProps<FlexProps>;
+    MyIcon3904860?: MyIconProps;
+    label3904861?: PrimitiveOverrideProps<TextProps>;
+    link3904880?: PrimitiveOverrideProps<FlexProps>;
+    icon3904881?: PrimitiveOverrideProps<FlexProps>;
+    MyIcon3904882?: MyIconProps;
+    label3904883?: PrimitiveOverrideProps<TextProps>;
     link39493383?: PrimitiveOverrideProps<FlexProps>;
     icon39493384?: PrimitiveOverrideProps<FlexProps>;
     MyIcon39493385?: MyIconProps;

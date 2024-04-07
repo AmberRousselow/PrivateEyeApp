@@ -22,8 +22,9 @@ export declare type MarketingFooterBrandOverridesProps = {
     "Frame 405"?: PrimitiveOverrideProps<FlexProps>;
     "Frame 403"?: PrimitiveOverrideProps<FlexProps>;
     Cases?: PrimitiveOverrideProps<TextProps>;
-    Evidence?: PrimitiveOverrideProps<TextProps>;
+    "Case Notes"?: PrimitiveOverrideProps<TextProps>;
     Suspects?: PrimitiveOverrideProps<TextProps>;
+    Evidence?: PrimitiveOverrideProps<TextProps>;
     "Frame 433"?: PrimitiveOverrideProps<FlexProps>;
     LogoWithText?: PrimitiveOverrideProps<ViewProps>;
     "\u00A9 2024 Private Eye. All rights reserved."?: PrimitiveOverrideProps<TextProps>;

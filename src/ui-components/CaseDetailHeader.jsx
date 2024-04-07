@@ -79,6 +79,7 @@ export default function CaseDetailHeader(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         whiteSpace="pre-wrap"
+        children="Case Overview"
         {...getOverrideProps(overrides, "CaseOverviewHeader")}
       ></Text>
       <Flex

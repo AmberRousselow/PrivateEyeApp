@@ -23,6 +23,7 @@ import {
   SuspectCollection,
   SuspectCreateForm,
   SuspectDetail,
+  CaseNoteCollection
 } from './ui-components';
 import { generateClient } from "aws-amplify/api";
 import * as queries from './graphql/queries';
@@ -92,7 +93,7 @@ const App = ({ signOut }) => {
     "Evidence": {
       className: "custom-btn",
       onClick: () => {
-
+        handleEvidenceViewAllClick();
       }
     }
   };
@@ -137,6 +138,8 @@ const App = ({ signOut }) => {
   const [getAppCase, setAppCase] = useState();
   //setSuspect on button click
   const [getSuspect, setSuspect] = useState();
+  //setSuspect on button click
+  const [getEvidence, setEvidence] = useState();
   //setList of Suspects linked to Case
   const [getListSuspect, setListSuspect] = useState();
 
@@ -303,7 +306,7 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-  // Function to handle CASE HEADER click
+  // Function to handle CASE NOTE VIEW ALL click
   const handleCaseNoteViewAllClick = () => {
     console.log("Cases on Nav Bar Clicked");
     setShowHome(false);
@@ -321,7 +324,7 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-  // Function to handle CASE HEADER click
+  // Function to handle EVIDENCE VIEW ALL click
   const handleEvidenceViewAllClick = () => {
     console.log("Cases on Nav Bar Clicked");
     setShowHome(false);
@@ -417,13 +420,13 @@ const App = ({ signOut }) => {
           "label39493372": {
             className: "custom-btn",
             onClick: () => {
-              <SuspectCreateForm></SuspectCreateForm>
+              toggleCreateSuspect();
             }
           },
           "label39493376": {
             className: "custom-btn",
             onClick: () => {
-              <EvidenceCreateForm></EvidenceCreateForm>
+              toggleCreateEvidence();
             }
           },
           "label39493382": {
@@ -490,6 +493,34 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
+  /****WIP***CREATE SUSPECT FORM*/
+  const createSuspectView = showCreateSusepct ? (
+    <div>
+      {/* Create Note Section */}
+      <View>
+        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
+        <SuspectCreateForm className="create-form"
+          onSuccess={() => {
+            toggleHomeView(true) // go home
+          }} />
+      </View>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
+
+  /****WIP***CREATE EVIDENCE FORM*/
+  const createEvidenceView = showCreateEvidence ? (
+    <div>
+      {/* Create Note Section */}
+      <View>
+        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
+        <EvidenceCreateForm className="create-form"
+          onSuccess={() => {
+            toggleHomeView(true) // go home
+          }} />
+      </View>
+    </div>
+  ) : null; // Render null if showDetailedCaseView is false
+
   /*ALL CASE VIEW**/
   const allCaseView = showAllCaseView ? (
     <div>
@@ -513,6 +544,67 @@ const App = ({ signOut }) => {
       </Flex>
     </div>
   ) : null; // Render null
+
+  /****WIP***ALL CASE NOTES**/
+  const allCaseNoteView = showAllCaseNoteView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>All Case Notes</Heading>
+        <CaseNoteCollection></CaseNoteCollection>
+      </Flex>
+    </div>
+  ) : null; // Render null
+
+  /*ALL EVIDENCE VIEW**/
+  const allEvidenceView = showAllEvidenceView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Evidence</Heading>
+        <EvidenceCollection overrideItems={({ item, index }) => {
+          console.log("Evidence Collection");
+          return {
+            overrides: {
+              "Button": {
+                onClick: () => {
+                  console.log("suspect ");
+                  handleEvidenceDetailClick();
+                },
+              },
+              "image": {
+                src: detective,
+              }
+            },
+          };
+        }} />
+      </Flex>
+    </div>
+  ) : null; // Render null
+
+  /*ALL SUSPECTS VIEW*/
+  const allSuspectView = showAllSuspectsView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
+        <SuspectCollection overrideItems={({ item, index }) => {
+          console.log("Suspect detail");
+          return {
+            overrides: {
+              "Button": {
+                onClick: () => {
+                  setSuspect(item);
+                  console.log("suspect ");
+                  handleSuspectsDetailClick();
+                },
+              },
+              "image": {
+                src: suspectImg1,
+              }
+            },
+          };
+        }} />
+      </Flex>
+    </div>
+  ) : null; // Render null .
 
   /*CASE DETAIL VIEW*/
   const detailedCaseView = showDetailedCaseView ? (
@@ -585,39 +677,30 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null
 
-
-  /*ALL SUSPECTS VIEW*/
-  const allSuspectView = showAllSuspectsView ? (
-    <div>
-      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
-        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>List of Suspects</Heading>
-        <SuspectCollection overrideItems={({ item, index }) => {
-          console.log("Suspect detail");
-          return {
-            overrides: {
-              "Button": {
-                onClick: () => {
-                  setSuspect(item);
-                  console.log("suspect ");
-                  handleSuspectsDetailClick();
-                },
-              },
-              "image": {
-                src: suspectImg1,
-              }
-            },
-          };
-        }} />
-      </Flex>
-    </div>
-  ) : null; // Render null 
-
   /*SUSPECT DETAIL VIEW*/
   const suspectDetailView = showSuspectDetailView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Suspect Details</Heading>
         <SuspectDetail suspect={getSuspect} ></SuspectDetail>
+      </Flex>
+    </div>
+  ) : null;
+
+  /***WIP***CASE NOTE DETAIL VIEW*/
+  const caseNoteDetailView = showDetailedCaseNoteView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Case Note Details</Heading>
+      </Flex>
+    </div>
+  ) : null;
+
+  /***WIP***EVIDENCE DETAIL VIEW*/
+  const evidenceDetailView = showEvidenceDetailView ? (
+    <div>
+      <Flex direction="Column" justifyContent="Center" alignItems="Center" >
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Evidence Details</Heading>
       </Flex>
     </div>
   ) : null;
@@ -639,10 +722,16 @@ const App = ({ signOut }) => {
         {homeView}
         {createCaseView}
         {createNoteView}
+        {createEvidenceView}
+        {createSuspectView}
         {allCaseView}
-        {detailedCaseView}
+        {allCaseNoteView}
+        {allEvidenceView}
         {allSuspectView}
         {suspectDetailView}
+        {detailedCaseView}
+        {evidenceDetailView}
+        {caseNoteDetailView}
       </main>
       {/*** FOOTER *** ALWAYS DISPLAY***/}
       <MarketingFooterBrand overrides={footerOverrides} className="footer" width={"100vw"} >

@@ -90,8 +90,8 @@ export default function MarketingFooterBrand(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Evidence"
-            {...getOverrideProps(overrides, "Evidence")}
+            children="Case Notes"
+            {...getOverrideProps(overrides, "Case Notes")}
           ></Text>
           <Text
             fontFamily="Inter"
@@ -114,6 +114,28 @@ export default function MarketingFooterBrand(props) {
             whiteSpace="pre-wrap"
             children="Suspects"
             {...getOverrideProps(overrides, "Suspects")}
+          ></Text>
+          <Text
+            fontFamily="Inter"
+            fontSize="16px"
+            fontWeight="400"
+            color="rgba(78,67,59,1)"
+            lineHeight="24px"
+            textAlign="left"
+            display="block"
+            direction="column"
+            justifyContent="unset"
+            letterSpacing="0.01px"
+            width="272px"
+            height="unset"
+            gap="unset"
+            alignItems="unset"
+            shrink="0"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            whiteSpace="pre-wrap"
+            children="Evidence"
+            {...getOverrideProps(overrides, "Evidence")}
           ></Text>
         </Flex>
       </Flex>

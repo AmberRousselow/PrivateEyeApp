@@ -123,6 +123,27 @@ export default function NavBarHeader(props) {
           children="Suspects"
           {...getOverrideProps(overrides, "Suspects")}
         ></Text>
+        <Text
+          fontFamily="Inter"
+          fontSize="16px"
+          fontWeight="400"
+          color="rgba(13,26,38,1)"
+          lineHeight="24px"
+          textAlign="left"
+          display="block"
+          direction="column"
+          justifyContent="unset"
+          width="unset"
+          height="unset"
+          gap="unset"
+          alignItems="unset"
+          shrink="0"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          whiteSpace="pre-wrap"
+          children="Case Notes"
+          {...getOverrideProps(overrides, "Case Notes")}
+        ></Text>
       </Flex>
       <Flex
         gap="32px"

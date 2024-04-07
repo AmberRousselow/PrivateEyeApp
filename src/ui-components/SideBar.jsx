@@ -231,6 +231,70 @@ export default function SideBar(props) {
             <Flex
               gap="8px"
               direction="row"
+              width="296px"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="center"
+              shrink="0"
+              position="relative"
+              padding="0px 0px 0px 0px"
+              {...getOverrideProps(overrides, "link3904810")}
+            >
+              <Flex
+                gap="0"
+                direction="row"
+                width="unset"
+                height="unset"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                shrink="0"
+                position="relative"
+                borderRadius="4px"
+                padding="6px 6px 6px 6px"
+                backgroundColor="rgba(177,170,165,1)"
+                {...getOverrideProps(overrides, "icon3904811")}
+              >
+                <MyIcon
+                  width="18px"
+                  height="18px"
+                  display="block"
+                  gap="unset"
+                  alignItems="unset"
+                  justifyContent="unset"
+                  overflow="hidden"
+                  shrink="0"
+                  position="relative"
+                  padding="0px 0px 0px 0px"
+                  type="chat"
+                  {...getOverrideProps(overrides, "MyIcon3904812")}
+                ></MyIcon>
+              </Flex>
+              <Text
+                fontFamily="Inter"
+                fontSize="16px"
+                fontWeight="400"
+                color="rgba(78,67,59,1)"
+                lineHeight="24px"
+                textAlign="left"
+                display="block"
+                direction="column"
+                justifyContent="unset"
+                letterSpacing="0.01px"
+                width="unset"
+                height="unset"
+                gap="unset"
+                alignItems="unset"
+                shrink="0"
+                position="relative"
+                padding="0px 0px 0px 0px"
+                whiteSpace="pre-wrap"
+                children="Create Case Note"
+                {...getOverrideProps(overrides, "label3904813")}
+              ></Text>
+            </Flex>
+            <Flex
+              gap="8px"
+              direction="row"
               width="unset"
               height="unset"
               justifyContent="flex-start"
@@ -427,7 +491,7 @@ export default function SideBar(props) {
                   shrink="0"
                   position="relative"
                   padding="0px 0px 0px 0px"
-                  type="data"
+                  type="storage"
                   {...getOverrideProps(overrides, "MyIcon39493381")}
                 ></MyIcon>
               </Flex>
@@ -452,6 +516,134 @@ export default function SideBar(props) {
                 whiteSpace="pre-wrap"
                 children="All Cases"
                 {...getOverrideProps(overrides, "label39493382")}
+              ></Text>
+            </Flex>
+            <Flex
+              gap="8px"
+              direction="row"
+              width="unset"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="center"
+              shrink="0"
+              position="relative"
+              padding="0px 0px 0px 0px"
+              {...getOverrideProps(overrides, "link3904858")}
+            >
+              <Flex
+                gap="0"
+                direction="row"
+                width="unset"
+                height="unset"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                shrink="0"
+                position="relative"
+                borderRadius="4px"
+                padding="6px 6px 6px 6px"
+                backgroundColor="rgba(177,170,165,1)"
+                {...getOverrideProps(overrides, "icon3904859")}
+              >
+                <MyIcon
+                  width="18px"
+                  height="18px"
+                  display="block"
+                  gap="unset"
+                  alignItems="unset"
+                  justifyContent="unset"
+                  overflow="hidden"
+                  shrink="0"
+                  position="relative"
+                  padding="0px 0px 0px 0px"
+                  type="email"
+                  {...getOverrideProps(overrides, "MyIcon3904860")}
+                ></MyIcon>
+              </Flex>
+              <Text
+                fontFamily="Inter"
+                fontSize="16px"
+                fontWeight="400"
+                color="rgba(78,67,59,1)"
+                lineHeight="24px"
+                textAlign="left"
+                display="block"
+                direction="column"
+                justifyContent="unset"
+                letterSpacing="0.01px"
+                width="unset"
+                height="unset"
+                gap="unset"
+                alignItems="unset"
+                shrink="0"
+                position="relative"
+                padding="0px 0px 0px 0px"
+                whiteSpace="pre-wrap"
+                children="All Case Notes"
+                {...getOverrideProps(overrides, "label3904861")}
+              ></Text>
+            </Flex>
+            <Flex
+              gap="8px"
+              direction="row"
+              width="unset"
+              height="unset"
+              justifyContent="flex-start"
+              alignItems="center"
+              shrink="0"
+              position="relative"
+              padding="0px 0px 0px 0px"
+              {...getOverrideProps(overrides, "link3904880")}
+            >
+              <Flex
+                gap="0"
+                direction="row"
+                width="unset"
+                height="unset"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                shrink="0"
+                position="relative"
+                borderRadius="4px"
+                padding="6px 6px 6px 6px"
+                backgroundColor="rgba(177,170,165,1)"
+                {...getOverrideProps(overrides, "icon3904881")}
+              >
+                <MyIcon
+                  width="18px"
+                  height="18px"
+                  display="block"
+                  gap="unset"
+                  alignItems="unset"
+                  justifyContent="unset"
+                  overflow="hidden"
+                  shrink="0"
+                  position="relative"
+                  padding="0px 0px 0px 0px"
+                  type="phone"
+                  {...getOverrideProps(overrides, "MyIcon3904882")}
+                ></MyIcon>
+              </Flex>
+              <Text
+                fontFamily="Inter"
+                fontSize="16px"
+                fontWeight="400"
+                color="rgba(78,67,59,1)"
+                lineHeight="24px"
+                textAlign="left"
+                display="block"
+                direction="column"
+                justifyContent="unset"
+                letterSpacing="0.01px"
+                width="unset"
+                height="unset"
+                gap="unset"
+                alignItems="unset"
+                shrink="0"
+                position="relative"
+                padding="0px 0px 0px 0px"
+                whiteSpace="pre-wrap"
+                children="All Suspects"
+                {...getOverrideProps(overrides, "label3904883")}
               ></Text>
             </Flex>
             <Flex
@@ -491,7 +683,7 @@ export default function SideBar(props) {
                   shrink="0"
                   position="relative"
                   padding="0px 0px 0px 0px"
-                  type="storage"
+                  type="data"
                   {...getOverrideProps(overrides, "MyIcon39493385")}
                 ></MyIcon>
               </Flex>
@@ -514,7 +706,7 @@ export default function SideBar(props) {
                 position="relative"
                 padding="0px 0px 0px 0px"
                 whiteSpace="pre-wrap"
-                children="All Suspects"
+                children="All Evidence"
                 {...getOverrideProps(overrides, "label39493386")}
               ></Text>
             </Flex>
