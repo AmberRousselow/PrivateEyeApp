@@ -12,9 +12,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-.sidebar-container {
-  position: absolute; /* Position container relative to its containing element */
-}
 
 .sidebar {
   position: absolute; /* Position sidebar relative to its container */
@@ -25,6 +22,10 @@
   background-color: #f0f0f0; /* Adjust background color as needed */
   z-index: 100; /* Ensure sidebar appears above other content */
   transition: transform 0.3s ease; /* Add transition effect for smooth appearance */
+}
+
+.sidebar-container {
+  position: absolute; /* Position container relative to its containing element */
 }
 
 .sidebar.open {
@@ -38,7 +39,7 @@
 .sidebar-icon {
   font-size: 24px;
   position: absolute; /* Position sidebar icon relative to its container */
-  top: auto; /* Adjust top position as needed */
+  top: 10%; /* Adjust top position as needed */
   left: auto; /* Adjust left position as needed */
   cursor: pointer; /* Add cursor pointer for interaction */
 }
@@ -55,10 +56,13 @@
 }
 
 .create-form {
-  width: 50%;
+  width: 75%;
   padding: 30px; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Drop shadow for depth */
   margin: 0 auto; /* Center horizontally */
+  direction: Column; 
+  justify-content: Center; 
+  align-items: Center; 
 }
 
 .special-elite-regular {

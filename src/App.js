@@ -23,7 +23,9 @@ import {
   SuspectCollection,
   SuspectCreateForm,
   SuspectDetail,
-  CaseNoteCollection
+  CaseNoteCollection, 
+  DetailViewsCaseDetailVar, 
+  DetailViewsEvidenceDetailView
 } from './ui-components';
 import { generateClient } from "aws-amplify/api";
 import * as queries from './graphql/queries';
@@ -40,7 +42,7 @@ const App = ({ signOut }) => {
 
   const client = generateClient();
 
-  /*OVERRIDES*/
+  /******OVERRIDES*******/
   //Nav bar images and user clicks
   const navbarOverrides = {
     "imagelogo": {
@@ -68,6 +70,12 @@ const App = ({ signOut }) => {
         handleSuspectsHeaderClick();
       }
     },
+    "Case Notes": {
+      className: "custom-btn",
+      onClick: () => {
+        handleCaseNoteViewAllClick();
+      }
+    },
     "Sign Out": {
       className: "custom-btn",
       onClick: () => {
@@ -84,6 +92,12 @@ const App = ({ signOut }) => {
         handleCaseHeaderClick();
       },
     },
+    "Case Notes": {
+      className: "custom-btn",
+      onClick: () => {
+        handleCaseNoteViewAllClick();
+      },
+    },
     "Suspects": {
       className: "custom-btn",
       onClick: () => {
@@ -97,7 +111,6 @@ const App = ({ signOut }) => {
       }
     }
   };
-
 
   /***********************HOOKS***********************/
   //SIDE BAR
@@ -143,24 +156,17 @@ const App = ({ signOut }) => {
   //setList of Suspects linked to Case
   const [getListSuspect, setListSuspect] = useState();
 
-  const [dayFact, setDayFact] = useState(calcDays());
-  const [susFact, setSusFact] = useState("");
-  const [evFact, setEvFact] = useState("");
-  const [statFact, setStatFact] = useState("");
-
-
-  function calcDays(createdDate) {
-    const today = new Date();
-    var returnDate = createdDate - today
-    return returnDate;
-  }
+  const [dayFact, setDayFact] = useState("114");
+  const [susFact, setSusFact] = useState("3");
+  const [evFact, setEvFact] = useState("10");
+  const [statFact, setStatFact] = useState("OPEN");
 
   useEffect(() => { }, []);
 
   /********HANDLE CLICKS************/
   // view SIDE BAR
-  const toggleSidebar = () => {
-    setShowSidebar(true);
+  const toggleSidebar= () => {
+    setShowSidebar(!showSidebar);
   };
   // Function to toggle default HOME view
   const toggleHomeView = () => {
@@ -397,7 +403,6 @@ const App = ({ signOut }) => {
     setShowEvidenceDetailView(true); // Evidence Detail
   };
 
-
   /*****VIEW FUNCTIONS******/
   /**SIDE BAR**/
   const sideBarView = showSidebar ? (
@@ -415,6 +420,12 @@ const App = ({ signOut }) => {
             className: "custom-btn",
             onClick: () => {
               toggleCreateCase();
+            }
+          },
+          "label3904813": {
+            className: "custom-btn",
+            onClick: () => {
+              toggleCreateNote();
             }
           },
           "label39493372": {
@@ -435,10 +446,22 @@ const App = ({ signOut }) => {
               handleCaseHeaderClick();
             }
           },
-          "label39493386": {
+          "label3904861": {
+            className: "custom-btn",
+            onClick: () => {
+              handleCaseNoteViewAllClick();
+            }
+          },
+          "label3904883": {
             className: "custom-btn",
             onClick: () => {
               handleSuspectsHeaderClick();
+            }
+          },
+          "label39493386": {
+            className: "custom-btn",
+            onClick: () => {
+              handleEvidenceViewAllClick();
             }
           }
         }}
@@ -464,10 +487,10 @@ const App = ({ signOut }) => {
   /*CREATE CASE FORM*/
   const createCaseView = showCreateCase ? (
     <div>
-      <Heading level={2} className="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
-      <View>
+       <View className="create-form">
+        <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
         {/* Create Case Section */}
-        <NewCaseCreateForm justifyContent="center" className="create-form"
+        <NewCaseCreateForm 
           onSuccess={() => {
             toggleHomeView(true) // go home
           }}
@@ -483,9 +506,9 @@ const App = ({ signOut }) => {
   const createNoteView = showCreateNote ? (
     <div>
       {/* Create Note Section */}
-      <View>
+      <View className="create-form">
         <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
-        <CaseNoteCreateForm className="create-form"
+        <CaseNoteCreateForm
           onSuccess={() => {
             toggleHomeView(true) // go home
           }} />
@@ -493,13 +516,13 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
-  /****WIP***CREATE SUSPECT FORM*/
+  /*CREATE SUSPECT FORM*/
   const createSuspectView = showCreateSusepct ? (
     <div>
       {/* Create Note Section */}
-      <View>
-        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
-        <SuspectCreateForm className="create-form"
+      <View className="create-form">
+        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Suspect</Heading>
+        <SuspectCreateForm
           onSuccess={() => {
             toggleHomeView(true) // go home
           }} />
@@ -507,13 +530,13 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null if showDetailedCaseView is false
 
-  /****WIP***CREATE EVIDENCE FORM*/
+  /*CREATE EVIDENCE FORM*/
   const createEvidenceView = showCreateEvidence ? (
     <div>
       {/* Create Note Section */}
-      <View>
-        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
-        <EvidenceCreateForm className="create-form"
+      <View className="create-form">
+        <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Evidence</Heading>
+        <EvidenceCreateForm
           onSuccess={() => {
             toggleHomeView(true) // go home
           }} />
@@ -550,7 +573,20 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>All Case Notes</Heading>
-        <CaseNoteCollection></CaseNoteCollection>
+        <CaseNoteCollection overrideItems={({ item, index }) => ({
+          overrides: {
+            "CaseNote": {
+              onClick: () => {
+                console.log("Case Note Detail View " + item);
+                caseNoteDetailView();
+              },
+            },
+            "image": {
+              src: fingerprintImg2
+            }
+          }
+        })
+        } />
       </Flex>
     </div>
   ) : null; // Render null
@@ -609,8 +645,9 @@ const App = ({ signOut }) => {
   /*CASE DETAIL VIEW*/
   const detailedCaseView = showDetailedCaseView ? (
     <div>
-      <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '80%' }}>
-        <CaseDetailHeader appCase={getAppCase} justifyContent={"center"} alignItems={"center"} marginTop={"40px"} marginBottom={"2px"}
+      <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '80%', padding: '10px'}}>
+        <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '90%' , padding: '30px'}}>
+        <CaseDetailHeader appCase={getAppCase} 
           overrides={{
             "CaseOverviewHeader": {
               children: "Case Overview"
@@ -630,9 +667,10 @@ const App = ({ signOut }) => {
           }
           }
         />
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        </View>
+        <View style={{ flex: 2, display: 'flex', flexDirection: 'row' }}>
           {/* Suspects Section */}
-          <View style={{ flex: 1, marginLeft: 50, marginRight: 10 }}>
+          <View >
             <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Suspects</Heading>
             <SuspectCollection overrideItems={({ item, index }) => {
               console.log("Suspect detail");
@@ -654,7 +692,7 @@ const App = ({ signOut }) => {
           </View>
 
           {/* Evidence Section */}
-          <View style={{ flex: 1, marginLeft: 10, marginRight: 50 }}>
+          <View>
             <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Evidence</Heading>
             <EvidenceCollection overrideItems={({ item, index }) => {
               console.log("Evidence detail");
@@ -696,14 +734,16 @@ const App = ({ signOut }) => {
     </div>
   ) : null;
 
-  /***WIP***EVIDENCE DETAIL VIEW*/
+  /*EVIDENCE DETAIL VIEW*/
   const evidenceDetailView = showEvidenceDetailView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Evidence Details</Heading>
+        <DetailViewsEvidenceDetailView></DetailViewsEvidenceDetailView>
       </Flex>
     </div>
   ) : null;
+
 
   /********RENDER ON PAGE*********/
   return (
@@ -711,13 +751,15 @@ const App = ({ signOut }) => {
       {/*** HEADER *** ALWAYS DISPLAY ***/}
       <NavBarHeader overrides={navbarOverrides} width={"100vw"} marginTop={"40p"} marginBottom={"2px"}></NavBarHeader>
       {/*** MAIN *** UNDER HEADER AND ABOVE FOOTER ***/}
-      <main className={showSidebar ? "main-content sidebar-open" : "main-content"}>
+      <main className={showSidebar ? "main-content sidebar-open" : "main-content sidebar-closed"}>
         <div className={"sidebar-container"}>
           <div className={showSidebar ? "sidebar open" : "sidebar closed"}>
             {/* Sidebar */}
             {sideBarView}
           </div>
-          <FontAwesomeIcon icon={showSidebar ? faTimes : faArrowRight} onClick={toggleSidebar} className={showSidebar ? "sidebar-icon open" : "sidebar-icon closed"} />
+          <FontAwesomeIcon 
+            icon={showSidebar ? faTimes : faArrowRight} onClick={toggleSidebar} 
+            className={showSidebar ? "sidebar-icon open" : "sidebar-icon closed"} />
         </div>
         {homeView}
         {createCaseView}
