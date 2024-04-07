@@ -159,7 +159,6 @@ const App = ({ signOut }) => {
   const toggleSidebar = () => {
     setShowSidebar(true);
   };
-
   // Function to toggle default HOME view
   const toggleHomeView = () => {
     console.log("Toggle Home"); // Add logging to check if the function is called
@@ -178,7 +177,6 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
   // Function to toggle CREATE CASE
   const toggleCreateCase = () => {
     console.log("Toggle Create Case Clicked");
@@ -197,7 +195,6 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
   // Function to toggle CREATE NOTE
   const toggleCreateNote = () => {
     console.log("Toggle Create Note Clicked");
@@ -216,8 +213,7 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
-  // Function to toggle CREATE NOTE
+  // Function to toggle CREATE SUSEPCT
   const toggleCreateSuspect = () => {
     console.log("Toggle Create Note Clicked");
     setShowHome(false);
@@ -235,8 +231,7 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
-  // Function to toggle CREATE NOTE
+  // Function to toggle CREATE EVIDENCE
   const toggleCreateEvidence = () => {
     console.log("Toggle Create Note Clicked");
     setShowHome(false);
@@ -290,7 +285,6 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
   // Function to handle SUSPECT HEADER click
   const handleSuspectsHeaderClick = () => {
     console.log("Suspects on Nav Bar Clicked");
@@ -309,7 +303,42 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
+  // Function to handle CASE HEADER click
+  const handleCaseNoteViewAllClick = () => {
+    console.log("Cases on Nav Bar Clicked");
+    setShowHome(false);
+    setShowSidebar(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(true); // #5 All Case Notes
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
+  };
+  // Function to handle CASE HEADER click
+  const handleEvidenceViewAllClick = () => {
+    console.log("Cases on Nav Bar Clicked");
+    setShowHome(false);
+    setShowSidebar(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(true);  // #5 All Evidence
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
+  };
   // Function to handle SUSPECT DETAIL view click
   const handleSuspectsDetailClick = () => {
     console.log("View Suspects button Clicked");
@@ -328,7 +357,6 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-
   // Function to handle CASE DETAIL view click
   const handleCaseDetailClick = () => {
     console.log("View Suspects button Clicked");
@@ -347,7 +375,6 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(true);// Case Note Detail
     setShowEvidenceDetailView(false);
   };
-
   // Function to handle EVIDENCE DETAIL view click
   const handleEvidenceDetailClick = () => {
     console.log("View Suspects button Clicked");
