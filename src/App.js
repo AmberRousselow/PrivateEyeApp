@@ -130,7 +130,7 @@ const App = ({ signOut }) => {
   //show all CASES 
   const [showAllCaseView, setShowAllCaseView] = useState(true);
   //show all NOTES 
-  const [showAllCaseNoteView, setShowAllCaseNoteView] = useState(true);
+  const [showAllCaseNoteView, setShowAllCaseNoteView] = useState(false);
   //show all SUSPECTS 
   const [showAllSuspectsView, setShowAllSuspectsView] = useState(false);
   //show all EVIDENCE 
