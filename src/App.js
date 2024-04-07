@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -99,23 +98,39 @@ const App = ({ signOut }) => {
   };
 
 
-  /*****HOOKS****/
+  /***********************HOOKS***********************/
   //SIDE BAR
   const [showSidebar, setShowSidebar] = useState(false);
   //HOME 
   const [showHome, setShowHome] = useState(true);
-  //show create case
+  /***********CREATE**********/
+  //show create CASE
   const [showCreateCase, setShowCreateCase] = useState(false);
-  //show create note
+  //show create NOTE
   const [showCreateNote, setShowCreateNote] = useState(false);
-  //show detail case
-  const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
-  //show all cases 
-  const [showAllCaseView, setShowAllCaseView] = useState(false);
-  //show all suspects 
+  //show create SUSPECT
+  const [showCreateSusepct, setShowCreateSuspect] = useState(false);
+  //show create EVIDENCE
+  const [showCreateEvidence, setShowCreateEvidence] = useState(false);
+  /*********COLLECTIONS********/
+  //show all CASES 
+  const [showAllCaseView, setShowAllCaseView] = useState(true);
+  //show all NOTES 
+  const [showAllCaseNoteView, setShowAllCaseNoteView] = useState(true);
+  //show all SUSPECTS 
   const [showAllSuspectsView, setShowAllSuspectsView] = useState(false);
-  //show all suspects 
+  //show all EVIDENCE 
+  const [showAllEvidenceView, setShowAllEvidenceView] = useState(false);
+  /*********DETAIL VIEWS**********/
+  //show detail CASE
+  const [showDetailedCaseView, setShowDetailedCaseView] = useState(false);
+  //show detail CASE
+  const [showDetailedCaseNoteView, setShowDetailedCaseNoteView] = useState(false);
+  //show detail SUSPECTS 
   const [showSuspectDetailView, setShowSuspectDetailView] = useState(false);
+  //show all EVIDENCE 
+  const [showEvidenceDetailView, setShowEvidenceDetailView] = useState(false);
+
 
   /*BIND DATA*/
   //set Case on button click
@@ -139,7 +154,7 @@ const App = ({ signOut }) => {
 
   useEffect(() => { }, []);
 
-  /**HANDLE CLICKS**/
+  /********HANDLE CLICKS************/
   // view SIDE BAR
   const toggleSidebar = () => {
     setShowSidebar(true);
@@ -156,6 +171,12 @@ const App = ({ signOut }) => {
     setShowAllCaseView(true); // #5 Set showAllCaseView to true
     setShowAllSuspectsView(false); // #6 Set showAllSuspectView to false
     setShowSuspectDetailView(false); // #7 Set showSuspectDetailView to false
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
 
   // Function to toggle CREATE CASE
@@ -169,6 +190,12 @@ const App = ({ signOut }) => {
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
     setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
 
   // Function to toggle CREATE NOTE
@@ -182,8 +209,51 @@ const App = ({ signOut }) => {
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
     setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
 
+  // Function to toggle CREATE NOTE
+  const toggleCreateSuspect = () => {
+    console.log("Toggle Create Note Clicked");
+    setShowHome(false);
+    setShowSidebar(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+    setShowCreateSuspect(true); // CREATE SUSPECT
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
+  };
+
+  // Function to toggle CREATE NOTE
+  const toggleCreateEvidence = () => {
+    console.log("Toggle Create Note Clicked");
+    setShowHome(false);
+    setShowSidebar(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(true); //CREATE EVIDENCE
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
+  };
   // Function to handle CASE DETAIL view
   const handleCaseViewButtonClick = () => {
     console.log("View button clicked on Case");
@@ -195,6 +265,12 @@ const App = ({ signOut }) => {
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
     setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
   // Function to handle CASE HEADER click
   const handleCaseHeaderClick = () => {
@@ -207,6 +283,12 @@ const App = ({ signOut }) => {
     setShowAllCaseView(true); // #5 All Cases
     setShowAllSuspectsView(false);
     setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
 
   // Function to handle SUSPECT HEADER click
@@ -220,6 +302,12 @@ const App = ({ signOut }) => {
     setShowAllCaseView(false);
     setShowAllSuspectsView(true); // #6 All Suspects
     setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
 
   // Function to handle SUSPECT DETAIL view click
@@ -233,7 +321,52 @@ const App = ({ signOut }) => {
     setShowAllCaseView(false);
     setShowAllSuspectsView(false);
     setShowSuspectDetailView(true); // #7 Suspect Detail
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(false);
   };
+
+  // Function to handle CASE DETAIL view click
+  const handleCaseDetailClick = () => {
+    console.log("View Suspects button Clicked");
+    setShowHome(false);
+    setShowSidebar(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(true);// Case Note Detail
+    setShowEvidenceDetailView(false);
+  };
+
+  // Function to handle EVIDENCE DETAIL view click
+  const handleEvidenceDetailClick = () => {
+    console.log("View Suspects button Clicked");
+    setShowHome(false);
+    setShowSidebar(false);
+    setShowCreateCase(false);
+    setShowCreateNote(false);
+    setShowDetailedCaseView(false);
+    setShowAllCaseView(false);
+    setShowAllSuspectsView(false);
+    setShowSuspectDetailView(false);
+    setShowCreateSuspect(false);
+    setShowCreateEvidence(false);
+    setShowAllCaseNoteView(false);
+    setShowAllEvidenceView(false);
+    setShowDetailedCaseNoteView(false);
+    setShowEvidenceDetailView(true); // Evidence Detail
+  };
+
 
   /*****VIEW FUNCTIONS******/
   /**SIDE BAR**/
@@ -304,7 +437,14 @@ const App = ({ signOut }) => {
       <Heading level={2} className="special-elite-regular" fontSize={"40px"}>Create Case</Heading>
       <View>
         {/* Create Case Section */}
-        <NewCaseCreateForm justifyContent="center" className="create-form" />
+        <NewCaseCreateForm justifyContent="center" className="create-form"
+          onSuccess={() => {
+            toggleHomeView(true) // go home
+          }}
+          onCancel={() => {
+            toggleHomeView(true) // go home
+          }}
+        />
       </View>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
@@ -315,7 +455,10 @@ const App = ({ signOut }) => {
       {/* Create Note Section */}
       <View>
         <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Case Note</Heading>
-        <CaseNoteCreateForm className="create-form" />
+        <CaseNoteCreateForm className="create-form"
+          onSuccess={() => {
+            toggleHomeView(true) // go home
+          }} />
       </View>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
