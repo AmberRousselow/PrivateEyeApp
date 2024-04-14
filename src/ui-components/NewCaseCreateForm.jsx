@@ -10,6 +10,8 @@ import {
   Button,
   Flex,
   Grid,
+  Radio,
+  RadioGroupField,
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
@@ -33,8 +35,8 @@ export default function NewCaseCreateForm(props) {
     case_title: "",
     case_number: "",
     case_description: "",
-    case_offense: "",
-    case_offense_category: "",
+    case_offense: undefined,
+    case_offense_category: undefined,
     case_status: "",
   };
   const [case_title, setCase_title] = React.useState(initialValues.case_title);
@@ -64,8 +66,8 @@ export default function NewCaseCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    case_title: [],
-    case_number: [],
+    case_title: [{ type: "Required" }],
+    case_number: [{ type: "Required" }],
     case_description: [],
     case_offense: [],
     case_offense_category: [],
@@ -158,7 +160,7 @@ export default function NewCaseCreateForm(props) {
     >
       <TextField
         label="Case title"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={case_title}
         onChange={(e) => {
@@ -187,7 +189,7 @@ export default function NewCaseCreateForm(props) {
       ></TextField>
       <TextField
         label="Case number"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -247,11 +249,11 @@ export default function NewCaseCreateForm(props) {
         hasError={errors.case_description?.hasError}
         {...getOverrideProps(overrides, "case_description")}
       ></TextField>
-      <SelectField
+      <RadioGroupField
         label="Case offense"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={case_offense}
+        name="case_offense"
+        isReadOnly={false}
+        isRequired={false}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -276,22 +278,22 @@ export default function NewCaseCreateForm(props) {
         hasError={errors.case_offense?.hasError}
         {...getOverrideProps(overrides, "case_offense")}
       >
-        <option
+        <Radio
           children="Felony"
           value="FELONY"
-          {...getOverrideProps(overrides, "case_offenseoption0")}
-        ></option>
-        <option
+          {...getOverrideProps(overrides, "case_offenseRadio0")}
+        ></Radio>
+        <Radio
           children="Misdemeanor"
           value="MISDEMEANOR"
-          {...getOverrideProps(overrides, "case_offenseoption1")}
-        ></option>
-      </SelectField>
-      <SelectField
+          {...getOverrideProps(overrides, "case_offenseRadio1")}
+        ></Radio>
+      </RadioGroupField>
+      <RadioGroupField
         label="Case offense category"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={case_offense_category}
+        name="case_offense_category"
+        isReadOnly={false}
+        isRequired={false}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -318,32 +320,32 @@ export default function NewCaseCreateForm(props) {
         hasError={errors.case_offense_category?.hasError}
         {...getOverrideProps(overrides, "case_offense_category")}
       >
-        <option
+        <Radio
           children="Person"
           value="PERSON"
-          {...getOverrideProps(overrides, "case_offense_categoryoption0")}
-        ></option>
-        <option
+          {...getOverrideProps(overrides, "case_offense_categoryRadio0")}
+        ></Radio>
+        <Radio
           children="Property"
           value="PROPERTY"
-          {...getOverrideProps(overrides, "case_offense_categoryoption1")}
-        ></option>
-        <option
+          {...getOverrideProps(overrides, "case_offense_categoryRadio1")}
+        ></Radio>
+        <Radio
           children="Financial"
           value="FINANCIAL"
-          {...getOverrideProps(overrides, "case_offense_categoryoption2")}
-        ></option>
-        <option
+          {...getOverrideProps(overrides, "case_offense_categoryRadio2")}
+        ></Radio>
+        <Radio
           children="Statutory"
           value="STATUTORY"
-          {...getOverrideProps(overrides, "case_offense_categoryoption3")}
-        ></option>
-        <option
+          {...getOverrideProps(overrides, "case_offense_categoryRadio3")}
+        ></Radio>
+        <Radio
           children="Other"
           value="OTHER"
-          {...getOverrideProps(overrides, "case_offense_categoryoption4")}
-        ></option>
-      </SelectField>
+          {...getOverrideProps(overrides, "case_offense_categoryRadio4")}
+        ></Radio>
+      </RadioGroupField>
       <SelectField
         label="Case status"
         placeholder="Please select an option"

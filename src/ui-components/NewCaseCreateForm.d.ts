@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, RadioGroupFieldProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -43,8 +43,8 @@ export declare type NewCaseCreateFormOverridesProps = {
     case_title?: PrimitiveOverrideProps<TextFieldProps>;
     case_number?: PrimitiveOverrideProps<TextFieldProps>;
     case_description?: PrimitiveOverrideProps<TextFieldProps>;
-    case_offense?: PrimitiveOverrideProps<SelectFieldProps>;
-    case_offense_category?: PrimitiveOverrideProps<SelectFieldProps>;
+    case_offense?: PrimitiveOverrideProps<RadioGroupFieldProps>;
+    case_offense_category?: PrimitiveOverrideProps<RadioGroupFieldProps>;
     case_status?: PrimitiveOverrideProps<SelectFieldProps>;
 } & EscapeHatchProps;
 export declare type NewCaseCreateFormProps = React.PropsWithChildren<{

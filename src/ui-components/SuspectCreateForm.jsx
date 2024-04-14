@@ -344,7 +344,7 @@ export default function SuspectCreateForm(props) {
     CaseSuspects: (r) => r?.id,
   };
   const validations = {
-    suspect_name: [],
+    suspect_name: [{ type: "Required" }],
     suspect_date_of_birth: [],
     suspect_gender: [],
     suspect_nationality: [],
@@ -561,7 +561,7 @@ export default function SuspectCreateForm(props) {
     >
       <TextField
         label="Suspect name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={suspect_name}
         onChange={(e) => {
