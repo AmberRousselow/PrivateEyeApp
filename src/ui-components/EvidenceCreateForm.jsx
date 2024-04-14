@@ -20,10 +20,17 @@ import {
   TextField,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
+import {
+  fetchByPath,
+  getOverrideProps,
+  processFile,
+  validateField,
+} from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { listAppCases } from "../graphql/queries";
 import { createEvidence } from "../graphql/mutations";
+import { Field } from "@aws-amplify/ui-react/internal";
 const client = generateClient();
 function ArrayField({
   items = [],
@@ -197,6 +204,7 @@ export default function EvidenceCreateForm(props) {
     evidence_url: "",
     evidence_created_date: "",
     appcaseID: undefined,
+    fileUpload: undefined,
   };
   const [evidence_type, setEvidence_type] = React.useState(
     initialValues.evidence_type
@@ -215,6 +223,7 @@ export default function EvidenceCreateForm(props) {
   const [appcaseIDRecords, setAppcaseIDRecords] = React.useState([]);
   const [selectedAppcaseIDRecords, setSelectedAppcaseIDRecords] =
     React.useState([]);
+  const [fileUpload, setFileUpload] = React.useState(initialValues.fileUpload);
   const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -225,6 +234,7 @@ export default function EvidenceCreateForm(props) {
     setAppcaseID(initialValues.appcaseID);
     setCurrentAppcaseIDValue(undefined);
     setCurrentAppcaseIDDisplayValue("");
+    setFileUpload(initialValues.fileUpload);
     setErrors({});
   };
   const [currentAppcaseIDDisplayValue, setCurrentAppcaseIDDisplayValue] =
@@ -233,7 +243,7 @@ export default function EvidenceCreateForm(props) {
     React.useState(undefined);
   const appcaseIDRef = React.createRef();
   const getDisplayValue = {
-    appcaseID: (r) => `${r?.case_title ? r?.case_title + " - " : ""}${r?.id}`,
+    appcaseID: (r) => `${r?.case_title}${r?.id}`,
   };
   const validations = {
     evidence_type: [{ type: "Required" }],
@@ -241,6 +251,7 @@ export default function EvidenceCreateForm(props) {
     evidence_url: [],
     evidence_created_date: [],
     appcaseID: [{ type: "Required" }],
+    fileUpload: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -306,6 +317,7 @@ export default function EvidenceCreateForm(props) {
           evidence_url,
           evidence_created_date,
           appcaseID,
+          fileUpload,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -373,6 +385,7 @@ export default function EvidenceCreateForm(props) {
               evidence_url,
               evidence_created_date,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_type ?? value;
@@ -432,6 +445,7 @@ export default function EvidenceCreateForm(props) {
               evidence_url,
               evidence_created_date,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_description ?? value;
@@ -462,6 +476,7 @@ export default function EvidenceCreateForm(props) {
               evidence_url: value,
               evidence_created_date,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_url ?? value;
@@ -491,6 +506,7 @@ export default function EvidenceCreateForm(props) {
               evidence_url,
               evidence_created_date: value,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_created_date ?? value;
@@ -518,6 +534,7 @@ export default function EvidenceCreateForm(props) {
               evidence_url,
               evidence_created_date,
               appcaseID: value,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.appcaseID ?? value;
@@ -600,6 +617,59 @@ export default function EvidenceCreateForm(props) {
           {...getOverrideProps(overrides, "appcaseID")}
         ></Autocomplete>
       </ArrayField>
+      <Field
+        errorMessage={errors.fileUpload?.errorMessage}
+        hasError={errors.fileUpload?.hasError}
+        label={"File upload"}
+        isRequired={false}
+        isReadOnly={false}
+      >
+        <StorageManager
+          onUploadSuccess={({ key }) => {
+            setFileUpload((prev) => {
+              let value = key;
+              if (onChange) {
+                const modelFields = {
+                  evidence_type,
+                  evidence_description,
+                  evidence_url,
+                  evidence_created_date,
+                  appcaseID,
+                  fileUpload: value,
+                };
+                const result = onChange(modelFields);
+                value = result?.fileUpload ?? value;
+              }
+              return value;
+            });
+          }}
+          onFileRemove={({ key }) => {
+            setFileUpload((prev) => {
+              let value = initialValues?.fileUpload;
+              if (onChange) {
+                const modelFields = {
+                  evidence_type,
+                  evidence_description,
+                  evidence_url,
+                  evidence_created_date,
+                  appcaseID,
+                  fileUpload: value,
+                };
+                const result = onChange(modelFields);
+                value = result?.fileUpload ?? value;
+              }
+              return value;
+            });
+          }}
+          processFile={processFile}
+          accessLevel={"private"}
+          acceptedFileTypes={[]}
+          isResumable={false}
+          showThumbnails={true}
+          maxFileCount={1}
+          {...getOverrideProps(overrides, "fileUpload")}
+        ></StorageManager>
+      </Field>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

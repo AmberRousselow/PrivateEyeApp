@@ -27,6 +27,7 @@ export declare type EvidenceUpdateFormInputValues = {
     evidence_url?: string;
     evidence_created_date?: string;
     appcaseID?: string;
+    fileUpload?: string;
 };
 export declare type EvidenceUpdateFormValidationValues = {
     evidence_type?: ValidationFunction<string>;
@@ -34,6 +35,7 @@ export declare type EvidenceUpdateFormValidationValues = {
     evidence_url?: ValidationFunction<string>;
     evidence_created_date?: ValidationFunction<string>;
     appcaseID?: ValidationFunction<string>;
+    fileUpload?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EvidenceUpdateFormOverridesProps = {
@@ -43,6 +45,7 @@ export declare type EvidenceUpdateFormOverridesProps = {
     evidence_url?: PrimitiveOverrideProps<TextFieldProps>;
     evidence_created_date?: PrimitiveOverrideProps<TextFieldProps>;
     appcaseID?: PrimitiveOverrideProps<AutocompleteProps>;
+    fileUpload?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type EvidenceUpdateFormProps = React.PropsWithChildren<{
     overrides?: EvidenceUpdateFormOverridesProps | undefined | null;

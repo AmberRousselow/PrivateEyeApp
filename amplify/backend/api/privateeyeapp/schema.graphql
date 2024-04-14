@@ -73,6 +73,7 @@ type Evidence @model @auth(rules: [{allow: public}]) {
   evidence_url: String
   evidence_created_date: AWSDate
   appcaseID: ID! @index(name: "byAppCase")
+  fileUpload: String
 }
 
 type AppCase @model @auth(rules: [{allow: public}]) {

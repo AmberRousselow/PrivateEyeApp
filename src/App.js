@@ -151,10 +151,6 @@ const App = ({ signOut }) => {
   const [getAppCase, setAppCase] = useState();
   //setSuspect on button click
   const [getSuspect, setSuspect] = useState();
-  //setSuspect on button click
-  const [getEvidence, setEvidence] = useState();
-  //setList of Suspects linked to Case
-  const [getListSuspect, setListSuspect] = useState();
 
   const [dayFact, setDayFact] = useState("114");
   const [susFact, setSusFact] = useState("3");
@@ -366,24 +362,6 @@ const App = ({ signOut }) => {
     setShowDetailedCaseNoteView(false);
     setShowEvidenceDetailView(false);
   };
-  // Function to handle CASE DETAIL view click
-  const handleCaseDetailClick = () => {
-    console.log("View Suspects button Clicked");
-    setShowHome(false);
-    setShowSidebar(false);
-    setShowCreateCase(false);
-    setShowCreateNote(false);
-    setShowDetailedCaseView(false);
-    setShowAllCaseView(false);
-    setShowAllSuspectsView(false);
-    setShowSuspectDetailView(false);
-    setShowCreateSuspect(false);
-    setShowCreateEvidence(false);
-    setShowAllCaseNoteView(false);
-    setShowAllEvidenceView(false);
-    setShowDetailedCaseNoteView(true);// Case Note Detail
-    setShowEvidenceDetailView(false);
-  };
   // Function to handle EVIDENCE DETAIL view click
   const handleEvidenceDetailClick = () => {
     console.log("View Suspects button Clicked");
@@ -502,7 +480,7 @@ const App = ({ signOut }) => {
               const titleLength = value.length;
               console.log('Length: '+ titleLength)
               if (titleLength > 60) {
-                // check if the first word is a number
+                // Ensure title is less than 60 characters
                 return {
                   hasError: true,
                   errorMessage: 'Title must be less than 60 Characters'

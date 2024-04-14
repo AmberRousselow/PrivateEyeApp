@@ -198,6 +198,7 @@ export default function EvidenceUpdateForm(props) {
     evidence_url: "",
     evidence_created_date: "",
     appcaseID: undefined,
+    fileUpload: "",
   };
   const [evidence_type, setEvidence_type] = React.useState(
     initialValues.evidence_type
@@ -216,6 +217,7 @@ export default function EvidenceUpdateForm(props) {
   const [appcaseIDRecords, setAppcaseIDRecords] = React.useState([]);
   const [selectedAppcaseIDRecords, setSelectedAppcaseIDRecords] =
     React.useState([]);
+  const [fileUpload, setFileUpload] = React.useState(initialValues.fileUpload);
   const autocompleteLength = 10;
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -229,6 +231,7 @@ export default function EvidenceUpdateForm(props) {
     setAppcaseID(cleanValues.appcaseID);
     setCurrentAppcaseIDValue(undefined);
     setCurrentAppcaseIDDisplayValue("");
+    setFileUpload(cleanValues.fileUpload);
     setErrors({});
   };
   const [evidenceRecord, setEvidenceRecord] = React.useState(evidenceModelProp);
@@ -272,6 +275,7 @@ export default function EvidenceUpdateForm(props) {
     evidence_url: [],
     evidence_created_date: [],
     appcaseID: [{ type: "Required" }],
+    fileUpload: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -337,6 +341,7 @@ export default function EvidenceUpdateForm(props) {
           evidence_url: evidence_url ?? null,
           evidence_created_date: evidence_created_date ?? null,
           appcaseID,
+          fileUpload: fileUpload ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -402,6 +407,7 @@ export default function EvidenceUpdateForm(props) {
               evidence_url,
               evidence_created_date,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_type ?? value;
@@ -461,6 +467,7 @@ export default function EvidenceUpdateForm(props) {
               evidence_url,
               evidence_created_date,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_description ?? value;
@@ -491,6 +498,7 @@ export default function EvidenceUpdateForm(props) {
               evidence_url: value,
               evidence_created_date,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_url ?? value;
@@ -520,6 +528,7 @@ export default function EvidenceUpdateForm(props) {
               evidence_url,
               evidence_created_date: value,
               appcaseID,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.evidence_created_date ?? value;
@@ -547,6 +556,7 @@ export default function EvidenceUpdateForm(props) {
               evidence_url,
               evidence_created_date,
               appcaseID: value,
+              fileUpload,
             };
             const result = onChange(modelFields);
             value = result?.appcaseID ?? value;
@@ -630,6 +640,35 @@ export default function EvidenceUpdateForm(props) {
           {...getOverrideProps(overrides, "appcaseID")}
         ></Autocomplete>
       </ArrayField>
+      <TextField
+        label="File upload"
+        isRequired={false}
+        isReadOnly={false}
+        value={fileUpload}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              evidence_type,
+              evidence_description,
+              evidence_url,
+              evidence_created_date,
+              appcaseID,
+              fileUpload: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.fileUpload ?? value;
+          }
+          if (errors.fileUpload?.hasError) {
+            runValidationTasks("fileUpload", value);
+          }
+          setFileUpload(value);
+        }}
+        onBlur={() => runValidationTasks("fileUpload", fileUpload)}
+        errorMessage={errors.fileUpload?.errorMessage}
+        hasError={errors.fileUpload?.hasError}
+        {...getOverrideProps(overrides, "fileUpload")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

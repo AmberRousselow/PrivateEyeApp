@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { AutocompleteProps, GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { StorageManagerProps } from "@aws-amplify/ui-react-storage";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -27,6 +28,7 @@ export declare type EvidenceCreateFormInputValues = {
     evidence_url?: string;
     evidence_created_date?: string;
     appcaseID?: string;
+    fileUpload?: string;
 };
 export declare type EvidenceCreateFormValidationValues = {
     evidence_type?: ValidationFunction<string>;
@@ -34,6 +36,7 @@ export declare type EvidenceCreateFormValidationValues = {
     evidence_url?: ValidationFunction<string>;
     evidence_created_date?: ValidationFunction<string>;
     appcaseID?: ValidationFunction<string>;
+    fileUpload?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EvidenceCreateFormOverridesProps = {
@@ -43,6 +46,7 @@ export declare type EvidenceCreateFormOverridesProps = {
     evidence_url?: PrimitiveOverrideProps<TextFieldProps>;
     evidence_created_date?: PrimitiveOverrideProps<TextFieldProps>;
     appcaseID?: PrimitiveOverrideProps<AutocompleteProps>;
+    fileUpload?: PrimitiveOverrideProps<StorageManagerProps>;
 } & EscapeHatchProps;
 export declare type EvidenceCreateFormProps = React.PropsWithChildren<{
     overrides?: EvidenceCreateFormOverridesProps | undefined | null;
