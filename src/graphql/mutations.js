@@ -205,6 +205,7 @@ export const createEvidence = /* GraphQL */ `
       evidence_url
       evidence_created_date
       appcaseID
+      fileUpload
       createdAt
       updatedAt
       __typename
@@ -223,6 +224,7 @@ export const updateEvidence = /* GraphQL */ `
       evidence_url
       evidence_created_date
       appcaseID
+      fileUpload
       createdAt
       updatedAt
       __typename
@@ -241,6 +243,7 @@ export const deleteEvidence = /* GraphQL */ `
       evidence_url
       evidence_created_date
       appcaseID
+      fileUpload
       createdAt
       updatedAt
       __typename
@@ -267,6 +270,7 @@ export const createAppCase = /* GraphQL */ `
           evidence_url
           evidence_created_date
           appcaseID
+          fileUpload
           createdAt
           updatedAt
           __typename
@@ -328,6 +332,7 @@ export const updateAppCase = /* GraphQL */ `
           evidence_url
           evidence_created_date
           appcaseID
+          fileUpload
           createdAt
           updatedAt
           __typename
@@ -389,6 +394,7 @@ export const deleteAppCase = /* GraphQL */ `
           evidence_url
           evidence_created_date
           appcaseID
+          fileUpload
           createdAt
           updatedAt
           __typename

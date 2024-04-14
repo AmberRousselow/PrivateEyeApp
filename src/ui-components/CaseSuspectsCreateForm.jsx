@@ -227,7 +227,7 @@ export default function CaseSuspectsCreateForm(props) {
   const getDisplayValue = {
     appcaseID: (r) => `${r?.case_title ? r?.case_title + " - " : ""}${r?.id}`,
     suspectID: (r) =>
-      `${r?.suspect_name ? r?.suspect_name + " - " : ""}${r?.id}`,
+      `${r?.suspect_name}${" - DOB: "}${r?.suspect_date_of_birth}`,
   };
   const validations = {
     appcaseID: [{ type: "Required" }],
@@ -290,7 +290,7 @@ export default function CaseSuspectsCreateForm(props) {
         filter: {
           or: [
             { suspect_name: { contains: value } },
-            { id: { contains: value } },
+            { suspect_date_of_birth: { contains: value } },
           ],
         },
       };

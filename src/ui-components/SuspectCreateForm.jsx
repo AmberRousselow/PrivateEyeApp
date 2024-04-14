@@ -341,7 +341,7 @@ export default function SuspectCreateForm(props) {
       : getIDValue.CaseSuspects?.(CaseSuspects)
   );
   const getDisplayValue = {
-    CaseSuspects: (r) => r?.id,
+    CaseSuspects: (r) => `${r?.id}`,
   };
   const validations = {
     suspect_name: [{ type: "Required" }],

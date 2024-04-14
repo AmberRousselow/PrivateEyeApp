@@ -198,6 +198,7 @@ export const getEvidence = /* GraphQL */ `
       evidence_url
       evidence_created_date
       appcaseID
+      fileUpload
       createdAt
       updatedAt
       __typename
@@ -218,6 +219,7 @@ export const listEvidences = /* GraphQL */ `
         evidence_url
         evidence_created_date
         appcaseID
+        fileUpload
         createdAt
         updatedAt
         __typename
@@ -249,6 +251,7 @@ export const evidencesByAppcaseID = /* GraphQL */ `
         evidence_url
         evidence_created_date
         appcaseID
+        fileUpload
         createdAt
         updatedAt
         __typename
@@ -275,6 +278,7 @@ export const getAppCase = /* GraphQL */ `
           evidence_url
           evidence_created_date
           appcaseID
+          fileUpload
           createdAt
           updatedAt
           __typename
@@ -338,6 +342,7 @@ export const listAppCases = /* GraphQL */ `
             evidence_url
             evidence_created_date
             appcaseID
+            fileUpload
             createdAt
             updatedAt
             __typename

@@ -243,7 +243,7 @@ export default function EvidenceCreateForm(props) {
     React.useState(undefined);
   const appcaseIDRef = React.createRef();
   const getDisplayValue = {
-    appcaseID: (r) => `${r?.case_title}${r?.id}`,
+    appcaseID: (r) => `${r?.case_title}${r?.case_description}`,
   };
   const validations = {
     evidence_type: [{ type: "Required" }],
@@ -280,7 +280,7 @@ export default function EvidenceCreateForm(props) {
         filter: {
           or: [
             { case_title: { contains: value } },
-            { id: { contains: value } },
+            { case_description: { contains: value } },
           ],
         },
       };

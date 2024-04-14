@@ -220,7 +220,7 @@ export default function CaseNoteCreateForm(props) {
     React.useState(undefined);
   const appcaseIDRef = React.createRef();
   const getDisplayValue = {
-    appcaseID: (r) => `${r?.case_title ? r?.case_title + " - " : ""}${r?.id}`,
+    appcaseID: (r) => `${r?.case_title}${"-"}${r?.case_description}`,
   };
   const validations = {
     note_title: [{ type: "Required" }],
@@ -254,7 +254,7 @@ export default function CaseNoteCreateForm(props) {
         filter: {
           or: [
             { case_title: { contains: value } },
-            { id: { contains: value } },
+            { case_description: { contains: value } },
           ],
         },
       };
