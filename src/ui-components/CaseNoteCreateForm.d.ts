@@ -45,6 +45,7 @@ export declare type CaseNoteCreateFormProps = React.PropsWithChildren<{
     onSubmit?: (fields: CaseNoteCreateFormInputValues) => CaseNoteCreateFormInputValues;
     onSuccess?: (fields: CaseNoteCreateFormInputValues) => void;
     onError?: (fields: CaseNoteCreateFormInputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: CaseNoteCreateFormInputValues) => CaseNoteCreateFormInputValues;
     onValidate?: CaseNoteCreateFormValidationValues;
 } & React.CSSProperties>;

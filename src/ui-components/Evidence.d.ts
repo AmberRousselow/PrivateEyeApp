@@ -34,6 +34,7 @@ export declare type EvidenceOverridesProps = {
 } & EscapeHatchProps;
 export declare type EvidenceProps = React.PropsWithChildren<Partial<FlexProps> & {
     evidence?: any;
+    appCase?: any;
 } & {
     overrides?: EvidenceOverridesProps | undefined | null;
 }>;

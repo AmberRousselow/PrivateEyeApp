@@ -111,6 +111,7 @@ export declare type SuspectCreateFormProps = React.PropsWithChildren<{
     onSubmit?: (fields: SuspectCreateFormInputValues) => SuspectCreateFormInputValues;
     onSuccess?: (fields: SuspectCreateFormInputValues) => void;
     onError?: (fields: SuspectCreateFormInputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: SuspectCreateFormInputValues) => SuspectCreateFormInputValues;
     onValidate?: SuspectCreateFormValidationValues;
 } & React.CSSProperties>;

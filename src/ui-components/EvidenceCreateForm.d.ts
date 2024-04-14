@@ -55,6 +55,7 @@ export declare type EvidenceCreateFormProps = React.PropsWithChildren<{
     onSubmit?: (fields: EvidenceCreateFormInputValues) => EvidenceCreateFormInputValues;
     onSuccess?: (fields: EvidenceCreateFormInputValues) => void;
     onError?: (fields: EvidenceCreateFormInputValues, errorMessage: string) => void;
+    onCancel?: () => void;
     onChange?: (fields: EvidenceCreateFormInputValues) => EvidenceCreateFormInputValues;
     onValidate?: EvidenceCreateFormValidationValues;
 } & React.CSSProperties>;

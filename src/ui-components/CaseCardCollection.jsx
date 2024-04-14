@@ -103,6 +103,7 @@ export default function CaseCardCollection(props) {
               height="auto"
               width="auto"
               margin="10px 10px 10px 10px"
+              evidence={item}
               key={item.id}
               {...(overrideItems && overrideItems({ item, index }))}
             ></CaseCard>

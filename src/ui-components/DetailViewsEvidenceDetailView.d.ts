@@ -42,6 +42,9 @@ export declare type DetailViewsEvidenceDetailViewOverridesProps = {
     Description?: PrimitiveOverrideProps<TextProps>;
     "This is the Description"?: PrimitiveOverrideProps<TextProps>;
     Divider39061122?: PrimitiveOverrideProps<DividerProps>;
+    DataRow39073194?: PrimitiveOverrideProps<FlexProps>;
+    Files?: PrimitiveOverrideProps<TextProps>;
+    FileName?: PrimitiveOverrideProps<TextProps>;
     "Delete Account"?: PrimitiveOverrideProps<FlexProps>;
     header39061124?: PrimitiveOverrideProps<FlexProps>;
     Button?: PrimitiveOverrideProps<ButtonProps>;

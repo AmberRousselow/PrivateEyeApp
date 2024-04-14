@@ -23,8 +23,7 @@ import {
   SuspectCollection,
   SuspectCreateForm,
   SuspectDetail,
-  CaseNoteCollection, 
-  DetailViewsCaseDetailVar, 
+  CaseNoteCollection,
   DetailViewsEvidenceDetailView
 } from './ui-components';
 import { generateClient } from "aws-amplify/api";
@@ -151,6 +150,8 @@ const App = ({ signOut }) => {
   const [getAppCase, setAppCase] = useState();
   //setSuspect on button click
   const [getSuspect, setSuspect] = useState();
+  //setEvidence on button click
+  const [getEvidence, setEvidence] = useState(); 
 
   const [dayFact, setDayFact] = useState("114");
   const [susFact, setSusFact] = useState("3");
@@ -161,7 +162,7 @@ const App = ({ signOut }) => {
 
   /********HANDLE CLICKS************/
   // view SIDE BAR
-  const toggleSidebar= () => {
+  const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
   // Function to toggle default HOME view
@@ -455,6 +456,12 @@ const App = ({ signOut }) => {
         <View marginRight={"80px"}>
           <Button onClick={toggleCreateCase} >Create Case</Button>
         </View>
+        <View marginRight={"80px"}>
+          <Button onClick={toggleCreateEvidence} >Create Evidence</Button>
+        </View>
+        <View marginRight={"80px"}>
+          <Button onClick={toggleCreateSuspect}>Create Suspect</Button>
+        </View>
         <View>
           <Button onClick={toggleCreateNote} >Add Case Note</Button>
         </View>
@@ -465,10 +472,10 @@ const App = ({ signOut }) => {
   /*CREATE CASE FORM*/
   const createCaseView = showCreateCase ? (
     <div>
-       <View className="create-form">
+      <View className="create-form">
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Current Cases</Heading>
         {/* Create Case Section */}
-        <NewCaseCreateForm 
+        <NewCaseCreateForm
           onSuccess={() => {
             toggleHomeView(true) // go home
           }}
@@ -478,7 +485,7 @@ const App = ({ signOut }) => {
           onValidate={{
             "case_title": (value, validationResponse) => {
               const titleLength = value.length;
-              console.log('Length: '+ titleLength)
+              console.log('Length: ' + titleLength)
               if (titleLength > 60) {
                 // Ensure title is less than 60 characters
                 return {
@@ -503,7 +510,22 @@ const App = ({ signOut }) => {
         <CaseNoteCreateForm
           onSuccess={() => {
             toggleHomeView(true) // go home
-          }} />
+          }}
+          onValidate={{
+            "Note title": (value, validationResponse) => {
+              const titleLength = value.length;
+              console.log('Length: ' + titleLength)
+              if (titleLength > 60) {
+                // Ensure title is less than 60 characters
+                return {
+                  hasError: true,
+                  errorMessage: 'Title must be less than 60 Characters'
+                };
+              }
+              return validationResponse;
+            }
+          }}
+        />
       </View>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
@@ -525,13 +547,14 @@ const App = ({ signOut }) => {
   /*CREATE EVIDENCE FORM*/
   const createEvidenceView = showCreateEvidence ? (
     <div>
-      {/* Create Note Section */}
+      {/* Create Evidence Section */}
       <View className="create-form">
         <Heading level={2} class="special-elite-regular" fontSize={"40px"}>Add Evidence</Heading>
         <EvidenceCreateForm
           onSuccess={() => {
             toggleHomeView(true) // go home
-          }} />
+          }}
+        />
       </View>
     </div>
   ) : null; // Render null if showDetailedCaseView is false
@@ -560,19 +583,13 @@ const App = ({ signOut }) => {
     </div>
   ) : null; // Render null
 
-  /****WIP***ALL CASE NOTES**/
+  /*ALL CASE NOTES**/
   const allCaseNoteView = showAllCaseNoteView ? (
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>All Case Notes</Heading>
         <CaseNoteCollection overrideItems={({ item, index }) => ({
           overrides: {
-            "CaseNote": {
-              onClick: () => {
-                console.log("Case Note Detail View " + item);
-                caseNoteDetailView();
-              },
-            },
             "image": {
               src: fingerprintImg2
             }
@@ -595,6 +612,7 @@ const App = ({ signOut }) => {
               "Button": {
                 onClick: () => {
                   console.log("suspect ");
+                  setEvidence(item);
                   handleEvidenceDetailClick();
                 },
               },
@@ -637,29 +655,40 @@ const App = ({ signOut }) => {
   /*CASE DETAIL VIEW*/
   const detailedCaseView = showDetailedCaseView ? (
     <div>
-      <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '80%', padding: '10px'}}>
-        <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '90%' , padding: '30px'}}>
-        <CaseDetailHeader appCase={getAppCase} 
-          overrides={{
-            "CaseOverviewHeader": {
-              children: "Case Overview"
-            },
-            "DaysFact": {
-              children: dayFact
-            },
-            "SusFact": {
-              children: susFact
-            },
-            "EvFact": {
-              children: evFact
-            },
-            "StatusFact": {
-              children: statFact
+      <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '80%', padding: '10px' }}>
+        <View style={{ flex: 1, marginLeft: '300px', marginRight: '10px', width: '90%', padding: '30px' }}>
+          <CaseDetailHeader appCase={getAppCase}
+            overrides={{
+              "CaseOverviewHeader": {
+                children: "Case Overview"
+              },
+              "DaysFact": {
+                children: dayFact
+              },
+              "SusFact": {
+                children: susFact
+              },
+              "EvFact": {
+                children: evFact
+              },
+              "StatusFact": {
+                children: statFact
+              }
             }
-          }
-          }
-        />
+            }
+          />
         </View>
+        <Flex justifyContent="Center" direction="row" alignItems="Center" padding="20px">
+        <View marginRight={"80px"}>
+          <Button onClick={toggleCreateEvidence} >Create Evidence</Button>
+        </View>
+        <View marginRight={"80px"}>
+          <Button onClick={toggleCreateSuspect}>Create Suspect</Button>
+        </View>
+        <View>
+          <Button onClick={toggleCreateNote} >Add Case Note</Button>
+        </View>
+      </Flex>
         <View style={{ flex: 2, display: 'flex', flexDirection: 'row' }}>
           {/* Suspects Section */}
           <View >
@@ -693,6 +722,8 @@ const App = ({ signOut }) => {
                   "Button": {
                     onClick: () => {
                       console.log("Evidence ");
+                      setEvidence(item);
+                      handleEvidenceDetailClick(); 
                     },
                   },
                   "image": {
@@ -731,7 +762,7 @@ const App = ({ signOut }) => {
     <div>
       <Flex direction="Column" justifyContent="Center" alignItems="Center" >
         <Heading level={2} marginTop={"40px"} marginBottom={"40px"} class="special-elite-regular" fontSize={"40px"}>Evidence Details</Heading>
-        <DetailViewsEvidenceDetailView></DetailViewsEvidenceDetailView>
+        <DetailViewsEvidenceDetailView evidence={getEvidence} ></DetailViewsEvidenceDetailView>
       </Flex>
     </div>
   ) : null;
@@ -749,8 +780,8 @@ const App = ({ signOut }) => {
             {/* Sidebar */}
             {sideBarView}
           </div>
-          <FontAwesomeIcon 
-            icon={showSidebar ? faTimes : faArrowRight} onClick={toggleSidebar} 
+          <FontAwesomeIcon
+            icon={showSidebar ? faTimes : faArrowRight} onClick={toggleSidebar}
             className={showSidebar ? "sidebar-icon open" : "sidebar-icon closed"} />
         </div>
         {homeView}

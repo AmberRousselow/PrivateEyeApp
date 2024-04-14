@@ -420,6 +420,64 @@ export default function DetailViewsEvidenceDetailView(props) {
             shrink="0"
             alignSelf="stretch"
             position="relative"
+            padding="0px 0px 0px 0px"
+            {...getOverrideProps(overrides, "DataRow39073194")}
+          >
+            <Text
+              fontFamily="Inter"
+              fontSize="16px"
+              fontWeight="400"
+              color="rgba(13,26,38,1)"
+              lineHeight="16px"
+              textAlign="left"
+              display="block"
+              direction="column"
+              justifyContent="unset"
+              width="300px"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
+              shrink="0"
+              position="relative"
+              padding="0px 0px 0px 0px"
+              whiteSpace="pre-wrap"
+              children="Files"
+              {...getOverrideProps(overrides, "Files")}
+            ></Text>
+            <Text
+              fontFamily="Inter"
+              fontSize="16px"
+              fontWeight="400"
+              color="rgba(92,102,112,1)"
+              lineHeight="16px"
+              textAlign="left"
+              display="block"
+              direction="column"
+              justifyContent="unset"
+              width="unset"
+              height="unset"
+              gap="unset"
+              alignItems="unset"
+              grow="1"
+              shrink="1"
+              basis="0"
+              position="relative"
+              padding="0px 0px 0px 0px"
+              whiteSpace="pre-wrap"
+              children={evidence?.fileUpload}
+              {...getOverrideProps(overrides, "FileName")}
+            ></Text>
+          </Flex>
+          <Flex
+            gap="16px"
+            direction="row"
+            width="unset"
+            height="unset"
+            justifyContent="center"
+            alignItems="center"
+            shrink="0"
+            alignSelf="stretch"
+            position="relative"
             padding="32px 0px 0px 0px"
             {...getOverrideProps(overrides, "Delete Account")}
           >

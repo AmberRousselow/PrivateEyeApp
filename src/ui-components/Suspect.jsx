@@ -16,7 +16,7 @@ import {
   Text,
 } from "@aws-amplify/ui-react";
 export default function Suspect(props) {
-  const { suspect, overrides, ...rest } = props;
+  const { suspect, appCase, overrides, ...rest } = props;
   const buttonOnClick = useNavigateAction({ type: "url", url: suspect?.id });
   return (
     <Flex
@@ -209,6 +209,7 @@ export default function Suspect(props) {
             shrink="0"
             size="small"
             variation="default"
+            children={appCase?.case_title}
             {...getOverrideProps(overrides, "Badge")}
           ></Badge>
           <Button

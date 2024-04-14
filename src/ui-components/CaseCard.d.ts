@@ -34,6 +34,7 @@ export declare type CaseCardOverridesProps = {
 } & EscapeHatchProps;
 export declare type CaseCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     Case?: any;
+    evidence?: any;
 } & {
     overrides?: CaseCardOverridesProps | undefined | null;
 }>;

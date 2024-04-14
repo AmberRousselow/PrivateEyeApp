@@ -9,7 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "./utils";
 import { Button, Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function CaseCard(props) {
-  const { Case, overrides, ...rest } = props;
+  const { Case, evidence, overrides, ...rest } = props;
   return (
     <Flex
       gap="0"

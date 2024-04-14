@@ -34,6 +34,7 @@ export declare type SuspectOverridesProps = {
 } & EscapeHatchProps;
 export declare type SuspectProps = React.PropsWithChildren<Partial<FlexProps> & {
     suspect?: any;
+    appCase?: any;
 } & {
     overrides?: SuspectOverridesProps | undefined | null;
 }>;

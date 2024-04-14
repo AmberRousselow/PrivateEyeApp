@@ -100,6 +100,7 @@ export default function EvidenceCollection(props) {
             <Evidence
               evidence={item}
               margin="10px 10px 10px 10px"
+              appCase={item}
               key={item.id}
               {...(overrideItems && overrideItems({ item, index }))}
             ></Evidence>
