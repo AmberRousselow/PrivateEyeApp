@@ -497,6 +497,20 @@ const App = ({ signOut }) => {
           onCancel={() => {
             toggleHomeView(true) // go home
           }}
+          onValidate={{
+            "case_title": (value, validationResponse) => {
+              const titleLength = value.length;
+              console.log('Length: '+ titleLength)
+              if (titleLength > 60) {
+                // check if the first word is a number
+                return {
+                  hasError: true,
+                  errorMessage: 'Title must be less than 60 Characters'
+                };
+              }
+              return validationResponse;
+            }
+          }}
         />
       </View>
     </div>

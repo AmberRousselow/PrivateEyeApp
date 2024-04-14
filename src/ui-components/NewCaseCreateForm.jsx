@@ -10,8 +10,6 @@ import {
   Button,
   Flex,
   Grid,
-  Radio,
-  RadioGroupField,
   SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
@@ -35,8 +33,8 @@ export default function NewCaseCreateForm(props) {
     case_title: "",
     case_number: "",
     case_description: "",
-    case_offense: undefined,
-    case_offense_category: undefined,
+    case_offense: "",
+    case_offense_category: "",
     case_status: "",
   };
   const [case_title, setCase_title] = React.useState(initialValues.case_title);
@@ -249,11 +247,11 @@ export default function NewCaseCreateForm(props) {
         hasError={errors.case_description?.hasError}
         {...getOverrideProps(overrides, "case_description")}
       ></TextField>
-      <RadioGroupField
+      <SelectField
         label="Case offense"
-        name="case_offense"
-        isReadOnly={false}
-        isRequired={false}
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={case_offense}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -278,22 +276,22 @@ export default function NewCaseCreateForm(props) {
         hasError={errors.case_offense?.hasError}
         {...getOverrideProps(overrides, "case_offense")}
       >
-        <Radio
+        <option
           children="Felony"
           value="FELONY"
-          {...getOverrideProps(overrides, "case_offenseRadio0")}
-        ></Radio>
-        <Radio
+          {...getOverrideProps(overrides, "case_offenseoption0")}
+        ></option>
+        <option
           children="Misdemeanor"
           value="MISDEMEANOR"
-          {...getOverrideProps(overrides, "case_offenseRadio1")}
-        ></Radio>
-      </RadioGroupField>
-      <RadioGroupField
+          {...getOverrideProps(overrides, "case_offenseoption1")}
+        ></option>
+      </SelectField>
+      <SelectField
         label="Case offense category"
-        name="case_offense_category"
-        isReadOnly={false}
-        isRequired={false}
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={case_offense_category}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -320,35 +318,35 @@ export default function NewCaseCreateForm(props) {
         hasError={errors.case_offense_category?.hasError}
         {...getOverrideProps(overrides, "case_offense_category")}
       >
-        <Radio
+        <option
           children="Person"
           value="PERSON"
-          {...getOverrideProps(overrides, "case_offense_categoryRadio0")}
-        ></Radio>
-        <Radio
+          {...getOverrideProps(overrides, "case_offense_categoryoption0")}
+        ></option>
+        <option
           children="Property"
           value="PROPERTY"
-          {...getOverrideProps(overrides, "case_offense_categoryRadio1")}
-        ></Radio>
-        <Radio
+          {...getOverrideProps(overrides, "case_offense_categoryoption1")}
+        ></option>
+        <option
           children="Financial"
           value="FINANCIAL"
-          {...getOverrideProps(overrides, "case_offense_categoryRadio2")}
-        ></Radio>
-        <Radio
+          {...getOverrideProps(overrides, "case_offense_categoryoption2")}
+        ></option>
+        <option
           children="Statutory"
           value="STATUTORY"
-          {...getOverrideProps(overrides, "case_offense_categoryRadio3")}
-        ></Radio>
-        <Radio
+          {...getOverrideProps(overrides, "case_offense_categoryoption3")}
+        ></option>
+        <option
           children="Other"
           value="OTHER"
-          {...getOverrideProps(overrides, "case_offense_categoryRadio4")}
-        ></Radio>
-      </RadioGroupField>
+          {...getOverrideProps(overrides, "case_offense_categoryoption4")}
+        ></option>
+      </SelectField>
       <SelectField
         label="Case status"
-        placeholder="Please select an option"
+        placeholder="Please select an Option"
         isDisabled={false}
         value={case_status}
         onChange={(e) => {
