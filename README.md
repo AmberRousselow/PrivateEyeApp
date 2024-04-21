@@ -1,5 +1,5 @@
-![Private Eye Logo](src/Images/PElogoText.png)
-# Dependencies
+![Private Eye Logo](src/Images/PElogo.png) ![Private Eye Text](src/Images/PElogoText.png)
+# Application Setup and Dependencies
 
 Setting up the development environment for working on the Private Eye System involves several steps to ensure that developers have all the necessary tools and dependencies configured correctly. Here's a detailed guide:
 
