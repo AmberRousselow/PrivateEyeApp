@@ -1,5 +1,5 @@
 # Private Eye Appplication
-![Private Eye Logo](src/Images/PELogo.png) <img src="images/example.png" width="300" />
+![Private Eye Logo](<img src="src/Images/PELogo.png" width="300" />)
 # Dependencies
 
 Setting up the development environment for working on the Private Eye System involves several steps to ensure that developers have all the necessary tools and dependencies configured correctly. Here's a detailed guide:
