@@ -1,4 +1,3 @@
-# Private Eye Appplication
 ![Private Eye Logo](src/Images/PElogoText.png)
 # Dependencies
 
